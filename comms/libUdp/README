@@ -1,0 +1,34 @@
+C++ tcp/ip and udp/ip library and example programm
+Copyright (C) 2002  Marcin Caban 'Cabko' and Borys Wisniewski 'Boria'
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+http://www.gnu.org/
+
+
+
+              Silesian University of Technology, Gliwice, Poland
+
+                  "Automatic Control, Robotics, Electronics,
+                    Telecommunication and Computer Science"
+                                sem. 3, gr. 2,
+
+
+cplab3  - program developed for CP Labs
+by Marcin Caban and Borys Wisniewski
+
+Please see project documentation stored in this file:
+doc/index.html
+
+EOF

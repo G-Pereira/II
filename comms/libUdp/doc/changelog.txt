@@ -1,0 +1,5 @@
+2002-02-09	Marcin Caban	<cabko@polsl.gliwice.pl>
+
+	* start
+	  first release and start of changes logging
+

@@ -1,0 +1,5 @@
+cplab3 0.1:   (9th February 2002)              -- Marcin Caban
+
+   => Release of first version cplab-0.1
+
+--------------------------------------------------------------------

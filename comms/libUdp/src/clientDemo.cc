@@ -1,0 +1,91 @@
+/**
+
+C++ tcp/ip and udp/ip library and example programm
+Copyright (C) 2002  Marcin Caban 'Cabko' and Borys Wisniewski 'Boria'
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+http://www.gnu.org/
+
+Marcin Caban
+e-mail: cabko@polsl.gliwice.pl
+phone: +48 501 452 123
+
+Borys Wisniewski
+e-mail: boria@polsl.gliwice.pl
+phone: +48 503 065 996
+
+*/
+/**
+*/
+
+
+#include <sys/time.h>
+#include <iostream.h>
+#include <string.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <unistd.h>
+#include "const.h"
+#include "clientDemo.h"
+
+
+extern int errno;
+extern char* sys_errlist[];
+
+
+clientDemo :: clientDemo (char* service, char* host) : client ()
+{
+  this->host = host;
+  this->service = service;
+}
+
+clientDemo :: ~clientDemo ()
+{
+}
+
+void clientDemo :: start ()
+{
+  char packet[1024];
+  cout << "\n### Hello!\n";
+  switch (fork())
+  {
+    case 0:
+      while (true)
+      {
+        if (recive (host, service, packet) == false)
+	    {
+        sleep (1);
+	      continue;
+	    }
+        cout << "\n" << get_recived () << "\n";  // OK, but this thread has no terminal to write to
+      }
+      break;
+    default:
+      while (true)
+      {
+        cin.getline ( packet, 1024 );
+        send(host, service, packet);
+        if (recive (host, service, packet) == false)  // dirty fix
+	    {
+          sleep (1);
+	      continue;
+	    }
+        cout << "\n" << get_recived () << "\n";       //
+      }
+      break;
+  }
+  cout << "\n### Goodbye !\n";
+}
+
