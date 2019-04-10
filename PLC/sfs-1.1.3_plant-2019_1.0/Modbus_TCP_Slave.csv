@@ -1,0 +1,410 @@
+//CoDeSys Mapping Export V1.2
+//Mapped variable;//Parameter name @ counter in device;//Unit;//Description;//IEC address;//Device name;
+//Important: change only first, third or fourth column in Excel or add variable name before first ;
+;Modbus Slave Channel;;Read Discrete Inputs;%IB0;Modbus_TCP_Slave
+;Modbus Slave Channel[0];;Read Discrete Inputs;%IB0;Modbus_TCP_Slave
+Application.MAIN.AT1_s;Bit0;;0x0000;%IX0.0;Modbus_TCP_Slave
+Application.MAIN.AT2_s;Bit1;;0x0001;%IX0.1;Modbus_TCP_Slave
+Application.MAIN.C1T1_s;Bit2;;0x0002;%IX0.2;Modbus_TCP_Slave
+Application.MAIN.C1T2_s;Bit3;;0x0003;%IX0.3;Modbus_TCP_Slave
+Application.MAIN.C1T2_srn;Bit4;;0x0004;%IX0.4;Modbus_TCP_Slave
+Application.MAIN.C1T2_srp;Bit5;;0x0005;%IX0.5;Modbus_TCP_Slave
+Application.MAIN.C1T3_s;Bit6;;0x0006;%IX0.6;Modbus_TCP_Slave
+Application.MAIN.C1T4_s;Bit7;;0x0007;%IX0.7;Modbus_TCP_Slave
+;Modbus Slave Channel[1];;Read Discrete Inputs;%IB1;Modbus_TCP_Slave
+Application.MAIN.C1T4_st;Bit0@1;;0x0008;%IX1.0;Modbus_TCP_Slave
+Application.MAIN.C1T4_sxp;Bit1@1;;0x0009;%IX1.1;Modbus_TCP_Slave
+Application.MAIN.C1T4_sxn;Bit2@1;;0x000A;%IX1.2;Modbus_TCP_Slave
+Application.MAIN.C1T4_szp;Bit3@1;;0x000B;%IX1.3;Modbus_TCP_Slave
+Application.MAIN.C1T4_szn;Bit4@1;;0x000C;%IX1.4;Modbus_TCP_Slave
+Application.MAIN.C1T5_s;Bit5@1;;0x000D;%IX1.5;Modbus_TCP_Slave
+Application.MAIN.C1T5_st;Bit6@1;;0x000E;%IX1.6;Modbus_TCP_Slave
+Application.MAIN.C1T5_sxp;Bit7@1;;0x000F;%IX1.7;Modbus_TCP_Slave
+;Modbus Slave Channel[2];;Read Discrete Inputs;%IB2;Modbus_TCP_Slave
+Application.MAIN.C1T5_sxn;Bit0@2;;0x0010;%IX2.0;Modbus_TCP_Slave
+Application.MAIN.C1T5_szp;Bit1@2;;0x0011;%IX2.1;Modbus_TCP_Slave
+Application.MAIN.C1T5_szn;Bit2@2;;0x0012;%IX2.2;Modbus_TCP_Slave
+Application.MAIN.C1T6_s;Bit3@2;;0x0013;%IX2.3;Modbus_TCP_Slave
+Application.MAIN.C1T6_st;Bit4@2;;0x0014;%IX2.4;Modbus_TCP_Slave
+Application.MAIN.C1T6_sxp;Bit5@2;;0x0015;%IX2.5;Modbus_TCP_Slave
+Application.MAIN.C1T6_sxn;Bit6@2;;0x0016;%IX2.6;Modbus_TCP_Slave
+Application.MAIN.C1T6_szp;Bit7@2;;0x0017;%IX2.7;Modbus_TCP_Slave
+;Modbus Slave Channel[3];;Read Discrete Inputs;%IB3;Modbus_TCP_Slave
+Application.MAIN.C1T6_szn;Bit0@3;;0x0018;%IX3.0;Modbus_TCP_Slave
+Application.MAIN.C1T7_s;Bit1@3;;0x0019;%IX3.1;Modbus_TCP_Slave
+Application.MAIN.C1T7_srn;Bit2@3;;0x001A;%IX3.2;Modbus_TCP_Slave
+Application.MAIN.C1T7_srp;Bit3@3;;0x001B;%IX3.3;Modbus_TCP_Slave
+Application.MAIN.C1T8_s;Bit4@3;;0x001C;%IX3.4;Modbus_TCP_Slave
+Application.MAIN.C2T1_s;Bit5@3;;0x001D;%IX3.5;Modbus_TCP_Slave
+Application.MAIN.C2T2_s;Bit6@3;;0x001E;%IX3.6;Modbus_TCP_Slave
+Application.MAIN.C2T2_srn;Bit7@3;;0x001F;%IX3.7;Modbus_TCP_Slave
+;Modbus Slave Channel[4];;Read Discrete Inputs;%IB4;Modbus_TCP_Slave
+Application.MAIN.C2T2_srp;Bit0@4;;0x0020;%IX4.0;Modbus_TCP_Slave
+Application.MAIN.C2T3_s;Bit1@4;;0x0021;%IX4.1;Modbus_TCP_Slave
+Application.MAIN.C2T4_s;Bit2@4;;0x0022;%IX4.2;Modbus_TCP_Slave
+Application.MAIN.C2T4_st;Bit3@4;;0x0023;%IX4.3;Modbus_TCP_Slave
+Application.MAIN.C2T4_sxp;Bit4@4;;0x0024;%IX4.4;Modbus_TCP_Slave
+Application.MAIN.C2T4_sxn;Bit5@4;;0x0025;%IX4.5;Modbus_TCP_Slave
+Application.MAIN.C2T4_szp;Bit6@4;;0x0026;%IX4.6;Modbus_TCP_Slave
+Application.MAIN.C2T4_szn;Bit7@4;;0x0027;%IX4.7;Modbus_TCP_Slave
+;Modbus Slave Channel[5];;Read Discrete Inputs;%IB5;Modbus_TCP_Slave
+Application.MAIN.C2T5_s;Bit0@5;;0x0028;%IX5.0;Modbus_TCP_Slave
+Application.MAIN.C2T5_st;Bit1@5;;0x0029;%IX5.1;Modbus_TCP_Slave
+Application.MAIN.C2T5_sxp;Bit2@5;;0x002A;%IX5.2;Modbus_TCP_Slave
+Application.MAIN.C2T5_sxn;Bit3@5;;0x002B;%IX5.3;Modbus_TCP_Slave
+Application.MAIN.C2T5_szp;Bit4@5;;0x002C;%IX5.4;Modbus_TCP_Slave
+Application.MAIN.C2T5_szn;Bit5@5;;0x002D;%IX5.5;Modbus_TCP_Slave
+Application.MAIN.C2T6_s;Bit6@5;;0x002E;%IX5.6;Modbus_TCP_Slave
+Application.MAIN.C2T6_st;Bit7@5;;0x002F;%IX5.7;Modbus_TCP_Slave
+;Modbus Slave Channel[6];;Read Discrete Inputs;%IB6;Modbus_TCP_Slave
+Application.MAIN.C2T6_sxp;Bit0@6;;0x0030;%IX6.0;Modbus_TCP_Slave
+Application.MAIN.C2T6_sxn;Bit1@6;;0x0031;%IX6.1;Modbus_TCP_Slave
+Application.MAIN.C2T6_szp;Bit2@6;;0x0032;%IX6.2;Modbus_TCP_Slave
+Application.MAIN.C2T6_szn;Bit3@6;;0x0033;%IX6.3;Modbus_TCP_Slave
+Application.MAIN.C2T7_s;Bit4@6;;0x0034;%IX6.4;Modbus_TCP_Slave
+Application.MAIN.C2T7_srn;Bit5@6;;0x0035;%IX6.5;Modbus_TCP_Slave
+Application.MAIN.C2T7_srp;Bit6@6;;0x0036;%IX6.6;Modbus_TCP_Slave
+Application.MAIN.C2T8_s;Bit7@6;;0x0037;%IX6.7;Modbus_TCP_Slave
+;Modbus Slave Channel[7];;Read Discrete Inputs;%IB7;Modbus_TCP_Slave
+Application.MAIN.C3T1_s;Bit0@7;;0x0038;%IX7.0;Modbus_TCP_Slave
+Application.MAIN.C3T2_s;Bit1@7;;0x0039;%IX7.1;Modbus_TCP_Slave
+Application.MAIN.C3T2_srn;Bit2@7;;0x003A;%IX7.2;Modbus_TCP_Slave
+Application.MAIN.C3T2_srp;Bit3@7;;0x003B;%IX7.3;Modbus_TCP_Slave
+Application.MAIN.C3T3_s;Bit4@7;;0x003C;%IX7.4;Modbus_TCP_Slave
+Application.MAIN.C3T4_s;Bit5@7;;0x003D;%IX7.5;Modbus_TCP_Slave
+Application.MAIN.C3T4_st;Bit6@7;;0x003E;%IX7.6;Modbus_TCP_Slave
+Application.MAIN.C3T4_sxp;Bit7@7;;0x003F;%IX7.7;Modbus_TCP_Slave
+;Modbus Slave Channel[8];;Read Discrete Inputs;%IB8;Modbus_TCP_Slave
+Application.MAIN.C3T4_sxn;Bit0@8;;0x0040;%IX8.0;Modbus_TCP_Slave
+Application.MAIN.C3T4_szp;Bit1@8;;0x0041;%IX8.1;Modbus_TCP_Slave
+Application.MAIN.C3T4_szn;Bit2@8;;0x0042;%IX8.2;Modbus_TCP_Slave
+Application.MAIN.C3T5_s;Bit3@8;;0x0043;%IX8.3;Modbus_TCP_Slave
+Application.MAIN.C3T5_st;Bit4@8;;0x0044;%IX8.4;Modbus_TCP_Slave
+Application.MAIN.C3T5_sxp;Bit5@8;;0x0045;%IX8.5;Modbus_TCP_Slave
+Application.MAIN.C3T5_sxn;Bit6@8;;0x0046;%IX8.6;Modbus_TCP_Slave
+Application.MAIN.C3T5_szp;Bit7@8;;0x0047;%IX8.7;Modbus_TCP_Slave
+;Modbus Slave Channel[9];;Read Discrete Inputs;%IB9;Modbus_TCP_Slave
+Application.MAIN.C3T5_szn;Bit0@9;;0x0048;%IX9.0;Modbus_TCP_Slave
+Application.MAIN.C3T6_s;Bit1@9;;0x0049;%IX9.1;Modbus_TCP_Slave
+Application.MAIN.C3T6_st;Bit2@9;;0x004A;%IX9.2;Modbus_TCP_Slave
+Application.MAIN.C3T6_sxp;Bit3@9;;0x004B;%IX9.3;Modbus_TCP_Slave
+Application.MAIN.C3T6_sxn;Bit4@9;;0x004C;%IX9.4;Modbus_TCP_Slave
+Application.MAIN.C3T6_szp;Bit5@9;;0x004D;%IX9.5;Modbus_TCP_Slave
+Application.MAIN.C3T6_szn;Bit6@9;;0x004E;%IX9.6;Modbus_TCP_Slave
+Application.MAIN.C3T7_s;Bit7@9;;0x004F;%IX9.7;Modbus_TCP_Slave
+;Modbus Slave Channel[10];;Read Discrete Inputs;%IB10;Modbus_TCP_Slave
+Application.MAIN.C3T7_srn;Bit0@10;;0x0050;%IX10.0;Modbus_TCP_Slave
+Application.MAIN.C3T7_srp;Bit1@10;;0x0051;%IX10.1;Modbus_TCP_Slave
+Application.MAIN.C3T8_s;Bit2@10;;0x0052;%IX10.2;Modbus_TCP_Slave
+Application.MAIN.C4T1_s;Bit3@10;;0x0053;%IX10.3;Modbus_TCP_Slave
+Application.MAIN.C4T2_s;Bit4@10;;0x0054;%IX10.4;Modbus_TCP_Slave
+Application.MAIN.C4T2_srn;Bit5@10;;0x0055;%IX10.5;Modbus_TCP_Slave
+Application.MAIN.C4T2_srp;Bit6@10;;0x0056;%IX10.6;Modbus_TCP_Slave
+Application.MAIN.C4T3_s;Bit7@10;;0x0057;%IX10.7;Modbus_TCP_Slave
+;Modbus Slave Channel[11];;Read Discrete Inputs;%IB11;Modbus_TCP_Slave
+Application.MAIN.C4T4_s;Bit0@11;;0x0058;%IX11.0;Modbus_TCP_Slave
+Application.MAIN.C4T4_st;Bit1@11;;0x0059;%IX11.1;Modbus_TCP_Slave
+Application.MAIN.C4T4_sxp;Bit2@11;;0x005A;%IX11.2;Modbus_TCP_Slave
+Application.MAIN.C4T4_sxn;Bit3@11;;0x005B;%IX11.3;Modbus_TCP_Slave
+Application.MAIN.C4T4_szp;Bit4@11;;0x005C;%IX11.4;Modbus_TCP_Slave
+Application.MAIN.C4T4_szn;Bit5@11;;0x005D;%IX11.5;Modbus_TCP_Slave
+Application.MAIN.C4T5_s;Bit6@11;;0x005E;%IX11.6;Modbus_TCP_Slave
+Application.MAIN.C4T5_st;Bit7@11;;0x005F;%IX11.7;Modbus_TCP_Slave
+;Modbus Slave Channel[12];;Read Discrete Inputs;%IB12;Modbus_TCP_Slave
+Application.MAIN.C4T5_sxp;Bit0@12;;0x0060;%IX12.0;Modbus_TCP_Slave
+Application.MAIN.C4T5_sxn;Bit1@12;;0x0061;%IX12.1;Modbus_TCP_Slave
+Application.MAIN.C4T5_szp;Bit2@12;;0x0062;%IX12.2;Modbus_TCP_Slave
+Application.MAIN.C4T5_szn;Bit3@12;;0x0063;%IX12.3;Modbus_TCP_Slave
+Application.MAIN.C4T6_s;Bit4@12;;0x0064;%IX12.4;Modbus_TCP_Slave
+Application.MAIN.C4T6_st;Bit5@12;;0x0065;%IX12.5;Modbus_TCP_Slave
+Application.MAIN.C4T6_sxp;Bit6@12;;0x0066;%IX12.6;Modbus_TCP_Slave
+Application.MAIN.C4T6_sxn;Bit7@12;;0x0067;%IX12.7;Modbus_TCP_Slave
+;Modbus Slave Channel[13];;Read Discrete Inputs;%IB13;Modbus_TCP_Slave
+Application.MAIN.C4T6_szp;Bit0@13;;0x0068;%IX13.0;Modbus_TCP_Slave
+Application.MAIN.C4T6_szn;Bit1@13;;0x0069;%IX13.1;Modbus_TCP_Slave
+Application.MAIN.C4T7_s;Bit2@13;;0x006A;%IX13.2;Modbus_TCP_Slave
+Application.MAIN.C4T7_srn;Bit3@13;;0x006B;%IX13.3;Modbus_TCP_Slave
+Application.MAIN.C4T7_srp;Bit4@13;;0x006C;%IX13.4;Modbus_TCP_Slave
+Application.MAIN.C4T8_s;Bit5@13;;0x006D;%IX13.5;Modbus_TCP_Slave
+Application.MAIN.C5T1_s;Bit6@13;;0x006E;%IX13.6;Modbus_TCP_Slave
+Application.MAIN.C5T1_srn;Bit7@13;;0x006F;%IX13.7;Modbus_TCP_Slave
+;Modbus Slave Channel[14];;Read Discrete Inputs;%IB14;Modbus_TCP_Slave
+Application.MAIN.C5T1_srp;Bit0@14;;0x0070;%IX14.0;Modbus_TCP_Slave
+Application.MAIN.C5T2_s;Bit1@14;;0x0071;%IX14.1;Modbus_TCP_Slave
+Application.MAIN.C5T3_s;Bit2@14;;0x0072;%IX14.2;Modbus_TCP_Slave
+Application.MAIN.C5T4_s;Bit3@14;;0x0073;%IX14.3;Modbus_TCP_Slave
+Application.MAIN.C5T4_spp;Bit4@14;;0x0074;%IX14.4;Modbus_TCP_Slave
+Application.MAIN.C5T4_spn;Bit5@14;;0x0075;%IX14.5;Modbus_TCP_Slave
+Application.MAIN.C5T5_s;Bit6@14;;0x0076;%IX14.6;Modbus_TCP_Slave
+Application.MAIN.C5T5_spp;Bit7@14;;0x0077;%IX14.7;Modbus_TCP_Slave
+;Modbus Slave Channel[15];;Read Discrete Inputs;%IB15;Modbus_TCP_Slave
+Application.MAIN.C5T5_spn;Bit0@15;;0x0078;%IX15.0;Modbus_TCP_Slave
+Application.MAIN.C5T6_s;Bit1@15;;0x0079;%IX15.1;Modbus_TCP_Slave
+Application.MAIN.C5T6_spp;Bit2@15;;0x007A;%IX15.2;Modbus_TCP_Slave
+Application.MAIN.C5T6_spn;Bit3@15;;0x007B;%IX15.3;Modbus_TCP_Slave
+Application.MAIN.C5T7_s;Bit4@15;;0x007C;%IX15.4;Modbus_TCP_Slave
+Application.MAIN.C5T7_srn;Bit5@15;;0x007D;%IX15.5;Modbus_TCP_Slave
+Application.MAIN.C5T7_srp;Bit6@15;;0x007E;%IX15.6;Modbus_TCP_Slave
+Application.MAIN.C5T8_s;Bit7@15;;0x007F;%IX15.7;Modbus_TCP_Slave
+;Modbus Slave Channel[16];;Read Discrete Inputs;%IB16;Modbus_TCP_Slave
+Application.MAIN.PM11_s;Bit0@16;;0x0080;%IX16.0;Modbus_TCP_Slave
+Application.MAIN.PM12_s;Bit1@16;;0x0081;%IX16.1;Modbus_TCP_Slave
+Application.MAIN.PM13_s;Bit2@16;;0x0082;%IX16.2;Modbus_TCP_Slave
+Application.MAIN.PM21_s;Bit3@16;;0x0083;%IX16.3;Modbus_TCP_Slave
+Application.MAIN.PM22_s;Bit4@16;;0x0084;%IX16.4;Modbus_TCP_Slave
+Application.MAIN.PM23_s;Bit5@16;;0x0085;%IX16.5;Modbus_TCP_Slave
+Application.MAIN.PM31_s;Bit6@16;;0x0086;%IX16.6;Modbus_TCP_Slave
+Application.MAIN.PM32_s;Bit7@16;;0x0087;%IX16.7;Modbus_TCP_Slave
+;Modbus Slave Channel[17];;Read Discrete Inputs;%IB17;Modbus_TCP_Slave
+Application.MAIN.PM33_s;Bit0@17;;0x0088;%IX17.0;Modbus_TCP_Slave
+;Bit1@17;;Read Discrete Inputs;%IX17.1;Modbus_TCP_Slave
+;Bit2@17;;Read Discrete Inputs;%IX17.2;Modbus_TCP_Slave
+;Bit3@17;;Read Discrete Inputs;%IX17.3;Modbus_TCP_Slave
+;Bit4@17;;Read Discrete Inputs;%IX17.4;Modbus_TCP_Slave
+;Bit5@17;;Read Discrete Inputs;%IX17.5;Modbus_TCP_Slave
+;Bit6@17;;Read Discrete Inputs;%IX17.6;Modbus_TCP_Slave
+;Bit7@17;;Read Discrete Inputs;%IX17.7;Modbus_TCP_Slave
+;Write Multiple Coils;;Write Multiple Coils;%QB0;Modbus_TCP_Slave
+;Write Multiple Coils[0];;Write Multiple Coils;%QB0;Modbus_TCP_Slave
+Application.MAIN.AT1_mp;Bit0@18;;0x0000;%QX0.0;Modbus_TCP_Slave
+Application.MAIN.AT1_mn;Bit1@18;;0x0001;%QX0.1;Modbus_TCP_Slave
+Application.MAIN.AT2_mp;Bit2@18;;0x0002;%QX0.2;Modbus_TCP_Slave
+Application.MAIN.AT2_mn;Bit3@18;;0x0003;%QX0.3;Modbus_TCP_Slave
+Application.MAIN.AT2_wi;Bit4@18;;0x0004;%QX0.4;Modbus_TCP_Slave
+Application.MAIN.C1T1_mp;Bit5@18;;0x0005;%QX0.5;Modbus_TCP_Slave
+Application.MAIN.C1T1_mn;Bit6@18;;0x0006;%QX0.6;Modbus_TCP_Slave
+Application.MAIN.C1T2_mp;Bit7@18;;0x0007;%QX0.7;Modbus_TCP_Slave
+;Write Multiple Coils[1];;Write Multiple Coils;%QB1;Modbus_TCP_Slave
+Application.MAIN.C1T2_mn;Bit0@19;;0x0008;%QX1.0;Modbus_TCP_Slave
+Application.MAIN.C1T2_rn;Bit1@19;;0x0009;%QX1.1;Modbus_TCP_Slave
+Application.MAIN.C1T2_rp;Bit2@19;;0x000A;%QX1.2;Modbus_TCP_Slave
+Application.MAIN.C1T3_mp;Bit3@19;;0x000B;%QX1.3;Modbus_TCP_Slave
+Application.MAIN.C1T3_mn;Bit4@19;;0x000C;%QX1.4;Modbus_TCP_Slave
+Application.MAIN.C1T4_mp;Bit5@19;;0x000D;%QX1.5;Modbus_TCP_Slave
+Application.MAIN.C1T4_mn;Bit6@19;;0x000E;%QX1.6;Modbus_TCP_Slave
+Application.MAIN.C1T4_rn;Bit7@19;;0x000F;%QX1.7;Modbus_TCP_Slave
+;Write Multiple Coils[2];;Write Multiple Coils;%QB2;Modbus_TCP_Slave
+Application.MAIN.C1T4_rp;Bit0@20;;0x0010;%QX2.0;Modbus_TCP_Slave
+Application.MAIN.C1T4_t;Bit1@20;;0x0011;%QX2.1;Modbus_TCP_Slave
+Application.MAIN.C1T4_xn;Bit2@20;;0x0012;%QX2.2;Modbus_TCP_Slave
+Application.MAIN.C1T4_xp;Bit3@20;;0x0013;%QX2.3;Modbus_TCP_Slave
+Application.MAIN.C1T4_zp;Bit4@20;;0x0014;%QX2.4;Modbus_TCP_Slave
+Application.MAIN.C1T4_zn;Bit5@20;;0x0015;%QX2.5;Modbus_TCP_Slave
+Application.MAIN.C1T5_mp;Bit6@20;;0x0016;%QX2.6;Modbus_TCP_Slave
+Application.MAIN.C1T5_mn;Bit7@20;;0x0017;%QX2.7;Modbus_TCP_Slave
+;Write Multiple Coils[3];;Write Multiple Coils;%QB3;Modbus_TCP_Slave
+Application.MAIN.C1T5_rn;Bit0@21;;0x0018;%QX3.0;Modbus_TCP_Slave
+Application.MAIN.C1T5_rp;Bit1@21;;0x0019;%QX3.1;Modbus_TCP_Slave
+Application.MAIN.C1T5_t;Bit2@21;;0x001A;%QX3.2;Modbus_TCP_Slave
+Application.MAIN.C1T5_xn;Bit3@21;;0x001B;%QX3.3;Modbus_TCP_Slave
+Application.MAIN.C1T5_xp;Bit4@21;;0x001C;%QX3.4;Modbus_TCP_Slave
+Application.MAIN.C1T5_zp;Bit5@21;;0x001D;%QX3.5;Modbus_TCP_Slave
+Application.MAIN.C1T5_zn;Bit6@21;;0x001E;%QX3.6;Modbus_TCP_Slave
+Application.MAIN.C1T6_mp;Bit7@21;;0x001F;%QX3.7;Modbus_TCP_Slave
+;Write Multiple Coils[4];;Write Multiple Coils;%QB4;Modbus_TCP_Slave
+Application.MAIN.C1T6_mn;Bit0@22;;0x0020;%QX4.0;Modbus_TCP_Slave
+Application.MAIN.C1T6_rn;Bit1@22;;0x0021;%QX4.1;Modbus_TCP_Slave
+Application.MAIN.C1T6_rp;Bit2@22;;0x0022;%QX4.2;Modbus_TCP_Slave
+Application.MAIN.C1T6_t;Bit3@22;;0x0023;%QX4.3;Modbus_TCP_Slave
+Application.MAIN.C1T6_xn;Bit4@22;;0x0024;%QX4.4;Modbus_TCP_Slave
+Application.MAIN.C1T6_xp;Bit5@22;;0x0025;%QX4.5;Modbus_TCP_Slave
+Application.MAIN.C1T6_zp;Bit6@22;;0x0026;%QX4.6;Modbus_TCP_Slave
+Application.MAIN.C1T6_zn;Bit7@22;;0x0027;%QX4.7;Modbus_TCP_Slave
+;Write Multiple Coils[5];;Write Multiple Coils;%QB5;Modbus_TCP_Slave
+Application.MAIN.C1T7_mp;Bit0@23;;0x0028;%QX5.0;Modbus_TCP_Slave
+Application.MAIN.C1T7_mn;Bit1@23;;0x0029;%QX5.1;Modbus_TCP_Slave
+Application.MAIN.C1T7_rn;Bit2@23;;0x002A;%QX5.2;Modbus_TCP_Slave
+Application.MAIN.C1T7_rp;Bit3@23;;0x002B;%QX5.3;Modbus_TCP_Slave
+Application.MAIN.C1T8_mp;Bit4@23;;0x002C;%QX5.4;Modbus_TCP_Slave
+Application.MAIN.C1T8_mn;Bit5@23;;0x002D;%QX5.5;Modbus_TCP_Slave
+Application.MAIN.C2T1_mp;Bit6@23;;0x002E;%QX5.6;Modbus_TCP_Slave
+Application.MAIN.C2T1_mn;Bit7@23;;0x002F;%QX5.7;Modbus_TCP_Slave
+;Write Multiple Coils[6];;Write Multiple Coils;%QB6;Modbus_TCP_Slave
+Application.MAIN.C2T2_mp;Bit0@24;;0x0030;%QX6.0;Modbus_TCP_Slave
+Application.MAIN.C2T2_mn;Bit1@24;;0x0031;%QX6.1;Modbus_TCP_Slave
+Application.MAIN.C2T2_rn;Bit2@24;;0x0032;%QX6.2;Modbus_TCP_Slave
+Application.MAIN.C2T2_rp;Bit3@24;;0x0033;%QX6.3;Modbus_TCP_Slave
+Application.MAIN.C2T3_mp;Bit4@24;;0x0034;%QX6.4;Modbus_TCP_Slave
+Application.MAIN.C2T3_mn;Bit5@24;;0x0035;%QX6.5;Modbus_TCP_Slave
+Application.MAIN.C2T4_mp;Bit6@24;;0x0036;%QX6.6;Modbus_TCP_Slave
+Application.MAIN.C2T4_mn;Bit7@24;;0x0037;%QX6.7;Modbus_TCP_Slave
+;Write Multiple Coils[7];;Write Multiple Coils;%QB7;Modbus_TCP_Slave
+Application.MAIN.C2T4_rn;Bit0@25;;0x0038;%QX7.0;Modbus_TCP_Slave
+Application.MAIN.C2T4_rp;Bit1@25;;0x0039;%QX7.1;Modbus_TCP_Slave
+Application.MAIN.C2T4_t;Bit2@25;;0x003A;%QX7.2;Modbus_TCP_Slave
+Application.MAIN.C2T4_xn;Bit3@25;;0x003B;%QX7.3;Modbus_TCP_Slave
+Application.MAIN.C2T4_xp;Bit4@25;;0x003C;%QX7.4;Modbus_TCP_Slave
+Application.MAIN.C2T4_zp;Bit5@25;;0x003D;%QX7.5;Modbus_TCP_Slave
+Application.MAIN.C2T4_zn;Bit6@25;;0x003E;%QX7.6;Modbus_TCP_Slave
+Application.MAIN.C2T5_mp;Bit7@25;;0x003F;%QX7.7;Modbus_TCP_Slave
+;Write Multiple Coils[8];;Write Multiple Coils;%QB8;Modbus_TCP_Slave
+Application.MAIN.C2T5_mn;Bit0@26;;0x0040;%QX8.0;Modbus_TCP_Slave
+Application.MAIN.C2T5_rn;Bit1@26;;0x0041;%QX8.1;Modbus_TCP_Slave
+Application.MAIN.C2T5_rp;Bit2@26;;0x0042;%QX8.2;Modbus_TCP_Slave
+Application.MAIN.C2T5_t;Bit3@26;;0x0043;%QX8.3;Modbus_TCP_Slave
+Application.MAIN.C2T5_xn;Bit4@26;;0x0044;%QX8.4;Modbus_TCP_Slave
+Application.MAIN.C2T5_xp;Bit5@26;;0x0045;%QX8.5;Modbus_TCP_Slave
+Application.MAIN.C2T5_zp;Bit6@26;;0x0046;%QX8.6;Modbus_TCP_Slave
+Application.MAIN.C2T5_zn;Bit7@26;;0x0047;%QX8.7;Modbus_TCP_Slave
+;Write Multiple Coils[9];;Write Multiple Coils;%QB9;Modbus_TCP_Slave
+Application.MAIN.C2T6_mp;Bit0@27;;0x0048;%QX9.0;Modbus_TCP_Slave
+Application.MAIN.C2T6_mn;Bit1@27;;0x0049;%QX9.1;Modbus_TCP_Slave
+Application.MAIN.C2T6_rn;Bit2@27;;0x004A;%QX9.2;Modbus_TCP_Slave
+Application.MAIN.C2T6_rp;Bit3@27;;0x004B;%QX9.3;Modbus_TCP_Slave
+Application.MAIN.C2T6_t;Bit4@27;;0x004C;%QX9.4;Modbus_TCP_Slave
+Application.MAIN.C2T6_xn;Bit5@27;;0x004D;%QX9.5;Modbus_TCP_Slave
+Application.MAIN.C2T6_xp;Bit6@27;;0x004E;%QX9.6;Modbus_TCP_Slave
+Application.MAIN.C2T6_zp;Bit7@27;;0x004F;%QX9.7;Modbus_TCP_Slave
+;Write Multiple Coils[10];;Write Multiple Coils;%QB10;Modbus_TCP_Slave
+Application.MAIN.C2T6_zn;Bit0@28;;0x0050;%QX10.0;Modbus_TCP_Slave
+Application.MAIN.C2T7_mp;Bit1@28;;0x0051;%QX10.1;Modbus_TCP_Slave
+Application.MAIN.C2T7_mn;Bit2@28;;0x0052;%QX10.2;Modbus_TCP_Slave
+Application.MAIN.C2T7_rn;Bit3@28;;0x0053;%QX10.3;Modbus_TCP_Slave
+Application.MAIN.C2T7_rp;Bit4@28;;0x0054;%QX10.4;Modbus_TCP_Slave
+Application.MAIN.C2T8_mp;Bit5@28;;0x0055;%QX10.5;Modbus_TCP_Slave
+Application.MAIN.C2T8_mn;Bit6@28;;0x0056;%QX10.6;Modbus_TCP_Slave
+Application.MAIN.C3T1_mp;Bit7@28;;0x0057;%QX10.7;Modbus_TCP_Slave
+;Write Multiple Coils[11];;Write Multiple Coils;%QB11;Modbus_TCP_Slave
+Application.MAIN.C3T1_mn;Bit0@29;;0x0058;%QX11.0;Modbus_TCP_Slave
+Application.MAIN.C3T2_mp;Bit1@29;;0x0059;%QX11.1;Modbus_TCP_Slave
+Application.MAIN.C3T2_mn;Bit2@29;;0x005A;%QX11.2;Modbus_TCP_Slave
+Application.MAIN.C3T2_rn;Bit3@29;;0x005B;%QX11.3;Modbus_TCP_Slave
+Application.MAIN.C3T2_rp;Bit4@29;;0x005C;%QX11.4;Modbus_TCP_Slave
+Application.MAIN.C3T3_mp;Bit5@29;;0x005D;%QX11.5;Modbus_TCP_Slave
+Application.MAIN.C3T3_mn;Bit6@29;;0x005E;%QX11.6;Modbus_TCP_Slave
+Application.MAIN.C3T4_mp;Bit7@29;;0x005F;%QX11.7;Modbus_TCP_Slave
+;Write Multiple Coils[12];;Write Multiple Coils;%QB12;Modbus_TCP_Slave
+Application.MAIN.C3T4_mn;Bit0@30;;0x0060;%QX12.0;Modbus_TCP_Slave
+Application.MAIN.C3T4_rn;Bit1@30;;0x0061;%QX12.1;Modbus_TCP_Slave
+Application.MAIN.C3T4_rp;Bit2@30;;0x0062;%QX12.2;Modbus_TCP_Slave
+Application.MAIN.C3T4_t;Bit3@30;;0x0063;%QX12.3;Modbus_TCP_Slave
+Application.MAIN.C3T4_xn;Bit4@30;;0x0064;%QX12.4;Modbus_TCP_Slave
+Application.MAIN.C3T4_xp;Bit5@30;;0x0065;%QX12.5;Modbus_TCP_Slave
+Application.MAIN.C3T4_zp;Bit6@30;;0x0066;%QX12.6;Modbus_TCP_Slave
+Application.MAIN.C3T4_zn;Bit7@30;;0x0067;%QX12.7;Modbus_TCP_Slave
+;Write Multiple Coils[13];;Write Multiple Coils;%QB13;Modbus_TCP_Slave
+Application.MAIN.C3T5_mp;Bit0@31;;0x0068;%QX13.0;Modbus_TCP_Slave
+Application.MAIN.C3T5_mn;Bit1@31;;0x0069;%QX13.1;Modbus_TCP_Slave
+Application.MAIN.C3T5_rn;Bit2@31;;0x006A;%QX13.2;Modbus_TCP_Slave
+Application.MAIN.C3T5_rp;Bit3@31;;0x006B;%QX13.3;Modbus_TCP_Slave
+Application.MAIN.C3T5_t;Bit4@31;;0x006C;%QX13.4;Modbus_TCP_Slave
+Application.MAIN.C3T5_xn;Bit5@31;;0x006D;%QX13.5;Modbus_TCP_Slave
+Application.MAIN.C3T5_xp;Bit6@31;;0x006E;%QX13.6;Modbus_TCP_Slave
+Application.MAIN.C3T5_zp;Bit7@31;;0x006F;%QX13.7;Modbus_TCP_Slave
+;Write Multiple Coils[14];;Write Multiple Coils;%QB14;Modbus_TCP_Slave
+Application.MAIN.C3T5_zn;Bit0@32;;0x0070;%QX14.0;Modbus_TCP_Slave
+Application.MAIN.C3T6_mp;Bit1@32;;0x0071;%QX14.1;Modbus_TCP_Slave
+Application.MAIN.C3T6_mn;Bit2@32;;0x0072;%QX14.2;Modbus_TCP_Slave
+Application.MAIN.C3T6_rn;Bit3@32;;0x0073;%QX14.3;Modbus_TCP_Slave
+Application.MAIN.C3T6_rp;Bit4@32;;0x0074;%QX14.4;Modbus_TCP_Slave
+Application.MAIN.C3T6_t;Bit5@32;;0x0075;%QX14.5;Modbus_TCP_Slave
+Application.MAIN.C3T6_xn;Bit6@32;;0x0076;%QX14.6;Modbus_TCP_Slave
+Application.MAIN.C3T6_xp;Bit7@32;;0x0077;%QX14.7;Modbus_TCP_Slave
+;Write Multiple Coils[15];;Write Multiple Coils;%QB15;Modbus_TCP_Slave
+Application.MAIN.C3T6_zp;Bit0@33;;0x0078;%QX15.0;Modbus_TCP_Slave
+Application.MAIN.C3T6_zn;Bit1@33;;0x0079;%QX15.1;Modbus_TCP_Slave
+Application.MAIN.C3T7_mp;Bit2@33;;0x007A;%QX15.2;Modbus_TCP_Slave
+Application.MAIN.C3T7_mn;Bit3@33;;0x007B;%QX15.3;Modbus_TCP_Slave
+Application.MAIN.C3T7_rn;Bit4@33;;0x007C;%QX15.4;Modbus_TCP_Slave
+Application.MAIN.C3T7_rp;Bit5@33;;0x007D;%QX15.5;Modbus_TCP_Slave
+Application.MAIN.C3T8_mp;Bit6@33;;0x007E;%QX15.6;Modbus_TCP_Slave
+Application.MAIN.C3T8_mn;Bit7@33;;0x007F;%QX15.7;Modbus_TCP_Slave
+;Write Multiple Coils[16];;Write Multiple Coils;%QB16;Modbus_TCP_Slave
+Application.MAIN.C4T1_mp;Bit0@34;;0x0080;%QX16.0;Modbus_TCP_Slave
+Application.MAIN.C4T1_mn;Bit1@34;;0x0081;%QX16.1;Modbus_TCP_Slave
+Application.MAIN.C4T2_mp;Bit2@34;;0x0082;%QX16.2;Modbus_TCP_Slave
+Application.MAIN.C4T2_mn;Bit3@34;;0x0083;%QX16.3;Modbus_TCP_Slave
+Application.MAIN.C4T2_rn;Bit4@34;;0x0084;%QX16.4;Modbus_TCP_Slave
+Application.MAIN.C4T2_rp;Bit5@34;;0x0085;%QX16.5;Modbus_TCP_Slave
+Application.MAIN.C4T3_mp;Bit6@34;;0x0086;%QX16.6;Modbus_TCP_Slave
+Application.MAIN.C4T3_mn;Bit7@34;;0x0087;%QX16.7;Modbus_TCP_Slave
+;Write Multiple Coils[17];;Write Multiple Coils;%QB17;Modbus_TCP_Slave
+Application.MAIN.C4T4_mp;Bit0@35;;0x0088;%QX17.0;Modbus_TCP_Slave
+Application.MAIN.C4T4_mn;Bit1@35;;0x0089;%QX17.1;Modbus_TCP_Slave
+Application.MAIN.C4T4_rn;Bit2@35;;0x008A;%QX17.2;Modbus_TCP_Slave
+Application.MAIN.C4T4_rp;Bit3@35;;0x008B;%QX17.3;Modbus_TCP_Slave
+Application.MAIN.C4T4_t;Bit4@35;;0x008C;%QX17.4;Modbus_TCP_Slave
+Application.MAIN.C4T4_xn;Bit5@35;;0x008D;%QX17.5;Modbus_TCP_Slave
+Application.MAIN.C4T4_xp;Bit6@35;;0x008E;%QX17.6;Modbus_TCP_Slave
+Application.MAIN.C4T4_zp;Bit7@35;;0x008F;%QX17.7;Modbus_TCP_Slave
+;Write Multiple Coils[18];;Write Multiple Coils;%QB18;Modbus_TCP_Slave
+Application.MAIN.C4T4_zn;Bit0@36;;0x0090;%QX18.0;Modbus_TCP_Slave
+Application.MAIN.C4T5_mp;Bit1@36;;0x0091;%QX18.1;Modbus_TCP_Slave
+Application.MAIN.C4T5_mn;Bit2@36;;0x0092;%QX18.2;Modbus_TCP_Slave
+Application.MAIN.C4T5_rn;Bit3@36;;0x0093;%QX18.3;Modbus_TCP_Slave
+Application.MAIN.C4T5_rp;Bit4@36;;0x0094;%QX18.4;Modbus_TCP_Slave
+Application.MAIN.C4T5_t;Bit5@36;;0x0095;%QX18.5;Modbus_TCP_Slave
+Application.MAIN.C4T5_xn;Bit6@36;;0x0096;%QX18.6;Modbus_TCP_Slave
+Application.MAIN.C4T5_xp;Bit7@36;;0x0097;%QX18.7;Modbus_TCP_Slave
+;Write Multiple Coils[19];;Write Multiple Coils;%QB19;Modbus_TCP_Slave
+Application.MAIN.C4T5_zp;Bit0@37;;0x0098;%QX19.0;Modbus_TCP_Slave
+Application.MAIN.C4T5_zn;Bit1@37;;0x0099;%QX19.1;Modbus_TCP_Slave
+Application.MAIN.C4T6_mp;Bit2@37;;0x009A;%QX19.2;Modbus_TCP_Slave
+Application.MAIN.C4T6_mn;Bit3@37;;0x009B;%QX19.3;Modbus_TCP_Slave
+Application.MAIN.C4T6_rn;Bit4@37;;0x009C;%QX19.4;Modbus_TCP_Slave
+Application.MAIN.C4T6_rp;Bit5@37;;0x009D;%QX19.5;Modbus_TCP_Slave
+Application.MAIN.C4T6_t;Bit6@37;;0x009E;%QX19.6;Modbus_TCP_Slave
+Application.MAIN.C4T6_xn;Bit7@37;;0x009F;%QX19.7;Modbus_TCP_Slave
+;Write Multiple Coils[20];;Write Multiple Coils;%QB20;Modbus_TCP_Slave
+Application.MAIN.C4T6_xp;Bit0@38;;0x00A0;%QX20.0;Modbus_TCP_Slave
+Application.MAIN.C4T6_zp;Bit1@38;;0x00A1;%QX20.1;Modbus_TCP_Slave
+Application.MAIN.C4T6_zn;Bit2@38;;0x00A2;%QX20.2;Modbus_TCP_Slave
+Application.MAIN.C4T7_mp;Bit3@38;;0x00A3;%QX20.3;Modbus_TCP_Slave
+Application.MAIN.C4T7_mn;Bit4@38;;0x00A4;%QX20.4;Modbus_TCP_Slave
+Application.MAIN.C4T7_rn;Bit5@38;;0x00A5;%QX20.5;Modbus_TCP_Slave
+Application.MAIN.C4T7_rp;Bit6@38;;0x00A6;%QX20.6;Modbus_TCP_Slave
+Application.MAIN.C4T8_mp;Bit7@38;;0x00A7;%QX20.7;Modbus_TCP_Slave
+;Write Multiple Coils[21];;Write Multiple Coils;%QB21;Modbus_TCP_Slave
+Application.MAIN.C4T8_mn;Bit0@39;;0x00A8;%QX21.0;Modbus_TCP_Slave
+Application.MAIN.C5T1_mp;Bit1@39;;0x00A9;%QX21.1;Modbus_TCP_Slave
+Application.MAIN.C5T1_mn;Bit2@39;;0x00AA;%QX21.2;Modbus_TCP_Slave
+Application.MAIN.C5T1_rn;Bit3@39;;0x00AB;%QX21.3;Modbus_TCP_Slave
+Application.MAIN.C5T1_rp;Bit4@39;;0x00AC;%QX21.4;Modbus_TCP_Slave
+Application.MAIN.C5T2_mp;Bit5@39;;0x00AD;%QX21.5;Modbus_TCP_Slave
+Application.MAIN.C5T2_mn;Bit6@39;;0x00AE;%QX21.6;Modbus_TCP_Slave
+Application.MAIN.C5T3_mp;Bit7@39;;0x00AF;%QX21.7;Modbus_TCP_Slave
+;Write Multiple Coils[22];;Write Multiple Coils;%QB22;Modbus_TCP_Slave
+Application.MAIN.C5T3_mn;Bit0@40;;0x00B0;%QX22.0;Modbus_TCP_Slave
+Application.MAIN.C5T4_mp;Bit1@40;;0x00B1;%QX22.1;Modbus_TCP_Slave
+Application.MAIN.C5T4_mn;Bit2@40;;0x00B2;%QX22.2;Modbus_TCP_Slave
+Application.MAIN.C5T4_pp;Bit3@40;;0x00B3;%QX22.3;Modbus_TCP_Slave
+Application.MAIN.C5T4_pn;Bit4@40;;0x00B4;%QX22.4;Modbus_TCP_Slave
+Application.MAIN.C5T5_mp;Bit5@40;;0x00B5;%QX22.5;Modbus_TCP_Slave
+Application.MAIN.C5T5_mn;Bit6@40;;0x00B6;%QX22.6;Modbus_TCP_Slave
+Application.MAIN.C5T5_pp;Bit7@40;;0x00B7;%QX22.7;Modbus_TCP_Slave
+;Write Multiple Coils[23];;Write Multiple Coils;%QB23;Modbus_TCP_Slave
+Application.MAIN.C5T5_pn;Bit0@41;;0x00B8;%QX23.0;Modbus_TCP_Slave
+Application.MAIN.C5T6_mp;Bit1@41;;0x00B9;%QX23.1;Modbus_TCP_Slave
+Application.MAIN.C5T6_mn;Bit2@41;;0x00BA;%QX23.2;Modbus_TCP_Slave
+Application.MAIN.C5T6_pp;Bit3@41;;0x00BB;%QX23.3;Modbus_TCP_Slave
+Application.MAIN.C5T6_pn;Bit4@41;;0x00BC;%QX23.4;Modbus_TCP_Slave
+Application.MAIN.C5T7_mp;Bit5@41;;0x00BD;%QX23.5;Modbus_TCP_Slave
+Application.MAIN.C5T7_mn;Bit6@41;;0x00BE;%QX23.6;Modbus_TCP_Slave
+Application.MAIN.C5T7_rn;Bit7@41;;0x00BF;%QX23.7;Modbus_TCP_Slave
+;Write Multiple Coils[24];;Write Multiple Coils;%QB24;Modbus_TCP_Slave
+Application.MAIN.C5T7_rp;Bit0@42;;0x00C0;%QX24.0;Modbus_TCP_Slave
+Application.MAIN.C5T8_mp;Bit1@42;;0x00C1;%QX24.1;Modbus_TCP_Slave
+Application.MAIN.C5T8_mn;Bit2@42;;0x00C2;%QX24.2;Modbus_TCP_Slave
+;Bit3@42;;Write Multiple Coils;%QX24.3;Modbus_TCP_Slave
+;Bit4@42;;Write Multiple Coils;%QX24.4;Modbus_TCP_Slave
+;Bit5@42;;Write Multiple Coils;%QX24.5;Modbus_TCP_Slave
+;Bit6@42;;Write Multiple Coils;%QX24.6;Modbus_TCP_Slave
+;Bit7@42;;Write Multiple Coils;%QX24.7;Modbus_TCP_Slave
+;Warehouse Out Channel;;Write Single Register;%QW13;Modbus_TCP_Slave
+Application.MAIN.AT1_wo;Warehouse Out Channel[0];;0x0000;%QW13;Modbus_TCP_Slave
+;Bit0@43;;;%QX26.0;Modbus_TCP_Slave
+;Bit1@43;;;%QX26.1;Modbus_TCP_Slave
+;Bit2@43;;;%QX26.2;Modbus_TCP_Slave
+;Bit3@43;;;%QX26.3;Modbus_TCP_Slave
+;Bit4@43;;;%QX26.4;Modbus_TCP_Slave
+;Bit5@43;;;%QX26.5;Modbus_TCP_Slave
+;Bit6@43;;;%QX26.6;Modbus_TCP_Slave
+;Bit7@43;;;%QX26.7;Modbus_TCP_Slave
+;Bit8;;;%QX27.0;Modbus_TCP_Slave
+;Bit9;;;%QX27.1;Modbus_TCP_Slave
+;Bit10;;;%QX27.2;Modbus_TCP_Slave
+;Bit11;;;%QX27.3;Modbus_TCP_Slave
+;Bit12;;;%QX27.4;Modbus_TCP_Slave
+;Bit13;;;%QX27.5;Modbus_TCP_Slave
+;Bit14;;;%QX27.6;Modbus_TCP_Slave
+;Bit15;;;%QX27.7;Modbus_TCP_Slave

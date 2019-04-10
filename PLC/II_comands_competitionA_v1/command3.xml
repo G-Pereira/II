@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE PRODUCTION_ORDERS [
+<!ELEMENT ORDERS (Request_Stores | Order*)>
+<!ELEMENT Request_Stores EMPTY>
+<!ELEMENT Order (Transform | Unload)>
+<!ATTLIST Order
+          Number   (CDATA) #REQUIRED
+>
+<!ELEMENT Transform EMPTY>
+<!ATTLIST Transform
+          From     (CDATA) #REQUIRED
+          To       (CDATA) #REQUIRED
+          Quantity (CDATA) #REQUIRED
+>
+<!ELEMENT Unload EMPTY>
+<!ATTLIST Unload
+          Type        (CDATA) #REQUIRED
+          Destination (CDATA) #REQUIRED
+          Quantity    (CDATA) #REQUIRED
+>
+]>
+<ORDERS>
+<Order Number="004">
+<Transform From="P1" To="P3" Quantity="9"/>
+</Order>
+<Order Number="005">
+<Transform From="P8" To="P5" Quantity="10"/>
+</Order>
+<Order Number="006">
+<Transform From="P5" To="P6" Quantity="10"/>
+</Order>
+</ORDERS>
