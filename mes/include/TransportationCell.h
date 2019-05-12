@@ -1,7 +1,7 @@
 #ifndef II_TRANSPORTATIONCELL_H
 #define II_TRANSPORTATIONCELL_H
 
-#include "Ćell.h"
+#include "Cell.h"
 
 class TransportationCell : Cell {
 public:
