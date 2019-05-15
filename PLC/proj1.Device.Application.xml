@@ -15,6 +15,7 @@
       <Node name="MAIN">
         <Node name="AT1_done" type="T_BOOL" access="ReadWrite" />
         <Node name="AT2_done" type="T_BOOL" access="ReadWrite" />
+        <Node name="C1_av" type="T_INT" access="ReadWrite" />
         <Node name="C1T2_done" type="T_BOOL" access="ReadWrite" />
         <Node name="C1T2_f" type="T_BOOL" access="ReadWrite" />
         <Node name="C1T4_done" type="T_BOOL" access="ReadWrite" />
@@ -28,6 +29,7 @@
         <Node name="C1T5_done" type="T_BOOL" access="ReadWrite" />
         <Node name="C1T5_w" type="T_BOOL" access="ReadWrite" />
         <Node name="C1T6_done" type="T_BOOL" access="ReadWrite" />
+        <Node name="C2_av" type="T_INT" access="ReadWrite" />
         <Node name="C2T2_done" type="T_BOOL" access="ReadWrite" />
         <Node name="C2T2_f" type="T_BOOL" access="ReadWrite" />
         <Node name="C2T45_dt" type="T_INT" access="ReadWrite" />
@@ -41,6 +43,7 @@
         <Node name="C2T6_dt" type="T_INT" access="ReadWrite" />
         <Node name="C2T6_op" type="T_BOOL" access="ReadWrite" />
         <Node name="C2T6_tt" type="T_TIME" access="ReadWrite" />
+        <Node name="C3_av" type="T_INT" access="ReadWrite" />
         <Node name="C3T2_done" type="T_BOOL" access="ReadWrite" />
         <Node name="C3T2_f" type="T_BOOL" access="ReadWrite" />
         <Node name="C3T4_done" type="T_BOOL" access="ReadWrite" />
@@ -54,6 +57,7 @@
         <Node name="C3T5_done" type="T_BOOL" access="ReadWrite" />
         <Node name="C3T5_w" type="T_BOOL" access="ReadWrite" />
         <Node name="C3T6_done" type="T_BOOL" access="ReadWrite" />
+        <Node name="C4_av" type="T_INT" access="ReadWrite" />
         <Node name="C4T2_done" type="T_BOOL" access="ReadWrite" />
         <Node name="C4T2_f" type="T_BOOL" access="ReadWrite" />
         <Node name="C4T45_dt" type="T_INT" access="ReadWrite" />
@@ -73,7 +77,7 @@
         <Node name="C5T5_ps" type="T_BOOL" access="ReadWrite" />
         <Node name="C5T6_done" type="T_BOOL" access="ReadWrite" />
         <Node name="C5T6_ps" type="T_BOOL" access="ReadWrite" />
-        <Node name="inputUnit" type="T_INT" access="ReadWrite" />
+        <Node name="outputUnit" type="T_INT" access="ReadWrite" />
       </Node>
     </Node>
   </NodeList>
