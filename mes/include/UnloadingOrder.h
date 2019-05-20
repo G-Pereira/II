@@ -9,6 +9,8 @@ class UnloadingOrder : Order {
 public:
 	uint8_t quantity;
 	uint8_t destinationPusher;
+
+  void process();
 };
 
 #endif // II_UNLOADINGORDER_H

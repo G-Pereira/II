@@ -5,7 +5,7 @@
 
 class MachineConveyor : Conveyor {
 public:
-	bool process(Unit unit);
+	void process(Unit unit);
 
 private:
 

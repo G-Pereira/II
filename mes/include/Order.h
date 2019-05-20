@@ -12,7 +12,7 @@ public:
 	time_t endTime;
 	uint8_t type;
 
-	void process();
+	virtual void process();
 
 private:
 

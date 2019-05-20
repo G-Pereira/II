@@ -8,6 +8,7 @@ public:
 	void takeIn(Unit unit);
 	bool checkAvailability();
 
+  virtual void process();
 private:
 	
 };

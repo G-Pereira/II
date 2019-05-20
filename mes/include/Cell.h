@@ -13,6 +13,7 @@ public:
 	void takeIn(Unit* unit);
 	bool checkAvalability();
 
+  virtual void process();
 private:
 
 };
