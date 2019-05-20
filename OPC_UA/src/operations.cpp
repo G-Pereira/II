@@ -12,19 +12,35 @@ queue <uint8_t> outUnit;
 
 bool Z[6] = { true, true, true, true, true, true };
 
-/*
-void print_queue(void){
+void print(void){
 
-	for (uint8_t i = 0; i < 2; i++) {
-		while (!machineOpQueue[0][i].empty())
-		{
-			cout << machineOpQueue[0][i].front() << " ";
-			machineOpQueue[0][i].pop();
-		}
-		cout << "\n";
-	}
+	//int Rot = rotatorQueue[0].size();
+
+	int MAop = machineOpQueue[0][A].size();
+	int MBop = machineOpQueue[0][B].size();
+
+	int MB1 = machineOpSelectorQueue[0][B-1].size();
+	int MB2 = machineOpSelectorQueue[0][B].size();
+
+	//cout << "MAop: " << MAop << "\n";
+	//cout << "\tMBop: " << MBop << "\n";
+	cout << "MB1: " << MB1 << "\n";
+	cout << "\tMB2: " << MB2 << "\n";
+
+	//int TA = toolMachine[0][A].size();
+	//int TB = toolMachine[0][B].size();
+
+	//int TB1 = toolSelectorQueue[0][B-1].size();
+	//int TB2 = toolSelectorQueue[0][B].size();
+
+	//int tA = toolTime[0][A].size();
+	//int tB = toolTime[0][A].size();
+
+	//int tB1 = timeSelectorQueue[0][B-1].size();
+	//int tB2 = timeSelectorQueue[0][B].size();
+
 }
-*/
+
 
 // Deteta o Rising Edge de uma entrada
 bool RE(bool BT, uint8_t n)
@@ -52,7 +68,10 @@ void go2cell(uint8_t cell) {
 
 // Indica o roller para o qual a próxima peça deve
 // ser empurada
-void pusher(uint8_t roller) {
+void pusher(uint8_t roller, uint8_t unit) {
+
+	outUnit.push(unit);
+
 	go2cell(0);
 
 	if ((roller >= 1) && (roller <= 3)) {
@@ -222,37 +241,50 @@ void singleOperation(uint8_t cell, uint8_t bUnit, uint8_t fUnit) {
 // Atribui uma máquina à peça quando há 2 máquinas iguais
 void machineSelector(UA_Client* client) {
 
+	// Select Machine B Cell 1
 	if (RE(OPCUA_readBool(client, "C1T4_sf"), 5)) {
+		//cout << "RE\t";
 		if (machineOpQueue[0][B].front()) {
-
+			//cout << "OP\t";
 			int availability = OPCUA_readInt(client, "C1_av");
 
-			if ((availability & ~0xFFF7) && (availability & ~0xFFF3)) { // 1000 & 0100 - 1st and 2nd Free
+			if ((availability & ~0xFFF7) && (availability & ~0xFFFB)) { // 1000 & 0100 - 1st and 2nd Free
 				machineOpSelectorQueue[0][B-1].push(false);
 				machineOpSelectorQueue[0][B].push(true);
 				toolSelectorQueue[0][B].push(toolMachine[0][B].front());
-				toolMachine[0][B].pop();
 				timeSelectorQueue[0][B].push(toolTime[0][B].front());
+				machineOpQueue[0][B].pop();
+				toolMachine[0][B].pop();
 				toolTime[0][B].pop();
-				cout << "C1T5_2OP_pop\n";
+				//cout << "GO 2\n";
 			}
-			else if (!(availability & ~0xFFF7) && (availability & ~0xFFF3)) { // 1000 & 0100 - 1st Free
+			else if (!(availability & ~0xFFF7) && (availability & ~0xFFFB)) { // 1000 & 0100 - 1st Free
 				machineOpSelectorQueue[0][B-1].push(true);
 				machineOpSelectorQueue[0][B].push(false);
 				toolSelectorQueue[0][B-1].push(toolMachine[0][B].front());
-				toolMachine[0][B].pop();
 				timeSelectorQueue[0][B-1].push(toolTime[0][B].front());
+				machineOpQueue[0][B].pop();
+				toolMachine[0][B].pop();
 				toolTime[0][B].pop();
-				cout << "C1T5_1OP_pop\n";
+				//cout << "GO 1\n";
+			}
+			else {
+				machineOpSelectorQueue[0][B-1].push(false);
+				machineOpSelectorQueue[0][B].push(true);
+				toolSelectorQueue[0][B].push(toolMachine[0][B].front());
+				timeSelectorQueue[0][B].push(toolTime[0][B].front());
+				machineOpQueue[0][B].pop();
+				toolMachine[0][B].pop();
+				toolTime[0][B].pop();
+				//cout << "ELSE\n";
 			}
 		}
 		else {
 			machineOpSelectorQueue[0][B-1].push(false);
 			machineOpSelectorQueue[0][B].push(false);
-			cout << "C1T5_NOP_pop\n";
+			machineOpQueue[0][B].pop();
+			//cout << "NO OP\n";
 		}
-
-		machineOpQueue[0][B].pop();
 	}
 
 }
@@ -260,9 +292,12 @@ void machineSelector(UA_Client* client) {
 // Atualiza a fila de ações assim que uma peça é "atuada"
 void updateQueue(UA_Client* client) {
 
-	if (RE(OPCUA_readBool(client, "AT1_done"), 0)) outUnit.pop();
+	// Update queues of cell 1
+	if (RE(OPCUA_readBool(client, "AT1_done"), 0)) 
+		outUnit.pop();
 
-	if (RE(OPCUA_readBool(client, "C1T2_done"),1)) rotatorQueue[0].pop();
+	if (RE(OPCUA_readBool(client, "C1T2_done"),1)) 
+		rotatorQueue[0].pop();
 
 	if (RE(OPCUA_readBool(client, "C1T4_done"),2)) {
 		if (machineOpQueue[0][A].front()) {
@@ -278,7 +313,6 @@ void updateQueue(UA_Client* client) {
 			timeSelectorQueue[0][B-1].pop();
 		}
 		machineOpSelectorQueue[0][B-1].pop();
-		cout << "C1T5_pop\n";
 	}
 
 	if (RE(OPCUA_readBool(client, "C1T6_done"), 4)) {
@@ -287,7 +321,6 @@ void updateQueue(UA_Client* client) {
 			timeSelectorQueue[0][B].pop();
 		}
 		machineOpSelectorQueue[0][B].pop();
-		cout << "C1T6_pop\n";
 	}
 }
 
@@ -317,7 +350,8 @@ void updateAction(UA_Client* client) {
 
 	if (machineOpSelectorQueue[0][B-1].size())
 		OPCUA_writeBool(client, "C1T5_op", machineOpSelectorQueue[0][B-1].front());
-	else OPCUA_writeBool(client, "C1T5_op", false);
+	else 
+		OPCUA_writeBool(client, "C1T5_op", false);
 
 	if (toolSelectorQueue[0][B-1].size())
 		OPCUA_writeInt(client, "C1T5_dt", toolSelectorQueue[0][B-1].front());
@@ -327,7 +361,8 @@ void updateAction(UA_Client* client) {
 
 	if (machineOpSelectorQueue[0][B].size())
 		OPCUA_writeBool(client, "C1T6_op", machineOpSelectorQueue[0][B].front());
-	else OPCUA_writeBool(client, "C1T6_op", false);
+	else 
+		OPCUA_writeBool(client, "C1T6_op", false);
 
 	if (toolSelectorQueue[0][B].size())
 		OPCUA_writeInt(client, "C1T6_dt", toolSelectorQueue[0][B].front());
