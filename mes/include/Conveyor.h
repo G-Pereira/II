@@ -5,6 +5,7 @@
 
 class Conveyor{
 public:
+  queue <bool> tasks;
 	void takeIn(Unit unit);
 	bool checkAvailability();
 
