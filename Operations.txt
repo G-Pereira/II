@@ -1,0 +1,38 @@
+Sigle Operation:
+
+ALL:		Tool	Time
+1 -> A -> 2	1	10
+1 -> A -> 4	2	5
+1 -> A -> 7	3	20
+5 -> A -> 6	2	3
+9 -> A -> 5	3	8
+
+1/3:		Tool	Time
+2 -> B -> 3	1	20
+4 -> B -> 5	2	20
+
+2/4:		Tool	Time
+2 -> C -> 5	1	5
+7 -> C -> 8	2	8
+8 -> C -> 9	3	8
+
+
+Multiple Operations (direct):
+
+ALL:
+9 -> A -> 5 -> A -> 6
+
+1/3:
+1 -> A -> 2 -> B -> 3
+1 -> A -> 4 -> B -> 5
+4 -> B -> 5 -> A -> 6
+
+2/4:
+1 -> A -> 2 -> C -> 5
+1 -> A -> 7 -> C -> 8
+7 -> C -> 8 -> C -> 9
+2 -> C -> 5 -> A -> 6
+8 -> C -> 9 -> A -> 5
+
+Multiple Operations (inverted):
+...
