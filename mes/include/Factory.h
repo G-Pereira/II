@@ -3,11 +3,12 @@
 
 #include <vector>
 #include <iostream>
+#include <string>
 
 class Factory {
 public:
     static Factory* getInstance();
-    uint8_t recvOrders(std::ifstream file);
+    uint8_t recvOrders();
     void pollOrders();
 
 private:
