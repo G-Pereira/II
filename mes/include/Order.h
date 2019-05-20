@@ -18,4 +18,20 @@ private:
 
 };
 
+class ProcessingOrder : Order {
+public:
+	uint8_t quantity;
+	uint8_t finalType;
+
+  void process();
+};
+
+class UnloadingOrder : Order {
+  public:
+      uint8_t quantity;
+      uint8_t destinationPusher;
+
+      void process();
+};
+
 #endif //II_ORDER_H

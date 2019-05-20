@@ -18,4 +18,28 @@ private:
 
 };
 
+class LoadingCell : Cell {
+public:
+	void process();
+
+private:
+	
+};
+
+class ProdutionCell : Cell {
+public:
+	void process(Unit uint);
+
+private:
+	
+};
+
+class TransportationCell : Cell {
+public:
+	void process();
+
+private:
+	
+};
+
 #endif // II_CELL_H
