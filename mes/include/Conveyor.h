@@ -1,50 +1,60 @@
 #ifndef II_CONVEYOR_H
 #define II_CONVEYOR_H
+
+#include <iostream>
 #include <queue>
+#include <vector>
+#include "opcua.h"
+//#include "Unit.h"
+#include "random.h"
+using namespace std;
 
-#include "Unit.h"
+#define A 0
+#define B 1
+#define C 1
 
-class Conveyor{
+class Conveyor {
 public:
-  std::queue <bool> tasks;
-	void takeIn(Unit unit);
-	bool checkAvailability();
-
-  virtual void process();
-private:
-	
+	//void takeIn(Unit unit);
+	virtual void process();
 };
 
 class MachineConveyor : Conveyor {
 public:
-	void process(Unit unit);
+	uint8_t type;
+	queue <bool> machineOpQueue;
+	queue <uint8_t> toolMachine;
+	queue <uint8_t> toolTime;
 
-private:
+	MachineConveyor(uint8_t init);
 
+	void process(uint8_t bUnit, uint8_t fUnit);
 };
 
 class PusherConveyor : Conveyor {
 public:
-	void process();
+	uint8_t roller;
+	queue <bool> pusherQueue;
 
-private:
+	PusherConveyor(uint8_t init);
 
+	void process(uint8_t objRoller);
 };
-
+/*
 class WarehouseConveyor : Conveyor {
 public:
 	void process();
-
-private:
-
-};
+};*/
 
 class RotatingConveyor : Conveyor {
 public:
-	void process();
+	uint8_t cellSelector;
+	queue <bool> rotatorQueue;
+	
+	RotatingConveyor(uint8_t init);
 
-private:
-
+	void process(uint8_t objCell);
 };
 
 #endif // II_CONVEYOR_H
+
