@@ -14,7 +14,7 @@ public:
 
 	Order(uint8_t ordNum, uint8_t unitType);
 	//virtual void process();
-	virtual void print();
+	virtual void print()=0;
 
 private:
 
