@@ -1,11 +1,12 @@
 #ifndef II_CONVEYOR_H
 #define II_CONVEYOR_H
+#include <queue>
 
 #include "Unit.h"
 
 class Conveyor{
 public:
-  queue <bool> tasks;
+  std::queue <bool> tasks;
 	void takeIn(Unit unit);
 	bool checkAvailability();
 
