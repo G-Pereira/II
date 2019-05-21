@@ -10,14 +10,18 @@
 
 class Factory {
 public:
+	Factory();
     uint8_t recvOrders();
     void pollOrders();
 
-private:
 	std::vector<uint8_t> numUnits;
 	std::vector<Order*> orders;
 	std::vector<Cell*> cells;
 	std::vector<Unit*> units;
+
+private:
+	int8_t recvOrdersFile();
+	int8_t createXMLOrders();
 };
 
 #endif //II_FACTORY_H

@@ -1,6 +1,8 @@
 #include <iostream>
 #include <queue>
 #include <vector>
+#include "Factory.h"
+#include "Order.h"
 
 using namespace std;
 
@@ -197,6 +199,13 @@ int main(){
     cout << pusherQueue[1].front() << "\n";
     cout << pusherQueue[2].front() << "\n\n";
     */
+	Factory *fac = new Factory();
+ 
+	fac->recvOrders();
+
+	for(Order *ord : fac->orders) {
+   		//ord->print();
+	}
 
     singleOperation(4,2,5);
 
