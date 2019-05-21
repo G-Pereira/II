@@ -15,9 +15,6 @@ public:
 	Order(uint8_t ordNum, uint8_t unitType);
 	//virtual void process();
 	virtual void print();
-
-private:
-
 };
 
 class ProcessingOrder : public Order {
@@ -31,7 +28,7 @@ public:
 };
 
 class UnloadingOrder : public Order {
-  public:
+public:
     uint8_t destinationPusher;
     uint8_t quantity;
 

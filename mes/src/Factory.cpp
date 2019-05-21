@@ -1,6 +1,7 @@
 #include "Factory.h"
 #include "Order.h"
 #include "tinyxml2.h"
+#include <iostream>
 
 Factory::Factory(){
 
@@ -12,20 +13,20 @@ int8_t Factory::recvOrdersFile() {
 
 int8_t Factory::createXMLOrders() {
 	tinyxml2::XMLDocument ordersFile;
-	tinyxml2::XMLNode *xmlRoot;
-	tinyxml2::XMLElement *xmlOrder, *xmlRequestStores, *xmlTransform, *xmlUnload;
+	tinyxml2::XMLElement *xmlRoot, *xmlOrder, *xmlRequestStores, *xmlTransform, *xmlUnload;
 	Order *ord;
 	int ordNum, quantity, unitType, finalType, destPusher;
 	const char *temp = nullptr;
 
-	ordersFile.LoadFile("orders.xml");			// TODO: check file name and return value
+	ordersFile.LoadFile("./orders.xml");			// TODO: check file name and return value
 	//remove("orders.xml");
 
-	xmlRoot = ordersFile.FirstChild(); 
+	xmlRoot = ordersFile.FirstChildElement("ORDERS"); 
 	if(xmlRoot == nullptr) return -1;
 
 	xmlOrder = xmlRoot->FirstChildElement("Order");
 	while(xmlOrder != nullptr) {
+
 		xmlOrder->QueryIntAttribute("Number", &ordNum);
 
 		xmlTransform = xmlOrder->FirstChildElement("Transform");
@@ -39,7 +40,7 @@ int8_t Factory::createXMLOrders() {
 
 			xmlTransform->QueryIntAttribute("Quantity", &quantity);
 
-			ord = new ProcessingOrder((uint8_t)ordNum, (uint8_t)quantity, (uint8_t)unitType, (uint8_t)finalType);
+			ord = new ProcessingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)finalType, (uint8_t)quantity);
 		}
 
 		xmlUnload = xmlOrder->FirstChildElement("Unload");
@@ -56,7 +57,7 @@ int8_t Factory::createXMLOrders() {
 
 			xmlUnload->QueryIntAttribute("Quantity", &quantity);
 
-			ord = new UnloadingOrder((uint8_t)ordNum, (uint8_t)quantity, (uint8_t)unitType, (uint8_t)destPusher);
+			ord = new UnloadingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)destPusher, (uint8_t)quantity);
 		}
 
 		orders.push_back(ord);
