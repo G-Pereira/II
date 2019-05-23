@@ -1,27 +1,24 @@
-#ifndef II_FACTORY_H
-#define II_FACTORY_H
-
 #include <iostream>
+#include <queue>
 #include <vector>
-
-#include "Order.h"
-#include "Unit.h"
 #include "Cell.h"
+#include "opcua.h"
+using namespace std;
 
 class Factory {
 public:
-	Factory();
-    uint8_t recvOrders();
-    void pollOrders();
+	queue <int> unit;
 
-	std::vector<uint8_t> numUnits;
-	std::vector<Order*> orders;
-	std::vector<Cell*> cells;
-	std::vector<Unit*> units;
+	ProductionCell cell1;
+	ProductionCell cell2;
+	ProductionCell cell3;
+	ProductionCell cell4;
 
-private:
-	int8_t recvOrdersFile();
-	int8_t createXMLOrders();
+	LoadingCell endCell;
+
+	TransportationCell topCell;
+
+	Factory(uint8_t cellID[6]);
+
+	UA_Client* connectPLC();
 };
-
-#endif //II_FACTORY_H
