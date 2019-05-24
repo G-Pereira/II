@@ -10,3 +10,46 @@ UA_Client* Factory::connectPLC() {
 
 	return client;
 }
+
+void Factory::processUnit(uint8_t cell, uint8_t bUnit, uint8_t fUnit) {
+
+	topCell.process(cell);
+
+	switch (cell) {
+	case 1:
+		cell1.process(bUnit, fUnit);
+		break;
+	case 2:
+		cell2.process(bUnit, fUnit);
+		break;
+	case 3:
+		cell3.process(bUnit, fUnit);
+		break;
+	case 4:
+		cell4.process(bUnit, fUnit);
+		break;
+	}
+}
+
+void Factory::dispatchUnit(uint8_t objRoller) {
+
+	topCell.process(0);
+	endCell.process(objRoller);
+}
+
+void Factory::updateCycle() {
+
+	cell1.updateQueue(client);
+	cell2.updateQueue(client);
+	cell3.updateQueue(client);
+	cell4.updateQueue(client);
+	endCell.updateQueue(client);
+	topCell.updateQueue(client);
+
+	cell1.updateAction(client);
+	cell2.updateAction(client);
+	cell3.updateAction(client);
+	cell4.updateAction(client);
+	endCell.updateAction(client);
+	topCell.updateAction(client);
+}

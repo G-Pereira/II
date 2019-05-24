@@ -15,12 +15,17 @@ public:
 	ProductionCell cell4;
 
 	LoadingCell endCell;
-
 	TransportationCell topCell;
 
 	Factory(uint8_t cellID[6]);
 
 	UA_Client* connectPLC();
+
+	void processUnit(uint8_t cell, uint8_t bUnit, uint8_t fUnit);
+
+	void dispatchUnit(uint8_t objRoller);
+
+	void updateCycle();
 };
 
 #endif
