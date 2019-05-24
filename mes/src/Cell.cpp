@@ -7,6 +7,16 @@ void Cell::process()
 	return;
 }
 
+void Cell::updateQueue()
+{
+	return;
+}
+
+void Cell::updateAction()
+{
+	return;
+}
+
 ProductionCell::ProductionCell(uint8_t init) : Cell(init) {}
 
 void ProductionCell::singleOperation(uint8_t bUnit, uint8_t fUnit) {
@@ -283,82 +293,292 @@ void ProductionCell::process(uint8_t bUnit, uint8_t fUnit) {
 		}
 }
 
-void ProductionCell::machineSelector(int availability) {
+void ProductionCell::machineSelector(UA_Client* client) {
 
 	// Select Machine B in Cell 1 and 3 
 	if ((type == 1) || (type == 3)) {
-		if (machineOpQueueBC.front()) {
-			if ((availability & ~0xFFF7) && (availability & ~0xFFFB)) { // 1000 & 0100 - 1st and 2nd Free
-				machineOpQueueAB1.push(false);
-				machineOpQueueAB2.push(true);
-				toolMachineQueueAB2.push(toolMachineQueueBC.front());
-				toolTimeQueueAB2.push(toolTimeQueueBC.front());
-				machineOpQueueBC.pop();
-				toolMachineQueueBC.pop();
-				toolTimeQueueBC.pop();
+
+		char sf[20], av[20];
+		sprintf_s(sf, 10, "C%dT4_sf", type);
+		sprintf_s(av, 10, "C%d_av", type);
+
+		if (RE(OPCUA_readBool(client, sf), type)) { // RE 1 and 3
+			if (machineOpQueueBC.front()) {
+				
+				int availability = OPCUA_readInt(client, av);
+
+				if ((availability & ~0xFFF7) && (availability & ~0xFFFB)) { // 1000 & 0100 - 1st and 2nd Free
+					machineOpQueueAB1.push(false);
+					machineOpQueueAB2.push(true);
+					toolMachineQueueAB2.push(toolMachineQueueBC.front());
+					toolTimeQueueAB2.push(toolTimeQueueBC.front());
+					machineOpQueueBC.pop();
+					toolMachineQueueBC.pop();
+					toolTimeQueueBC.pop();
+				}
+				else if (!(availability & ~0xFFF7) && (availability & ~0xFFFB)) { // !1000 & 0100 - 1st Free
+					machineOpQueueAB1.push(true);
+					machineOpQueueAB2.push(false);
+					toolMachineQueueAB1.push(toolMachineQueueBC.front());
+					toolTimeQueueAB1.push(toolTimeQueueBC.front());
+					machineOpQueueBC.pop();
+					toolMachineQueueBC.pop();
+					toolTimeQueueBC.pop();
+				}
+				else {
+					machineOpQueueAB1.push(false);
+					machineOpQueueAB2.push(true);
+					toolMachineQueueAB2.push(toolMachineQueueBC.front());
+					toolTimeQueueAB2.push(toolTimeQueueBC.front());
+					machineOpQueueBC.pop();
+					toolMachineQueueBC.pop();
+					toolTimeQueueBC.pop(); 
+				}
 			}
-			else if (!(availability & ~0xFFF7) && (availability & ~0xFFFB)) { // !1000 & 0100 - 1st Free
-				machineOpQueueAB1.push(true);
+			else {
+				machineOpQueueAB1.push(false);
 				machineOpQueueAB2.push(false);
-				toolMachineQueueAB1.push(toolMachineQueueBC.front());
-				toolTimeQueueAB1.push(toolTimeQueueBC.front());
-				machineOpQueueBC.pop();
-				toolMachineQueueBC.pop();
-				toolTimeQueueBC.pop();
+				machineOpQueueBC.pop(); 
 			}
-			else {	//utilizar está na frente da queue da última fila 
-				machineOpQueueAB1.push(false);
-				machineOpQueueAB2.push(true);
-				toolMachineQueueAB2.push(toolMachineQueueBC.front());
-				toolTimeQueueAB2.push(toolTimeQueueBC.front());
-				machineOpQueueBC.pop();
-				toolMachineQueueBC.pop();
-				toolTimeQueueBC.pop();
-			}
-		}
-		else {
-			machineOpQueueAB1.push(false);
-			machineOpQueueAB2.push(false);
-			machineOpQueueBC.pop();
 		}
 	}
 
 	// Select Machine A in Cell 2 and 4 
 	else if ((type == 2) || (type == 4)) {
-		if (machineOpQueueA.front()) {
-			if (((availability & ~0xFFFB) && (availability & ~0xFFFD)) || wait) { // 0100 & 0010 - 1st and 2nd Free
-				machineOpQueueAB1.push(false);
-				machineOpQueueAB2.push(true);
-				toolMachineQueueAB2.push(toolMachineQueueA.front());
-				toolTimeQueueAB2.push(toolTimeQueueA.front());
-				machineOpQueueA.pop();
-				toolMachineQueueA.pop();
-				toolTimeQueueA.pop();
-			}
-			else if (!(availability & ~0xFFFB) && (availability & ~0xFFFD)) { // !0100 & 0010 - 1st Free
-				machineOpQueueAB1.push(true);
-				machineOpQueueAB2.push(false);
-				toolMachineQueueAB1.push(toolMachineQueueA.front());
-				toolTimeQueueAB1.push(toolTimeQueueA.front());
-				machineOpQueueA.pop();
-				toolMachineQueueA.pop();
-				toolTimeQueueA.pop();
+
+		char sf[20], av[20];
+		sprintf_s(sf, 10, "C%dT3_sf", type);
+		sprintf_s(av, 10, "C%d_av", type);
+
+		if (RE(OPCUA_readBool(client, sf), type)) { // RE 2 and 4
+			if (machineOpQueueA.front()) { 
+				int availability = OPCUA_readInt(client, av);
+
+				if (((availability & ~0xFFFB) && (availability & ~0xFFFD)) || wait) { // 0100 & 0010 - 1st and 2nd Free
+					machineOpQueueAB1.push(false);
+					machineOpQueueAB2.push(true);
+					toolMachineQueueAB2.push(toolMachineQueueA.front());
+					toolTimeQueueAB2.push(toolTimeQueueA.front());
+					machineOpQueueA.pop();
+					toolMachineQueueA.pop();
+					toolTimeQueueA.pop();
+				}
+				else if (!(availability & ~0xFFFB) && (availability & ~0xFFFD)) { // !0100 & 0010 - 1st Free
+					machineOpQueueAB1.push(true);
+					machineOpQueueAB2.push(false);
+					toolMachineQueueAB1.push(toolMachineQueueA.front());
+					toolTimeQueueAB1.push(toolTimeQueueA.front());
+					machineOpQueueAB1.pop();
+					toolMachineQueueA.pop();
+					toolTimeQueueA.pop();
+				}
+				else {
+					machineOpQueueAB1.push(false);
+					machineOpQueueAB2.push(true);
+					toolMachineQueueAB2.push(toolMachineQueueA.front());
+					toolTimeQueueAB2.push(toolTimeQueueA.front());
+					machineOpQueueA.pop();
+					toolMachineQueueA.pop();
+					toolTimeQueueA.pop();
+				}
 			}
 			else {
 				machineOpQueueAB1.push(false);
-				machineOpQueueAB2.push(true);
-				toolMachineQueueAB2.push(toolMachineQueueA.front());
-				toolTimeQueueAB2.push(toolTimeQueueA.front());
+				machineOpQueueAB2.push(false);
 				machineOpQueueA.pop();
+			}
+		}
+	}
+}
+
+void ProductionCell::updateQueue(UA_Client* client) {
+	
+	if ((type == 1) || (type == 3)) {
+
+	char t4[20], t5[20], t6[20];
+	sprintf_s(t4, 10, "C%dT4_done", type);
+	sprintf_s(t5, 10, "C%dT5_done", type);
+	sprintf_s(t6, 10, "C%dT6_done", type);
+
+		if (RE(OPCUA_readBool(client, t4), 10 + type * 2)) { // RE 12 and 16
+			if (machineOpQueueA.front()) {
 				toolMachineQueueA.pop();
 				toolTimeQueueA.pop();
 			}
-		}
-		else {
-			machineOpQueueAB1.push(false);
-			machineOpQueueAB2.push(false);
+			waitMachine.pop();
 			machineOpQueueA.pop();
 		}
+
+		if (RE(OPCUA_readBool(client, t5), 11 + type * 2)) { // RE 13 and 17
+			if (machineOpQueueAB1.front()) {
+				toolMachineQueueAB1.pop();
+				toolTimeQueueAB1.pop();
+			}
+			machineOpQueueAB1.pop();
+		}
+
+		if (RE(OPCUA_readBool(client, t6), 12 + type * 2)) { // RE 14 and 18
+			if (machineOpQueueAB2.front()) {
+				toolMachineQueueAB2.pop();
+				toolTimeQueueAB2.pop();
+			}
+			machineOpQueueAB2.pop();
+		}
+	}
+
+	else if ((type == 2) || (type == 4)) {
+
+	char t4[20], t5[20], t6[20];
+	sprintf_s(t4, 10, "C%dT4_done", type);
+	sprintf_s(t5, 10, "C%dT5_done", type);
+	sprintf_s(t6, 10, "C%dT6_done", type);
+
+		if (RE(OPCUA_readBool(client, t4), 20 + type * 2)) { // RE 24 and 28
+			if (machineOpQueueAB1.front()) {
+				toolMachineQueueAB1.pop();
+				toolTimeQueueAB1.pop();
+			}
+			machineOpQueueAB1.pop();
+		}
+
+		if (RE(OPCUA_readBool(client, t5), 21 + type * 2)) { // RE 25 and 29
+			if (machineOpQueueAB2.front()) {
+				toolMachineQueueAB2.pop();
+				toolTimeQueueAB2.pop();
+			}
+			machineOpQueueAB2.pop();
+
+			if (waitMachine.front())
+				wait--;
+
+			waitMachine.pop();
+		}
+
+		if (RE(OPCUA_readBool(client, t6), 22 + type * 2)) { // RE 26 and 30
+			if (machineOpQueueBC.front()) {
+				toolMachineQueueBC.pop();
+				toolTimeQueueBC.pop();
+			}
+			machineOpQueueBC.pop();
+		}
+	}
+}
+
+void ProductionCell::updateAction(UA_Client* client) {
+
+	machineSelector(client);
+
+	if ((type == 1) || (type == 3)) {
+
+		char t4_op[20], t4_dt[20], t4_tt[20], t4_w[20];
+		char t5_op[20], t5_dt[20], t5_tt[20];
+		char t6_op[20], t6_dt[20], t6_tt[20];
+
+		sprintf_s(t4_op, 10, "C%dT4_op", type);
+		sprintf_s(t4_dt, 10, "C%dT4_dt", type);
+		sprintf_s(t4_tt, 10, "C%dT4_tt", type);
+		sprintf_s(t4_w, 10, "C%dT4_w", type);
+
+		sprintf_s(t5_op, 10, "C%dT5_op", type);
+		sprintf_s(t5_dt, 10, "C%dT5_dt", type);
+		sprintf_s(t5_tt, 10, "C%dT5_tt", type);
+
+		sprintf_s(t6_op, 10, "C%dT6_op", type);
+		sprintf_s(t6_dt, 10, "C%dT6_dt", type);
+		sprintf_s(t6_tt, 10, "C%dT6_tt", type);
+
+		if (machineOpQueueA.size())
+			OPCUA_writeBool(client, t4_op, machineOpQueueA.front());
+		else
+			OPCUA_writeBool(client, t4_op, false);
+
+		if (toolMachineQueueA.size())
+			OPCUA_writeInt(client, t4_dt, toolMachineQueueA.front());
+
+		if (toolTimeQueueA.size())
+			OPCUA_writeInt(client, t4_tt, toolTimeQueueA.front());
+
+		if (waitMachine.size())
+			OPCUA_writeBool(client, t4_w, waitMachine.front());
+
+		if (machineOpQueueAB1.size())
+			OPCUA_writeBool(client, t5_op, machineOpQueueAB1.front());
+		else
+			OPCUA_writeBool(client, t5_op, false);
+
+		if (toolMachineQueueAB1.size())
+			OPCUA_writeInt(client, t5_dt, toolMachineQueueAB1.front());
+
+		if (toolTimeQueueAB1.size())
+			OPCUA_writeInt(client, t5_tt, toolTimeQueueAB1.front());
+
+		if (machineOpQueueAB2.size())
+			OPCUA_writeBool(client, t6_op, machineOpQueueAB2.front());
+		else
+			OPCUA_writeBool(client, t6_op, false);
+
+		if (toolMachineQueueAB2.size())
+			OPCUA_writeInt(client, t6_dt, toolMachineQueueAB2.front());
+
+		if (toolTimeQueueAB2.size())
+			OPCUA_writeInt(client, t6_tt, toolTimeQueueAB2.front());
+	}
+
+	// Write in PLC for cell 2 and 4
+	else if ((type == 2) || (type == 4)) {
+
+		char t4_op[20], t4_dt[20], t4_tt[20];
+		char t5_op[20], t5_dt[20], t5_tt[20], t5_w[20];;
+		char t6_op[20], t6_dt[20], t6_tt[20];
+
+		sprintf_s(t4_op, 10, "C%dT4_op", type);
+		sprintf_s(t4_dt, 10, "C%dT4_dt", type);
+		sprintf_s(t4_tt, 10, "C%dT4_tt", type);
+
+		sprintf_s(t5_op, 10, "C%dT5_op", type);
+		sprintf_s(t5_dt, 10, "C%dT5_dt", type);
+		sprintf_s(t5_tt, 10, "C%dT5_tt", type);
+		sprintf_s(t5_w, 10, "C%dT5_w", type);
+
+		sprintf_s(t6_op, 10, "C%dT6_op", type);
+		sprintf_s(t6_dt, 10, "C%dT6_dt", type);
+		sprintf_s(t6_tt, 10, "C%dT6_tt", type);
+
+	if (machineOpQueueAB1.size())
+		OPCUA_writeBool(client, t4_op, machineOpQueueAB1.front());
+	else
+		OPCUA_writeBool(client, t4_op, false);
+
+	if (toolMachineQueueAB1.size())
+		OPCUA_writeInt(client, t4_dt, toolMachineQueueAB1.front());
+
+	if (toolTimeQueueAB1.size())
+		OPCUA_writeInt(client, t4_tt, toolTimeQueueAB1.front());
+
+	if (machineOpQueueAB2.size())
+		OPCUA_writeBool(client, t5_op, machineOpQueueAB2.front());
+	else
+		OPCUA_writeBool(client, t5_op, false);
+
+	if (toolMachineQueueAB2.size())
+		OPCUA_writeInt(client, t5_dt, toolMachineQueueAB2.front());
+
+	if (toolTimeQueueAB2.size())
+		OPCUA_writeInt(client, t5_tt, toolTimeQueueAB2.front());
+
+	if (waitMachine.size())
+		OPCUA_writeBool(client, t5_w, waitMachine.front());
+
+	if (machineOpQueueBC.size())
+		OPCUA_writeBool(client, t6_op, machineOpQueueBC.front());
+	else
+		OPCUA_writeBool(client, t6_op, false);
+
+	if (toolMachineQueueBC.size())
+		OPCUA_writeInt(client, t6_dt, toolMachineQueueBC.front());
+
+	if (toolTimeQueueBC.size())
+		OPCUA_writeInt(client, t6_tt, toolTimeQueueBC.front());
 	}
 }
 
@@ -393,6 +613,30 @@ void LoadingCell::process(uint8_t objRoller) {
 
 }
 
+void LoadingCell::updateQueue(UA_Client* client) {
+
+	if (RE(OPCUA_readBool(client, "C5T4_done"), 9)) // RE 9
+		pusherQueue1.pop();
+
+	if (RE(OPCUA_readBool(client, "C5T5_done"), 10)) // RE 10
+		pusherQueue2.pop();
+
+	if (RE(OPCUA_readBool(client, "C5T6_done"), 11)) // RE 11
+		pusherQueue3.pop();
+}
+
+void LoadingCell::updateAction(UA_Client* client) {
+	
+	if (pusherQueue1.size())
+		OPCUA_writeBool(client, "C5T4_ps", pusherQueue1.front());
+
+	if (pusherQueue2.size())
+		OPCUA_writeBool(client, "C5T5_ps", pusherQueue2.front());
+
+	if (pusherQueue3.size())
+		OPCUA_writeBool(client, "C5T6_ps", pusherQueue3.front());
+}
+
 TransportationCell::TransportationCell(uint8_t init) : Cell(init) {}
 
 void TransportationCell::process(uint8_t objCell) {
@@ -424,4 +668,34 @@ void TransportationCell::process(uint8_t objCell) {
 		break;
 	}
 
+}
+
+void TransportationCell::updateQueue(UA_Client* client) {
+
+		if (RE(OPCUA_readBool(client, "C1T2_done"), 5)) // RE 5
+			rotatorQueue1.pop();
+
+		if (RE(OPCUA_readBool(client, "C2T2_done"), 6)) // RE 6
+			rotatorQueue2.pop();
+
+		if (RE(OPCUA_readBool(client, "C3T2_done"), 7)) // RE 7
+			rotatorQueue3.pop();
+
+		if (RE(OPCUA_readBool(client, "C4T2_done"), 8)) // RE 8
+			rotatorQueue4.pop();
+}
+
+void TransportationCell::updateAction(UA_Client* client) {
+
+	if (rotatorQueue1.size())
+		OPCUA_writeBool(client, "C1T2_f", rotatorQueue1.front());
+
+	if (rotatorQueue2.size())
+		OPCUA_writeBool(client, "C2T2_f", rotatorQueue2.front());
+
+	if (rotatorQueue3.size())
+		OPCUA_writeBool(client, "C3T2_f", rotatorQueue3.front());
+
+	if (rotatorQueue4.size())
+		OPCUA_writeBool(client, "C4T2_f", rotatorQueue4.front());
 }

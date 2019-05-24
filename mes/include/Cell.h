@@ -4,15 +4,19 @@
 #include <iostream>
 #include <queue>
 #include <vector>
+#include "opcua.h"
+#include "random.h"
 using namespace std;
 
 class Cell {
 public:
 	uint8_t type;
-	//void takeIn(Unit unit);
+
 	Cell(uint8_t init);
 
 	virtual void process();
+	virtual void updateQueue();
+	virtual void updateAction();
 };
 
 class ProductionCell : Cell {
@@ -41,9 +45,13 @@ public:
 	
 	void multipleOperation(uint8_t bUnit, uint8_t fUnit);
 
-	void machineSelector(int availability);
+	void machineSelector(UA_Client* client);
 
 	void process(uint8_t bUnit, uint8_t fUnit);
+
+	void updateQueue(UA_Client* client);
+
+	void updateAction(UA_Client* client);
 };
 
 class LoadingCell : Cell {
@@ -55,6 +63,10 @@ public:
 	LoadingCell(uint8_t init);
 
 	void process(uint8_t objRoller);
+
+	void updateQueue(UA_Client* client);
+
+	void updateAction(UA_Client* client);
 };
 
 class TransportationCell : Cell {
@@ -67,6 +79,10 @@ public:
 	TransportationCell(uint8_t init);
 
 	void process(uint8_t objCell);
+
+	void updateQueue(UA_Client* client);
+
+	void updateAction(UA_Client* client);
 };
 
 /*
