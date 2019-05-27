@@ -13,10 +13,10 @@ using namespace std;
 #define B 1
 #define C 1
 
-//void print_queue(void);
+void print(void);
 
 // Indica o roller para o qual a próxima peça deve ser empurada
-void pusher(uint8_t roller);
+void pusher(uint8_t roller, uint8_t unit);
 
 // Dá todas as informações às máquinas (faz ou não operação,	|	Parametros de entrada:
 // tipo de ferramenta e tempo a atuar) para operações simples	|	celula, Unit inicial
