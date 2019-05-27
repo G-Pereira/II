@@ -7,13 +7,10 @@ using namespace std;
 class Factory {
 public:
 	UA_Client* client;
-	queue <int> unit;
+	queue <uint8_t> workUnit;
+	queue <uint8_t> followUnit;
 
-	ProductionCell cell1;
-	ProductionCell cell2;
-	ProductionCell cell3;
-	ProductionCell cell4;
-
+	vector <ProductionCell> prodCell;
 	LoadingCell endCell;
 	TransportationCell topCell;
 
@@ -23,7 +20,7 @@ public:
 
 	void processUnit(uint8_t cell, uint8_t bUnit, uint8_t fUnit);
 
-	void dispatchUnit(uint8_t objRoller);
+	void dispatchUnit(uint8_t sUnit, uint8_t objRoller);
 
 	void updateCycle();
 };

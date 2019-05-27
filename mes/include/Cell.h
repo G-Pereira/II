@@ -19,7 +19,7 @@ public:
 	virtual void updateAction();
 };
 
-class ProductionCell : Cell {
+class ProductionCell : public Cell {
 public:
 	queue <bool> machineOpQueueA;
 	queue <bool> machineOpQueueBC;
@@ -54,7 +54,7 @@ public:
 	void updateAction(UA_Client* client);
 };
 
-class LoadingCell : Cell {
+class LoadingCell : public Cell {
 public:
 	queue <bool> pusherQueue1;
 	queue <bool> pusherQueue2;
@@ -69,7 +69,7 @@ public:
 	void updateAction(UA_Client* client);
 };
 
-class TransportationCell : Cell {
+class TransportationCell : public Cell {
 public:
 	queue <bool> rotatorQueue1;
 	queue <bool> rotatorQueue2;
