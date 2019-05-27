@@ -368,7 +368,7 @@ void ProductionCell::machineSelector(UA_Client* client) {
 					machineOpQueueAB2.push(false);
 					toolMachineQueueAB1.push(toolMachineQueueA.front());
 					toolTimeQueueAB1.push(toolTimeQueueA.front());
-					machineOpQueueAB1.pop();
+					machineOpQueueA.pop();
 					toolMachineQueueA.pop();
 					toolTimeQueueA.pop();
 				}
@@ -528,7 +528,7 @@ void ProductionCell::updateAction(UA_Client* client) {
 	else if ((type == 2) || (type == 4)) {
 
 		char t4_op[20], t4_dt[20], t4_tt[20];
-		char t5_op[20], t5_dt[20], t5_tt[20], t5_w[20];;
+		char t5_op[20], t5_dt[20], t5_tt[20], t5_w[20];
 		char t6_op[20], t6_dt[20], t6_tt[20];
 
 		sprintf_s(t4_op, 10, "C%dT4_op", type);
@@ -616,13 +616,16 @@ void LoadingCell::process(uint8_t objRoller) {
 void LoadingCell::updateQueue(UA_Client* client) {
 
 	if (RE(OPCUA_readBool(client, "C5T4_done"), 9)) // RE 9
-		pusherQueue1.pop();
+		if(pusherQueue1.size())
+			pusherQueue1.pop();
 
 	if (RE(OPCUA_readBool(client, "C5T5_done"), 10)) // RE 10
-		pusherQueue2.pop();
+		if (pusherQueue2.size())
+			pusherQueue2.pop();
 
 	if (RE(OPCUA_readBool(client, "C5T6_done"), 11)) // RE 11
-		pusherQueue3.pop();
+		if (pusherQueue3.size())
+			pusherQueue3.pop();
 }
 
 void LoadingCell::updateAction(UA_Client* client) {
