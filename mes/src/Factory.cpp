@@ -1,81 +1,66 @@
 #include "Factory.h"
-#include "Order.h"
-#include "tinyxml2.h"
-#include <iostream>
 
-Factory::Factory(){
-
+Factory::Factory(uint8_t cellID[6]) : endCell(cellID[4]), topCell(cellID[5]), client(connectPLC()) {
+	for (int i = 0; i < 4; i++)
+		prodCell.push_back(ProductionCell(cellID[i]));
+		
+	
 }
 
-int8_t Factory::recvOrdersFile() {
-	return 0;
+UA_Client* Factory::connectPLC() {
+
+	UA_Client* client = OPCUA_connect();
+	OPCUA_writeInt(client, "outputUnit", 0);
+
+	return client;
 }
 
-int8_t Factory::createXMLOrders() {
-	tinyxml2::XMLDocument ordersFile;
-	tinyxml2::XMLElement *xmlRoot, *xmlOrder, *xmlRequestStores, *xmlTransform, *xmlUnload;
-	Order *ord;
-	int ordNum, quantity, unitType, finalType, destPusher;
-	const char *temp = nullptr;
+void Factory::processUnit(uint8_t cell, uint8_t bUnit, uint8_t fUnit) {
 
-	ordersFile.LoadFile("./orders.xml");			// TODO: check file name and return value
-	//remove("orders.xml");
+	topCell.process(cell);
 
-	xmlRoot = ordersFile.FirstChildElement("ORDERS"); 
-	if(xmlRoot == nullptr) return -1;
+	workUnit.push(bUnit);
+	followUnit.push(fUnit);
+	
+	prodCell[cell-1].process(bUnit, fUnit);
+}
 
-	xmlOrder = xmlRoot->FirstChildElement("Order");
-	while(xmlOrder != nullptr) {
+void Factory::dispatchUnit(uint8_t sUnit, uint8_t objRoller) {
 
-		xmlOrder->QueryIntAttribute("Number", &ordNum);
+	workUnit.push(sUnit);
+	followUnit.push(sUnit);
 
-		xmlTransform = xmlOrder->FirstChildElement("Transform");
-		if(xmlTransform != nullptr) {
-			temp = xmlTransform->Attribute("From");
-			unitType = atoi(temp+1);
-			temp = nullptr;
+	topCell.process(0);
+	endCell.process(objRoller);
+}
 
-			temp = xmlTransform->Attribute("To");
-			finalType = atoi(temp+1);
+void Factory::updateCycle() {
 
-			xmlTransform->QueryIntAttribute("Quantity", &quantity);
-
-			ord = new ProcessingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)finalType, (uint8_t)quantity);
-		}
-
-		xmlUnload = xmlOrder->FirstChildElement("Unload");
-		if(xmlUnload != nullptr) {
-			temp = xmlUnload->Attribute("Type");
-			temp++;
-			unitType = atoi(temp);
-			temp = nullptr;
-
-			temp = xmlUnload->Attribute("Destination");
-			temp++;
-			destPusher = atoi(temp);
-			temp = nullptr;
-
-			xmlUnload->QueryIntAttribute("Quantity", &quantity);
-
-			ord = new UnloadingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)destPusher, (uint8_t)quantity);
-		}
-
-		orders.push_back(ord);
-
-		xmlOrder = xmlOrder->NextSiblingElement("Order");
+	if (RE(OPCUA_readBool(client, "AT1_done"), 0)) { // RE 0
+		workUnit.pop();
+		followUnit.pop();
 	}
 
-	xmlRequestStores = xmlRoot->FirstChildElement("Request_Stores");
-	if(xmlRequestStores != nullptr)
-		return 0; //sendStorageReport();
+	if ((workUnit.size())) {
+		OPCUA_writeInt(client, "outputUnit", workUnit.front());
+		OPCUA_writeInt(client, "finalUnit", followUnit.front());
+	}
+	else {
+		OPCUA_writeInt(client, "outputUnit", 0);
+		OPCUA_writeInt(client, "finalUnit", 0);
+	}
 
-	return 0;
+	prodCell[0].updateQueue(client);
+	prodCell[1].updateQueue(client);
+	prodCell[2].updateQueue(client);
+	prodCell[3].updateQueue(client);
+	endCell.updateQueue(client);
+	topCell.updateQueue(client);
+
+	prodCell[0].updateAction(client);
+	prodCell[1].updateAction(client);
+	prodCell[2].updateAction(client);
+	prodCell[3].updateAction(client);
+	endCell.updateAction(client);
+	topCell.updateAction(client);
 }
-
-uint8_t Factory::recvOrders() {
-	recvOrdersFile();							// TODO: check return codes
-	createXMLOrders();
-
-	return 0;
-}
-
