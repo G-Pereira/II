@@ -1,17 +1,6 @@
 language: cpp
 dist: xenial
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gcc-8
-      - g++-8
-env:
-  - USEGCC8="CC=gcc-8 && CXX=g++-8"
-before_install:
-  - eval "${USEGCC8}"
 script:
   - cmake mes
   - cmake --build .
