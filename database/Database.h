@@ -13,14 +13,18 @@ using namespace std;
 
 class Database {
 public:
-  vector<vector<string>> Select(string table, string filter = "true");
-  void Insert(string table, string fields, string values);
-  void Update(string table, string values, string condition);
+  void initOrder(int orderID, int nUnits);
+  void startOrder(int orderID);
+  void endOrder(int orderID);
 
 private:
   string name = DB_NAME;
   string user = DB_USER;
   string password = DB_PASS;
+
+  vector<vector<string>> select(string table, string filter = "true");
+  void insert(string table, string fields, string values);
+  void update(string table, string values, string condition);
 };
 
 

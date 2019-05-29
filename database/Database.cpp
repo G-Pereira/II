@@ -1,6 +1,6 @@
 #include "Database.h"
 
-vector<vector<string>> Database::Select(string table, string filter) {
+vector<vector<string>> Database::select(string table, string filter) {
   string query = "SELECT * FROM ii." + table + " WHERE " + filter;
   connection C(
     "dbname = sinfa23 user = " + user + " password = " + password + " hostaddr = 192.168.50.131 port = 5432");
@@ -22,22 +22,34 @@ vector<vector<string>> Database::Select(string table, string filter) {
   return res;
 }
 
-void Database::Insert(string table, string fields, string values) {
+void Database::insert(string table, string fields, string values) {
   string query = "INSERT INTO ii." + table + " (" + fields + ") VALUES (" + values + ")";
   connection C(
-    "dbname = " + name + " user = " + user + " password = " + password + " hostaddr = 192.168.50.131 port = 5432");
+    "dbname = " + name + " user = " + user + " password = " + password + " hostaddr = 10.227.240.130 port = 5432");
   work W(C);
   W.exec(query);
   W.commit();
   C.disconnect();
 }
 
-void Database::Update(string table, string values, string condition){
+void Database::update(string table, string values, string condition){
   string query = "UPDATE ii." + table + " SET " + values + " WHERE " + condition;
   connection C(
-    "dbname = " + name + " user = " + user + " password = " + password + " hostaddr = 192.168.50.131 port = 5432");
+    "dbname = " + name + " user = " + user + " password = " + password + " hostaddr = 10.227.240.130 port = 5432");
   work W(C);
   W.exec(query);
   W.commit();
   C.disconnect();
+}
+
+void Database::initOrder(int orderID, int nUnits){
+  insert("order", "id, npend", to_string(orderID) + ", " + to_string(nUnits));
+}
+
+void Database::startOrder(int orderID){
+  update("order", "timestart=now(), state=1", "id="+to_string(orderID));
+}
+
+void Database::endOrder(int orderID){
+  update("order", "timeend=now(), state=2", "id="+to_string(orderID));
 }
