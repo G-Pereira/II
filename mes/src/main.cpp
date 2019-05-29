@@ -7,5 +7,17 @@ int main() {
 	Factory ourFactory(ID);
 	
 	ourFactory.recvOrders();
-	ourFactory.pollOrders();
+	for (int i = 0; i < ourFactory.pOrders.size(); i++)
+		ourFactory.pOrders[i]->print();
+	
+	for (int i = 0; i < ourFactory.uOrders.size(); i++)
+		ourFactory.uOrders[i]->print();
+
+
+	while (true)
+	{
+		ourFactory.pollOrders();
+		ourFactory.updateCycle();
+	}
+	
 }

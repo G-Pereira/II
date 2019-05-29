@@ -2,8 +2,6 @@
 
 Order::Order(uint8_t ordNum, uint8_t unitType) : id(ordNum), unitType(unitType) {}
 
-uint8_t Order::process() {}
-
 void Order::print() {
 	std::cout << "ID: " << (int)id << std::endl;
 }

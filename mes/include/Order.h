@@ -13,7 +13,6 @@ public:
 	time_t endTime;
 
 	Order(uint8_t ordNum, uint8_t unitType);
-	virtual uint8_t process();
 	virtual void print();
 };
 

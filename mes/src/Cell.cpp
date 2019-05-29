@@ -17,7 +17,7 @@ void Cell::updateAction()
 	return;
 }
 
-ProductionCell::ProductionCell(uint8_t init) : Cell(init) {}
+ProductionCell::ProductionCell(uint8_t init) : Cell(init), generalAvailability(0) {}
 
 void ProductionCell::singleOperation(uint8_t bUnit, uint8_t fUnit) {
 	

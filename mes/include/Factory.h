@@ -55,7 +55,7 @@ public:
 
     uint8_t recvOrders();
 
-	bool processPOrder(ProcessingOrder* ord, bool enableStacking);
+	bool processPOrder(ProcessingOrder* ord, uint8_t enableStacking);
 	bool processUOrder(UnloadingOrder* ord);
 
     void pollOrders();

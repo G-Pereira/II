@@ -3,12 +3,12 @@
 #include <iostream>
 #include <stdio.h> 
 #include <stdlib.h> 
-#include <unistd.h> 
+//#include <unistd.h> 
 #include <string.h> 
 #include <sys/types.h> 
-#include <sys/socket.h> 
-#include <arpa/inet.h> 
-#include <netinet/in.h> 
+//#include <sys/socket.h> 
+//#include <arpa/inet.h> 
+//#include <netinet/in.h> 
 
 Factory::Factory(uint8_t cellID[6]) : endCell(cellID[4]), topCell(cellID[5]), client(connectPLC()) {
 	for (int i = 0; i < 4; i++)
@@ -188,9 +188,9 @@ uint8_t Factory::recvOrders() {
 	return 0;
 }
 
-bool Factory::processPOrder(ProcessingOrder* ord, bool enableStacking) {		// TODO: don't send when there aren't enough units // TODO: check if it is a possible order
-	uint8_t possCell = possibleCells[ord->unitType][ord->finalType];
-	char topMach = topMachine[ord->unitType][ord->finalType];
+bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {		// TODO: don't send when there aren't enough units // TODO: check if it is a possible order
+	uint8_t possCell = possibleCells[ord->unitType-1][ord->finalType-1];
+	char topMach = topMachine[ord->unitType-1][ord->finalType-1];
 	uint8_t minAvailability = 9;
 	uint8_t minCell;
 
@@ -210,7 +210,7 @@ bool Factory::processPOrder(ProcessingOrder* ord, bool enableStacking) {		// TOD
 				minAvailability = prodCell[i].generalAvailability;
 			}
 			break;
-
+			          
 		case 'C':
 			if(prodCell[i].generalAvailability < 1+3*enableStacking && prodCell[i].generalAvailability < minAvailability) {
 				minCell = i;
@@ -237,7 +237,8 @@ bool Factory::processPOrder(ProcessingOrder* ord, bool enableStacking) {		// TOD
 			break;
 		}
 
-		processUnit(minCell, ord->unitType, ord->finalType);
+		processUnit(minCell+1, ord->unitType, ord->finalType);
+	
 
 		return true;
 	}
@@ -257,19 +258,23 @@ void Factory::pollOrders() {			//TODO: check if there are units in the warehouse
 		// First check if there is a unit that can be immediatly serviced
 		i = 0; j = 0;
 		for(bool orderType : ordersSequence) {			// TODO: check if the orders are being tested in the right order
-			if(orderType)	// Processing Order
-				if(processPOrder(pOrders[i++], false)) return;
-			else			// Unloading Order
+			if(orderType) {	// Processing Order
+				if(processPOrder(pOrders[i++], 0)) return;
+			}
+			else {			// Unloading Order
 				if(processUOrder(uOrders[j++])) return;
+			}
 		}
 
 		// If there is no unit that can be serviced then check if there is enough space in the cells to keep the next unit 
 		i = 0; j = 0;
 		for(bool orderType : ordersSequence) {			// TODO: check if the orders are being tested in the right order
-			if(orderType)	// Processing Order
-				if(processPOrder(pOrders[i++], true)) return;
-			else			// Unloading Order
+			if(orderType) {	// Processing Order
+				if(processPOrder(pOrders[i++], 1)) return;
+			}
+			else {			// Unloading Order
 				if(processUOrder(uOrders[j++])) return;
+			}
 		}
 	}
 }
