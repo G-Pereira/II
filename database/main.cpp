@@ -3,5 +3,4 @@
 
 int main() {
     Database db;
-
 }
