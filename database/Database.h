@@ -16,6 +16,7 @@ class Database {
 public:
   vector<vector<string>> Select(string table, string filter = "true");
   void Insert(string table, string fields, string values);
+  void Update(string table, string values, string condition);
 
 private:
   string name = DB_NAME;

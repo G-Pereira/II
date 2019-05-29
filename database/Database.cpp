@@ -32,3 +32,13 @@ void Database::Insert(string table, string fields, string values) {
   W.commit();
   C.disconnect();
 }
+
+void Database::Update(string table, string values, string condition){
+  string query = "UPDATE ii." + table + " SET " + values + " WHERE " + condition;
+  connection C(
+    "dbname = " + name + " user = " + user + " password = " + password + " hostaddr = 192.168.50.131 port = 5432");
+  work W(C);
+  W.exec(query);
+  W.commit();
+  C.disconnect();
+}
