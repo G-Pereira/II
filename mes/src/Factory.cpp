@@ -1,6 +1,14 @@
 #include "Factory.h"
 #include "tinyxml2.h"
 #include <iostream>
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <unistd.h> 
+#include <string.h> 
+#include <sys/types.h> 
+#include <sys/socket.h> 
+#include <arpa/inet.h> 
+#include <netinet/in.h> 
 
 Factory::Factory(uint8_t cellID[6]) : endCell(cellID[4]), topCell(cellID[5]), client(connectPLC()) {
 	for (int i = 0; i < 4; i++)
@@ -66,7 +74,48 @@ void Factory::updateCycle() {
 }
 
 // Receives the XML file containing the orders from UDP
+#define PORT    54321 
+#define MAXLINE 1024 
 int8_t Factory::recvOrdersFile() {
+	/*
+	int sockfd; 
+    char buffer[MAXLINE]; 
+    char *hello = "Hello from server"; 
+    struct sockaddr_in servaddr, cliaddr; 
+      
+    // Creating socket file descriptor 
+    if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) { 
+        perror("socket creation failed"); 
+        exit(EXIT_FAILURE); 
+    } 
+      
+    memset(&servaddr, 127.0.0.1, sizeof(servaddr)); 
+    memset(&cliaddr, 127.0.0.1, sizeof(cliaddr)); 
+      
+    // Filling server information 
+    servaddr.sin_family    = AF_INET; // IPv4 
+    servaddr.sin_addr.s_addr = INADDR_ANY; 
+    servaddr.sin_port = htons(PORT); 
+      
+    // Bind the socket with the server address 
+    if ( bind(sockfd, (const struct sockaddr *)&servaddr,  
+            sizeof(servaddr)) < 0 ) 
+    { 
+        perror("bind failed"); 
+        exit(EXIT_FAILURE); 
+    } 
+      
+    int len, n; 
+    n = recvfrom(sockfd, (char *)buffer, MAXLINE,  
+                MSG_WAITALL, ( struct sockaddr *) &cliaddr, 
+                (unsigned int*) &len); 
+    buffer[n] = '\0'; 
+    printf("Client : %s\n", buffer); 
+    sendto(sockfd, (const char *)hello, strlen(hello),  
+        MSG_CONFIRM, (const struct sockaddr *) &cliaddr, 
+            len); 
+    printf("Hello message sent.\n");  
+	*/
 	return 0;	// TODO
 }
 
@@ -74,7 +123,6 @@ int8_t Factory::recvOrdersFile() {
 int8_t Factory::createXMLOrders() {
 	tinyxml2::XMLDocument ordersFile;
 	tinyxml2::XMLElement *xmlRoot, *xmlOrder, *xmlRequestStores, *xmlTransform, *xmlUnload;
-	Order *ord;
 	int ordNum, quantity, unitType, finalType, destPusher;
 	const char *temp = nullptr;
 
@@ -99,7 +147,8 @@ int8_t Factory::createXMLOrders() {
 
 			xmlTransform->QueryIntAttribute("Quantity", &quantity);
 
-			ord = new Order((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)finalType, (uint8_t)quantity);
+			pOrders.push_back(new ProcessingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)finalType, (uint8_t)quantity));
+			ordersSequence.push_back(true);
 		}
 
 		xmlUnload = xmlOrder->FirstChildElement("Unload");
@@ -116,17 +165,16 @@ int8_t Factory::createXMLOrders() {
 
 			xmlUnload->QueryIntAttribute("Quantity", &quantity);
 
-			ord = new UnloadingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)destPusher, (uint8_t)quantity);
+			uOrders.push_back(new UnloadingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)destPusher, (uint8_t)quantity));
+			ordersSequence.push_back(false);
 		}
-
-		orders.push_back(ord);
 
 		xmlOrder = xmlOrder->NextSiblingElement("Order");
 	}
 
 	xmlRequestStores = xmlRoot->FirstChildElement("Request_Stores");
 	if(xmlRequestStores != nullptr)
-		return 0; //sendStorageReport();
+		return 0; // TODO: sendStorageReport();
 
 	return 0;
 }
@@ -140,18 +188,89 @@ uint8_t Factory::recvOrders() {
 	return 0;
 }
 
+bool Factory::processPOrder(ProcessingOrder* ord, bool enableStacking) {		// TODO: don't send when there aren't enough units // TODO: check if it is a possible order
+	uint8_t possCell = possibleCells[ord->unitType][ord->finalType];
+	char topMach = topMachine[ord->unitType][ord->finalType];
+	uint8_t minAvailability = 9;
+	uint8_t minCell;
+
+	// Decide which cell the unit should be sent to
+	for(int i = possCell%2; i < 4; i += 1+possCell/2) {
+		switch(topMach) {
+		case 'A':
+			if(prodCell[i].generalAvailability < 3+enableStacking && prodCell[i].generalAvailability < minAvailability) {
+				minCell = i;
+				minAvailability = prodCell[i].generalAvailability;
+			}
+			break;
+
+		case 'B':
+			if(prodCell[i].generalAvailability < 2+2*enableStacking && prodCell[i].generalAvailability < minAvailability) {
+				minCell = i;
+				minAvailability = prodCell[i].generalAvailability;
+			}
+			break;
+
+		case 'C':
+			if(prodCell[i].generalAvailability < 1+3*enableStacking && prodCell[i].generalAvailability < minAvailability) {
+				minCell = i;
+				minAvailability = prodCell[i].generalAvailability;
+			}
+			break;
+		}
+	}
+	
+	// If it can send a unit then send it and update availabilities
+	if(minAvailability < 9) {
+		// TODO: change quantities and times on order class
+
+		switch(minCell) {		// TODO: lower availabilities when units arrive at the warehouse
+		case 0: case 2:
+			if(minAvailability > 1) prodCell[minCell].generalAvailability++;
+			else if(topMach == 'A') prodCell[minCell].generalAvailability = 4;
+			else prodCell[minCell].generalAvailability++;
+			break;
+
+		case 1: case 3:
+			if(minAvailability == 0 && topMach == 'A') prodCell[minCell].generalAvailability = 2;
+			else prodCell[minCell].generalAvailability++;
+			break;
+		}
+
+		processUnit(minCell, ord->unitType, ord->finalType);
+
+		return true;
+	}
+
+	return false;
+}
+
+bool Factory::processUOrder(UnloadingOrder* ord) {		// TODO: don't send when there aren't enough units // TODO: check if it is a possible order
+	return false;	// TODO
+}
+
 // Decides which Unit should be sent next according to the pending orders and cells availabilities
 void Factory::pollOrders() {			//TODO: check if there are units in the warehouse before sending / TODO: check if valid transformation
-	if(/*warehouse exit variable says it's free*/) {
+	int i, j;
+
+	if(!workUnit.size()) {
 		// First check if there is a unit that can be immediatly serviced
-		for(Order *ord : orders)					// TODO: check if the orders are being tested in the right order
-			if(order.process(this, false))
-				return;
+		i = 0; j = 0;
+		for(bool orderType : ordersSequence) {			// TODO: check if the orders are being tested in the right order
+			if(orderType)	// Processing Order
+				if(processPOrder(pOrders[i++], false)) return;
+			else			// Unloading Order
+				if(processUOrder(uOrders[j++])) return;
+		}
 
 		// If there is no unit that can be serviced then check if there is enough space in the cells to keep the next unit 
-		for(Order *ord : orders)					// TODO: check if the orders are being tested in the right order
-			if(order.process(this, true))
-				return;
+		i = 0; j = 0;
+		for(bool orderType : ordersSequence) {			// TODO: check if the orders are being tested in the right order
+			if(orderType)	// Processing Order
+				if(processPOrder(pOrders[i++], true)) return;
+			else			// Unloading Order
+				if(processUOrder(uOrders[j++])) return;
+		}
 	}
 }
 

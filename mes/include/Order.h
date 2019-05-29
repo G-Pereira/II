@@ -23,7 +23,6 @@ public:
 	uint8_t quantity;
 
 	ProcessingOrder(uint8_t ordNum, uint8_t unitType, uint8_t finalType, uint8_t quantity);
-	uint8_t process(Factory *fac, bool enableStacking);
 	void print();
 };
 
@@ -33,7 +32,6 @@ public:
     uint8_t quantity;
 
 	UnloadingOrder(uint8_t ordNum, uint8_t unitType, uint8_t destPusher, uint8_t quantity);
-    uint8_t process();
 	void print();
 };
 
