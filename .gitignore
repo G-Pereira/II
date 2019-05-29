@@ -101,3 +101,14 @@ mes/\.idea/
 
 # Visual Studio files
 mes/vs
+
+# Build Folders
+mes/build
+database/build
+
+# VS Code
+.vscode/
+
+# Sensitive Data (database credentials)
+database/configs.h
+mes/include/configs.h
