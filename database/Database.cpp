@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Database.h"
 
 vector<vector<string>> Database::Select(string table, string filter) {
