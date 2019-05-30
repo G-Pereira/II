@@ -39,6 +39,8 @@ public:
 	queue <uint8_t> toolTimeQueueAB1;
 	queue <uint8_t> toolTimeQueueAB2;
 
+	uint8_t generalAvailability;
+
 	ProductionCell(uint8_t init);
 
 	void singleOperation(uint8_t bUnit, uint8_t fUnit);
