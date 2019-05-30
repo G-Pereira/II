@@ -424,6 +424,13 @@ void ProductionCell::updateQueue(UA_Client* client) {
 			}
 			machineOpQueueAB2.pop();
 		}
+
+		if(generalAvailability >= 3 && toolMachineQueueA.size() == 0)
+			generalAvailability = 2;
+		if(generalAvailability == 2 && toolMachineQueueBC.size() <= 1 && toolMachineQueueAB1.size() == 0)
+			generalAvailability = 1;
+		if(generalAvailability == 1 && toolMachineQueueBC.size() + toolMachineQueueAB2.size() == 0)
+			generalAvailability = 0;
 	}
 
 	else if ((type == 2) || (type == 4)) {
@@ -461,6 +468,13 @@ void ProductionCell::updateQueue(UA_Client* client) {
 			}
 			machineOpQueueBC.pop();
 		}
+
+		if(generalAvailability >= 3 && toolMachineQueueA.size() <= 1 && toolMachineQueueAB1.size() == 0)
+			generalAvailability = 2;
+		if(generalAvailability == 2 && toolMachineQueueA.size() + toolMachineQueueAB2.size() == 0)
+			generalAvailability = 1;
+		if(generalAvailability == 1 && toolMachineQueueBC.size() == 0)
+			generalAvailability = 0;
 	}
 }
 

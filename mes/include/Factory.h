@@ -37,17 +37,17 @@ public:
 
 	// Matrix that defines on which type of cells certain transformations can be performed
 	// First index is the initial type and second index is final type (both with an offset of one due to vectors starting at zero)
-	// 0 means it can be performed on any cell; 2 means it can only be performed on cells 1 and 3; 3 means it can only be perfomed on cells 2 and 4
+	// 0 means it can be performed on any cell; 1 means it can only be performed on cells 1 and 3; 2 means it can only be perfomed on cells 2 and 4
 	vector<vector<uint8_t>> possibleCells = {		// TODO
-		{0, 0, 2, 0, 2, 0, 0, 3, 0},
-		{0, 0, 2, 0, 3, 3, 0, 0, 0},
+		{0, 0, 1, 0, 1, 0, 0, 2, 0},
+		{0, 0, 1, 0, 2, 2, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 2, 2, 0, 0, 0},
+		{0, 0, 0, 0, 1, 1, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 3, 3, 0},
-		{0, 0, 0, 0, 3, 0, 0, 0, 3},
-		{0, 0, 0, 0, 0, 2, 0, 0, 0}
+		{0, 0, 0, 0, 0, 0, 2, 2, 0},
+		{0, 0, 0, 0, 2, 0, 0, 0, 2},
+		{0, 0, 0, 0, 0, 1, 0, 0, 0}
 	};
 
 

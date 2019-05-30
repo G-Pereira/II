@@ -188,14 +188,14 @@ uint8_t Factory::recvOrders() {
 	return 0;
 }
 
-bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {		// TODO: don't send when there aren't enough units // TODO: check if it is a possible order
+bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {
 	uint8_t possCell = possibleCells[ord->unitType-1][ord->finalType-1];
 	char topMach = topMachine[ord->unitType-1][ord->finalType-1];
 	uint8_t minAvailability = 9;
 	uint8_t minCell;
 
 	// Decide which cell the unit should be sent to
-	for(int i = possCell%2; i < 4; i += 1+possCell/2) {
+	for(int i = 3-(possCell%2); i >= 0; i -= 1+((possCell+1)/2)) {
 		switch(topMach) {
 		case 'A':
 			if(prodCell[i].generalAvailability < 3+enableStacking && prodCell[i].generalAvailability < minAvailability) {
@@ -224,7 +224,7 @@ bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {		// 
 	if(minAvailability < 9) {
 		// TODO: change quantities and times on order class
 
-		switch(minCell) {		// TODO: lower availabilities when units arrive at the warehouse
+		switch(minCell) {
 		case 0: case 2:
 			if(minAvailability > 1) prodCell[minCell].generalAvailability++;
 			else if(topMach == 'A') prodCell[minCell].generalAvailability = 4;
@@ -238,7 +238,6 @@ bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {		// 
 		}
 
 		processUnit(minCell+1, ord->unitType, ord->finalType);
-	
 
 		return true;
 	}
@@ -246,29 +245,35 @@ bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {		// 
 	return false;
 }
 
-bool Factory::processUOrder(UnloadingOrder* ord) {		// TODO: don't send when there aren't enough units // TODO: check if it is a possible order
+bool Factory::processUOrder(UnloadingOrder* ord) {
 	return false;	// TODO
 }
 
 // Decides which Unit should be sent next according to the pending orders and cells availabilities
-void Factory::pollOrders() {			//TODO: check if there are units in the warehouse before sending / TODO: check if valid transformation
+void Factory::pollOrders() {			// TODO: check if valid transformation
 	int i, j;
 
 	if(!workUnit.size()) {
 		// First check if there is a unit that can be immediatly serviced
 		i = 0; j = 0;
-		for(bool orderType : ordersSequence) {			// TODO: check if the orders are being tested in the right order
+		for(bool orderType : ordersSequence) {
 			if(orderType) {	// Processing Order
-				if(processPOrder(pOrders[i++], 0)) return;
+				if(warehouse[pOrders[i]->unitType] > 0)
+					if(processPOrder(pOrders[i], 0)) return;
+
+				i++;
 			}
 			else {			// Unloading Order
-				if(processUOrder(uOrders[j++])) return;
+				if(warehouse[uOrders[j]->unitType] > 0)
+					if(processUOrder(uOrders[j])) return;
+				
+				j++;
 			}
 		}
 
 		// If there is no unit that can be serviced then check if there is enough space in the cells to keep the next unit 
 		i = 0; j = 0;
-		for(bool orderType : ordersSequence) {			// TODO: check if the orders are being tested in the right order
+		for(bool orderType : ordersSequence) {
 			if(orderType) {	// Processing Order
 				if(processPOrder(pOrders[i++], 1)) return;
 			}
