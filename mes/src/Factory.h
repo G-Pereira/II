@@ -11,6 +11,9 @@ public:
 	UA_Client* client;
 	queue <uint8_t> workUnit;
 	queue <uint8_t> followUnit;
+	queue <uint8_t> orderID;
+
+	vector <uint8_t> warehouse = { 27, 27, 27, 27, 27, 27, 27, 27, 27 };
 
 	vector<ProcessingOrder*> pOrders;
 	vector<UnloadingOrder*> uOrders;
@@ -62,9 +65,9 @@ public:
 
 	UA_Client* connectPLC();
 
-	void processUnit(uint8_t cell, uint8_t bUnit, uint8_t fUnit);
+	void processUnit(uint8_t cell, uint8_t bUnit, uint8_t fUnit, uint8_t orderNum);
 
-	void dispatchUnit(uint8_t sUnit, uint8_t objRoller);
+	void dispatchUnit(uint8_t sUnit, uint8_t objRoller, uint8_t orderNum);
 
 	void updateCycle();
 
