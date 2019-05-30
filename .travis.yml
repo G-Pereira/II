@@ -1,5 +1,8 @@
 language: cpp
 os: windows
 
-install: choco install mingw
-script: mingw32-make travis
+script:
+  - cd mes
+  - mkdir build && cd build
+  - cmake .. 
+  - cmake --build . 

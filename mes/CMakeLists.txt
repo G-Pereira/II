@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.5)
+#cmake_minimum_required(VERSION 3.5)
 project(II)
 
 # Set C++ version
-set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_CXX_STANDARD 17)
 
 #Turn on warnings
-set(CMAKE_CXX_FLAGS "-g -O0 -Wall -Wextra -Wall")
+#set(CMAKE_CXX_FLAGS "-g -O0 -Wall -Wextra -Wall")
 
 #Set your directories
 set(SOURCE_DIR src)
