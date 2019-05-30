@@ -18,6 +18,7 @@ public:
   void orderEnd(int orderID);
   void orderUnitProcess(int orderID);
   void orderUnitEnd(int orderID);
+  void machineOperation(int orderID);
 
 private:
   string name = DB_NAME;

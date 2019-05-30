@@ -90,3 +90,7 @@ void Database::orderUnitEnd(int orderID) {
   update("order", "nprocess = nprocess - 1, ndone = ndone + 1",
          "id=" + to_string(orderID));
 }
+
+void Database::machineOperation(int orderID) {
+
+}
