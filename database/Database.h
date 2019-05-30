@@ -1,8 +1,8 @@
 #ifndef II_DATABASE_H
 #define II_DATABASE_H
 
-#include <pqxx/pqxx>
 #include <iostream>
+#include <pqxx/pqxx>
 #include <string>
 #include <vector>
 
@@ -13,9 +13,11 @@ using namespace std;
 
 class Database {
 public:
-  void initOrder(int orderID, int nUnits);
-  void startOrder(int orderID);
-  void endOrder(int orderID);
+  void orderinit(int orderID, int nUnits);
+  void orderstart(int orderID);
+  void orderEnd(int orderID);
+  void orderUnitProcess(int orderID);
+  void orderUnitEnd(int orderID);
 
 private:
   string name = DB_NAME;
@@ -27,5 +29,4 @@ private:
   void update(string table, string values, string condition);
 };
 
-
-#endif //II_DATABASE_H
+#endif // II_DATABASE_H

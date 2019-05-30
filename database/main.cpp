@@ -1,8 +1,8 @@
-#include <iostream>
 #include "Database.h"
+#include <iostream>
 
 int main() {
-    Database db;
+  Database db;
 
-    return 0;
+  return 0;
 }

@@ -3,6 +3,7 @@ project(database)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(database main.cpp Database.cpp Database.h)
+set(CMAKE_CXX_FLAGS "-g -O0 -Wall -Wextra -Werror")
 
-target_link_libraries (database pqxx pq)
+add_executable(database main.cpp Database.cpp Database.h)
+target_link_libraries(database pqxx pq)

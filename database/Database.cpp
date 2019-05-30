@@ -2,54 +2,87 @@
 
 vector<vector<string>> Database::select(string table, string filter) {
   string query = "SELECT * FROM ii." + table + " WHERE " + filter;
-  connection C(
-    "dbname = sinfa23 user = " + user + " password = " + password + " hostaddr = 192.168.50.131 port = 5432");
   vector<vector<string>> res;
 
-  nontransaction N(C);
+  try {
+    connection C("dbname = sinfa23 user = " + user + " password = " + password +
+                 " hostaddr = 192.168.50.131 port = 5432");
 
-  result R(N.exec(query));
+    nontransaction N(C);
 
-  for (result::const_iterator c = R.begin(); c != R.end(); ++c) {
-    vector<string> row;
-    int i;
-    for (i = 0; i < c.size(); i++) {
-      row.push_back(c[i].as<string>());
+    result R(N.exec(query));
+
+    for (auto line : R) {
+      vector<string> row;
+      for (auto value : line) {
+        row.push_back(value.as<string>());
+      }
+      res.push_back(row);
     }
-    res.push_back(row);
+    C.disconnect();
+  } catch (const std::exception &e) {
+    cerr << e.what() << std::endl;
+    return vector<vector<string>>();
   }
-  C.disconnect();
   return res;
 }
 
 void Database::insert(string table, string fields, string values) {
-  string query = "INSERT INTO ii." + table + " (" + fields + ") VALUES (" + values + ")";
-  connection C(
-    "dbname = " + name + " user = " + user + " password = " + password + " hostaddr = 10.227.240.130 port = 5432");
-  work W(C);
-  W.exec(query);
-  W.commit();
-  C.disconnect();
+  string query =
+      "INSERT INTO ii." + table + " (" + fields + ") VALUES (" + values + ")";
+
+  try {
+    connection C("dbname = " + name + " user = " + user + " password = " +
+                 password + " hostaddr = 10.227.240.130 port = 5432");
+    work W(C);
+    W.exec(query);
+    W.commit();
+    C.disconnect();
+  } catch (const std::exception &e) {
+    cerr << e.what() << std::endl;
+    return;
+  }
 }
 
-void Database::update(string table, string values, string condition){
-  string query = "UPDATE ii." + table + " SET " + values + " WHERE " + condition;
-  connection C(
-    "dbname = " + name + " user = " + user + " password = " + password + " hostaddr = 10.227.240.130 port = 5432");
-  work W(C);
-  W.exec(query);
-  W.commit();
-  C.disconnect();
+void Database::update(string table, string values, string condition) {
+  string query =
+      "UPDATE ii." + table + " SET " + values + " WHERE " + condition;
+  try {
+    connection C("dbname = " + name + " user = " + user + " password = " +
+                 password + " hostaddr = 10.227.240.130 port = 5432");
+    work W(C);
+    W.exec(query);
+    W.commit();
+    C.disconnect();
+  } catch (const std::exception &e) {
+    cerr << e.what() << std::endl;
+    return;
+  }
 }
 
-void Database::initOrder(int orderID, int nUnits){
-  insert("order", "id, npend", to_string(orderID) + ", " + to_string(nUnits));
+void Database::orderinit(int orderID, int nUnits) {
+  insert("order", "id, npending",
+         to_string(orderID) + ", " + to_string(nUnits));
 }
 
-void Database::startOrder(int orderID){
-  update("order", "timestart=now(), state=1", "id="+to_string(orderID));
+void Database::orderstart(int orderID) {
+  update("order", "timestart=now(), state=1", "id=" + to_string(orderID));
 }
 
-void Database::endOrder(int orderID){
-  update("order", "timeend=now(), state=2", "id="+to_string(orderID));
+void Database::orderEnd(int orderID) {
+  update("order", "timeend=now(), state=2", "id=" + to_string(orderID));
+}
+
+void Database::orderUnitProcess(int orderID) {
+  update("order", "npending = npending - 1, nprocess = nprocess + 1",
+         "id=" + to_string(orderID));
+}
+
+void Database::orderUnitEnd(int orderID) {
+  if (stoi(select("order", "id=" + to_string(orderID)).at(0).at(3)) == 0)
+    throw(
+        std::runtime_error("Database was requested to increase number of units "
+                           "processed but there is no units in processing"));
+  update("order", "nprocess = nprocess - 1, ndone = ndone + 1",
+         "id=" + to_string(orderID));
 }
