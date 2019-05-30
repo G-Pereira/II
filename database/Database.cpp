@@ -74,6 +74,10 @@ void Database::orderEnd(int orderID) {
 }
 
 void Database::orderUnitProcess(int orderID) {
+  if (stoi(select("order", "id=" + to_string(orderID)).at(0).at(2)) == 0)
+    throw(
+        std::runtime_error("Database was requested to increase number of units "
+                           "in process but there is no units pending of that order"));
   update("order", "npending = npending - 1, nprocess = nprocess + 1",
          "id=" + to_string(orderID));
 }
@@ -82,7 +86,7 @@ void Database::orderUnitEnd(int orderID) {
   if (stoi(select("order", "id=" + to_string(orderID)).at(0).at(3)) == 0)
     throw(
         std::runtime_error("Database was requested to increase number of units "
-                           "processed but there is no units in processing"));
+                           "processed but there is no units in processing of that order"));
   update("order", "nprocess = nprocess - 1, ndone = ndone + 1",
          "id=" + to_string(orderID));
 }
