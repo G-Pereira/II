@@ -29,6 +29,13 @@ public:
 	queue <bool> waitMachine;
 	int wait = 0;
 
+
+	queue <bool> doubleOpD;
+	queue <bool> doubleOpSC;
+	queue <bool> doubleOpSA;
+	queue <bool> doubleOpSAC;
+	queue <bool> doubleOpAW;
+
 	queue <uint8_t> toolMachineQueueA;
 	queue <uint8_t> toolMachineQueueBC;
 	queue <uint8_t> toolMachineQueueAB1;
@@ -45,6 +52,10 @@ public:
 	
 	void multipleOperation(uint8_t bUnit, uint8_t fUnit);
 
+	void sameMachineOperation(uint8_t bUnit, uint8_t fUnit);
+
+	void tripleOperation(uint8_t bUnit, uint8_t fUnit);
+
 	void machineSelector(UA_Client* client);
 
 	void process(uint8_t bUnit, uint8_t fUnit);
@@ -59,6 +70,10 @@ public:
 	queue <bool> pusherQueue1;
 	queue <bool> pusherQueue2;
 	queue <bool> pusherQueue3;
+
+	uint8_t pushPend = 0;
+
+	uint8_t pushBlock = 0;
 
 	LoadingCell(uint8_t init);
 

@@ -21,10 +21,12 @@ ProductionCell::ProductionCell(uint8_t init) : Cell(init) {}
 
 void ProductionCell::singleOperation(uint8_t bUnit, uint8_t fUnit) {
 	
+	doubleOpSAC.push(false);
 	waitMachine.push(false);
 
 	switch (type) {
 	case 1: case 3: {
+		doubleOpSA.push(false);
 		switch (bUnit) {
 		case 1: {
 			machineOpQueueA.push(true);
@@ -88,6 +90,10 @@ void ProductionCell::singleOperation(uint8_t bUnit, uint8_t fUnit) {
 		break;
 	}
 	case 2: case 4: {
+
+		doubleOpD.push(false);
+		doubleOpSC.push(false);
+
 		switch (bUnit) {
 		case 1: {
 			machineOpQueueA.push(true);
@@ -167,8 +173,11 @@ void ProductionCell::singleOperation(uint8_t bUnit, uint8_t fUnit) {
 
 void ProductionCell::multipleOperation(uint8_t bUnit, uint8_t fUnit) {
 
+	doubleOpSAC.push(false);
+
 	switch (type) {
 	case 1: case 3: {
+		doubleOpSA.push(false);
 		machineOpQueueA.push(true);
 		machineOpQueueBC.push(true);
 		switch (bUnit) {
@@ -207,6 +216,10 @@ void ProductionCell::multipleOperation(uint8_t bUnit, uint8_t fUnit) {
 		break;
 	}
 	case 2: case 4: {
+
+		doubleOpD.push(false);
+		doubleOpSC.push(false);
+
 		machineOpQueueA.push(true);
 		machineOpQueueBC.push(true);
 		switch (bUnit) {
@@ -265,6 +278,229 @@ void ProductionCell::multipleOperation(uint8_t bUnit, uint8_t fUnit) {
 	}
 }
 
+void ProductionCell::sameMachineOperation(uint8_t bUnit, uint8_t fUnit) {
+
+	waitMachine.push(false);
+	doubleOpSAC.push(false);
+	
+	if ((type == 1) || (type == 3)) {
+
+		if ((bUnit == 9) && (fUnit == 6)) {
+
+			// A: 9 -> 5
+			machineOpQueueA.push(true);
+			toolMachineQueueA.push(3);
+			toolTimeQueueA.push(8);
+
+			// A: 5 -> 6
+			machineOpQueueA.push(true);
+			toolMachineQueueA.push(2);
+			toolTimeQueueA.push(3);
+
+			// B:
+			machineOpQueueBC.push(false);
+
+			doubleOpSA.push(true);
+			doubleOpSA.push(false);
+
+			waitMachine.push(false);
+		}
+
+
+	}
+	else if ((type == 2) || (type == 4)) {
+
+		if ((bUnit == 9) && (fUnit == 6)) {
+
+			machineOpQueueA.push(true);
+
+			// A1: 9 -> 5
+			toolMachineQueueA.push(3);
+			toolTimeQueueA.push(8);
+
+			// A2: 5 -> 6
+			toolMachineQueueA.push(2);
+			toolTimeQueueA.push(3);
+
+			// C:
+			machineOpQueueBC.push(false);
+
+			doubleOpD.push(true);
+			doubleOpSC.push(false);
+
+		}
+		else if ((bUnit == 7) && (fUnit == 9)) {
+
+			// C: 7 -> 8
+			machineOpQueueBC.push(true);
+			toolMachineQueueBC.push(2);
+			toolTimeQueueBC.push(8);
+			
+			// C: 8 -> 9
+			machineOpQueueBC.push(true);
+			toolMachineQueueBC.push(3);
+			toolTimeQueueBC.push(8);
+
+			// A:
+			machineOpQueueA.push(false);
+
+			doubleOpD.push(false);
+
+			doubleOpSC.push(true);
+			doubleOpSC.push(false);
+		}
+
+	}
+
+}
+
+void ProductionCell::tripleOperation(uint8_t bUnit, uint8_t fUnit) {
+
+	if ((type == 2) || (type == 4)) {
+
+		if ((bUnit == 1) && (fUnit == 6)) {
+			
+			doubleOpSAC.push(false);
+
+			waitMachine.push(true);
+
+			doubleOpD.push(true);
+
+			doubleOpSC.push(false);
+
+			// A1: 1 -> 2
+			machineOpQueueA.push(true);
+			toolMachineQueueA.push(1);
+			toolTimeQueueA.push(10);
+
+			// C: 2 -> 5
+			machineOpQueueBC.push(true);
+			toolMachineQueueBC.push(1);
+			toolTimeQueueBC.push(5);
+
+			// A2: 5 -> 6
+			toolMachineQueueA.push(2);
+			toolTimeQueueA.push(3);
+			
+		}
+		else if ((bUnit == 1) && (fUnit == 9)) {
+
+			doubleOpSAC.push(false);
+
+			waitMachine.push(false);
+
+			doubleOpD.push(false);
+			
+			doubleOpSC.push(true);
+			doubleOpSC.push(false);
+
+			// A1/2: 1 -> 7
+			machineOpQueueA.push(true);
+			toolMachineQueueA.push(3);
+			toolTimeQueueA.push(20);
+			
+			// C: 7 -> 8
+			machineOpQueueBC.push(true);
+			toolMachineQueueBC.push(2);
+			toolTimeQueueBC.push(8);
+
+			// C: 8 -> 9
+			machineOpQueueBC.push(true);
+			toolMachineQueueBC.push(3);
+			toolTimeQueueBC.push(8);
+
+		}
+		else if ((bUnit == 7) && (fUnit == 5)) {
+
+			doubleOpSAC.push(false);
+
+			waitMachine.push(true);
+
+			doubleOpD.push(false);
+
+			doubleOpSC.push(true);
+			doubleOpSC.push(false);
+
+			// C: 7 -> 8
+			machineOpQueueBC.push(true);
+			toolMachineQueueBC.push(2);
+			toolTimeQueueBC.push(8);
+
+			// C: 8 -> 9
+			machineOpQueueBC.push(true);
+			toolMachineQueueBC.push(3);
+			toolTimeQueueBC.push(8);
+
+			//A2: 9 -> 5
+			machineOpQueueA.push(true);
+			toolMachineQueueA.push(3);
+			toolTimeQueueA.push(8);
+
+		}
+		else if ((bUnit == 8) && (fUnit == 6)) {
+
+			doubleOpSAC.push(true);
+			doubleOpSAC.push(false);
+
+			waitMachine.push(true);
+			waitMachine.push(false);
+
+			doubleOpD.push(false);
+
+			doubleOpSC.push(false);
+
+			// C: 8 -> 9
+			machineOpQueueBC.push(true);
+			toolMachineQueueBC.push(3);
+			toolTimeQueueBC.push(8);
+
+			// A2: 9 -> 5
+			machineOpQueueA.push(true);
+			toolMachineQueueA.push(3);
+			toolTimeQueueA.push(8);
+
+			// A2: 5 -> 6
+			//machineOpQueueA.push(true);
+			toolMachineQueueA.push(2);
+			toolTimeQueueA.push(3);
+		}
+		else if ((bUnit == 7) && (fUnit == 6)) {
+
+		doubleOpSAC.push(true);
+		doubleOpSAC.push(false);
+
+		waitMachine.push(true);
+		waitMachine.push(false);
+
+		doubleOpD.push(false);
+
+		doubleOpSC.push(true);
+		doubleOpSC.push(false);
+
+		// C: 7 -> 8
+		machineOpQueueBC.push(true);
+		toolMachineQueueBC.push(2);
+		toolTimeQueueBC.push(8);
+
+		// C: 8 -> 9
+		machineOpQueueBC.push(true);
+		toolMachineQueueBC.push(3);
+		toolTimeQueueBC.push(8);
+
+		// A2: 9 -> 5
+		machineOpQueueA.push(true);
+		toolMachineQueueA.push(3);
+		toolTimeQueueA.push(8);
+
+		// A2: 5 -> 6
+		machineOpQueueA.push(true);
+		toolMachineQueueA.push(2);
+		toolTimeQueueA.push(3);
+		}
+	}
+
+}
+
 void ProductionCell::process(uint8_t bUnit, uint8_t fUnit) {
 	
 		if (((bUnit == 1) && (fUnit == 2)) ||
@@ -282,14 +518,27 @@ void ProductionCell::process(uint8_t bUnit, uint8_t fUnit) {
 		}
 
 		else if (((bUnit == 1) && (fUnit == 3)) ||
-			((bUnit == 1) && (fUnit == 5)) ||
-			((bUnit == 4) && (fUnit == 6)) ||
-			((bUnit == 1) && (fUnit == 5)) ||
-			((bUnit == 1) && (fUnit == 8)) ||
-			((bUnit == 2) && (fUnit == 6)) ||
-			((bUnit == 8) && (fUnit == 5))) {
+				 ((bUnit == 1) && (fUnit == 5)) ||
+				 ((bUnit == 4) && (fUnit == 6)) ||
+				 ((bUnit == 1) && (fUnit == 5)) ||
+				 ((bUnit == 1) && (fUnit == 8)) ||
+				 ((bUnit == 2) && (fUnit == 6)) ||
+				 ((bUnit == 8) && (fUnit == 5))) {
 
 			multipleOperation(bUnit, fUnit);
+		}
+
+		else if (((bUnit == 9) && (fUnit == 6)) ||
+				 ((bUnit == 7) && (fUnit == 9))) {
+			sameMachineOperation(bUnit, fUnit);
+		}
+
+		else if (((bUnit == 1) && (fUnit == 6)) ||
+				 ((bUnit == 1) && (fUnit == 9)) ||
+			  	 ((bUnit == 7) && (fUnit == 5)) ||
+				 ((bUnit == 8) && (fUnit == 6)) ||
+				 ((bUnit == 7) && (fUnit == 6))) {
+			tripleOperation(bUnit, fUnit);
 		}
 }
 
@@ -354,7 +603,7 @@ void ProductionCell::machineSelector(UA_Client* client) {
 			if (machineOpQueueA.front()) { 
 				int availability = OPCUA_readInt(client, av);
 
-				if (((availability & ~0xFFFB) && (availability & ~0xFFFD)) || wait) { // 0100 & 0010 - 1st and 2nd Free
+				if ((((availability & ~0xFFFB) && (availability & ~0xFFFD)) || wait) && !doubleOpD.front()) { // 0100 & 0010 - 1st and 2nd Free
 					machineOpQueueAB1.push(false);
 					machineOpQueueAB2.push(true);
 					toolMachineQueueAB2.push(toolMachineQueueA.front());
@@ -362,8 +611,24 @@ void ProductionCell::machineSelector(UA_Client* client) {
 					machineOpQueueA.pop();
 					toolMachineQueueA.pop();
 					toolTimeQueueA.pop();
+
+					if (doubleOpSAC.front())
+					{
+						machineOpQueueAB2.push(true);
+						toolMachineQueueAB2.push(toolMachineQueueA.front());
+						toolTimeQueueAB2.push(toolTimeQueueA.front());
+						machineOpQueueA.pop();
+						toolMachineQueueA.pop();
+						toolTimeQueueA.pop();
+						doubleOpAW.push(true);
+					}
+					else
+						doubleOpAW.push(false);
+
+					doubleOpSAC.pop();
+					doubleOpD.pop();
 				}
-				else if (!(availability & ~0xFFFB) && (availability & ~0xFFFD)) { // !0100 & 0010 - 1st Free
+				else if ((!(availability & ~0xFFFB) && (availability & ~0xFFFD)) && !doubleOpD.front()) { // !0100 & 0010 - 1st Free
 					machineOpQueueAB1.push(true);
 					machineOpQueueAB2.push(false);
 					toolMachineQueueAB1.push(toolMachineQueueA.front());
@@ -371,21 +636,37 @@ void ProductionCell::machineSelector(UA_Client* client) {
 					machineOpQueueA.pop();
 					toolMachineQueueA.pop();
 					toolTimeQueueA.pop();
+
+					doubleOpSAC.pop();
+					doubleOpD.pop();
+					doubleOpAW.push(false);
 				}
-				else {
-					machineOpQueueAB1.push(false);
+				else if (doubleOpD.front()) {
+					machineOpQueueAB1.push(true);
 					machineOpQueueAB2.push(true);
-					toolMachineQueueAB2.push(toolMachineQueueA.front());
-					toolTimeQueueAB2.push(toolTimeQueueA.front());
-					machineOpQueueA.pop();
+					toolMachineQueueAB1.push(toolMachineQueueA.front());
+					toolTimeQueueAB1.push(toolTimeQueueA.front());
 					toolMachineQueueA.pop();
 					toolTimeQueueA.pop();
+					toolMachineQueueAB2.push(toolMachineQueueA.front());
+					toolTimeQueueAB2.push(toolTimeQueueA.front());
+					toolMachineQueueA.pop();
+					toolTimeQueueA.pop();
+
+					machineOpQueueA.pop();
+
+					doubleOpSAC.pop();
+					doubleOpD.pop();
+					doubleOpAW.push(false);
 				}
 			}
 			else {
 				machineOpQueueAB1.push(false);
 				machineOpQueueAB2.push(false);
 				machineOpQueueA.pop();
+				doubleOpD.pop();
+				doubleOpSAC.pop();
+				doubleOpAW.push(false);
 			}
 		}
 	}
@@ -407,6 +688,7 @@ void ProductionCell::updateQueue(UA_Client* client) {
 			}
 			waitMachine.pop();
 			machineOpQueueA.pop();
+			doubleOpSA.pop();
 		}
 
 		if (RE(OPCUA_readBool(client, t5), 11 + type * 2)) { // RE 13 and 17
@@ -452,6 +734,7 @@ void ProductionCell::updateQueue(UA_Client* client) {
 				wait--;
 
 			waitMachine.pop();
+			doubleOpAW.pop();
 		}
 
 		if (RE(OPCUA_readBool(client, t6), 22 + type * 2)) { // RE 26 and 30
@@ -460,6 +743,7 @@ void ProductionCell::updateQueue(UA_Client* client) {
 				toolTimeQueueBC.pop();
 			}
 			machineOpQueueBC.pop();
+			doubleOpSC.pop();
 		}
 	}
 }
@@ -473,6 +757,7 @@ void ProductionCell::updateAction(UA_Client* client) {
 		char t4_op[20], t4_dt[20], t4_tt[20], t4_w[20];
 		char t5_op[20], t5_dt[20], t5_tt[20];
 		char t6_op[20], t6_dt[20], t6_tt[20];
+		char doubleA[20];
 
 		sprintf_s(t4_op, 10, "C%dT4_op", type);
 		sprintf_s(t4_dt, 10, "C%dT4_dt", type);
@@ -487,6 +772,8 @@ void ProductionCell::updateAction(UA_Client* client) {
 		sprintf_s(t6_dt, 10, "C%dT6_dt", type);
 		sprintf_s(t6_tt, 10, "C%dT6_tt", type);
 
+		sprintf_s(doubleA, 10, "doubleA%d", type);
+
 		if (machineOpQueueA.size())
 			OPCUA_writeBool(client, t4_op, machineOpQueueA.front());
 		else
@@ -500,6 +787,8 @@ void ProductionCell::updateAction(UA_Client* client) {
 
 		if (waitMachine.size())
 			OPCUA_writeBool(client, t4_w, waitMachine.front());
+		else
+			OPCUA_writeBool(client, t4_w, 0);
 
 		if (machineOpQueueAB1.size())
 			OPCUA_writeBool(client, t5_op, machineOpQueueAB1.front());
@@ -522,6 +811,12 @@ void ProductionCell::updateAction(UA_Client* client) {
 
 		if (toolTimeQueueAB2.size())
 			OPCUA_writeInt(client, t6_tt, toolTimeQueueAB2.front());
+
+		if (doubleOpSA.size())
+			OPCUA_writeBool(client, doubleA, doubleOpSA.front());
+		else
+			OPCUA_writeBool(client, doubleA, false);
+
 	}
 
 	// Write in PLC for cell 2 and 4
@@ -530,6 +825,7 @@ void ProductionCell::updateAction(UA_Client* client) {
 		char t4_op[20], t4_dt[20], t4_tt[20];
 		char t5_op[20], t5_dt[20], t5_tt[20], t5_w[20];
 		char t6_op[20], t6_dt[20], t6_tt[20];
+		char doubleC[20], doubleA[20];
 
 		sprintf_s(t4_op, 10, "C%dT4_op", type);
 		sprintf_s(t4_dt, 10, "C%dT4_dt", type);
@@ -543,6 +839,9 @@ void ProductionCell::updateAction(UA_Client* client) {
 		sprintf_s(t6_op, 10, "C%dT6_op", type);
 		sprintf_s(t6_dt, 10, "C%dT6_dt", type);
 		sprintf_s(t6_tt, 10, "C%dT6_tt", type);
+
+		sprintf_s(doubleC, 10, "doubleC%d", type);
+		sprintf_s(doubleA, 10, "doubleA%d", type);
 
 	if (machineOpQueueAB1.size())
 		OPCUA_writeBool(client, t4_op, machineOpQueueAB1.front());
@@ -568,6 +867,8 @@ void ProductionCell::updateAction(UA_Client* client) {
 
 	if (waitMachine.size())
 		OPCUA_writeBool(client, t5_w, waitMachine.front());
+	else 
+		OPCUA_writeBool(client, t5_w, 0);
 
 	if (machineOpQueueBC.size())
 		OPCUA_writeBool(client, t6_op, machineOpQueueBC.front());
@@ -579,30 +880,39 @@ void ProductionCell::updateAction(UA_Client* client) {
 
 	if (toolTimeQueueBC.size())
 		OPCUA_writeInt(client, t6_tt, toolTimeQueueBC.front());
+
+	if(doubleOpSC.size())
+		OPCUA_writeBool(client, doubleC, doubleOpSC.front());
+	else 
+		OPCUA_writeBool(client, doubleC, false);
+
+	if (doubleOpAW.size())
+		OPCUA_writeBool(client, doubleA, doubleOpAW.front());
+	else
+		OPCUA_writeBool(client, doubleA, false);
+
 	}
 }
 
 LoadingCell::LoadingCell(uint8_t init) : Cell(init) {}
 
 void LoadingCell::process(uint8_t objRoller) {
-	
+
 	switch (objRoller) {
 	case 1:
 		pusherQueue1.push(true);
+		pushPend++;
 		break;
 	case 2:
 		pusherQueue1.push(false);
 		pusherQueue2.push(true);
+		pushPend++;
 		break;
 	case 3:
 		pusherQueue1.push(false);
 		pusherQueue2.push(false);
 		pusherQueue3.push(true);
-		break;
-	case 4:
-		pusherQueue1.push(false);
-		pusherQueue2.push(false);
-		pusherQueue3.push(false);
+		pushPend++;
 		break;
 	default:
 		pusherQueue1.push(false);
@@ -616,28 +926,57 @@ void LoadingCell::process(uint8_t objRoller) {
 void LoadingCell::updateQueue(UA_Client* client) {
 
 	if (RE(OPCUA_readBool(client, "C5T4_done"), 9)) // RE 9
-		if(pusherQueue1.size())
+		if (pusherQueue1.size()) {
+
+			if (pusherQueue1.front())
+				pushPend--;
+
 			pusherQueue1.pop();
+		}
 
 	if (RE(OPCUA_readBool(client, "C5T5_done"), 10)) // RE 10
-		if (pusherQueue2.size())
+		if (pusherQueue2.size()) {
+
+			if (pusherQueue2.front())
+				pushPend--;
+
 			pusherQueue2.pop();
+		}
 
 	if (RE(OPCUA_readBool(client, "C5T6_done"), 11)) // RE 11
-		if (pusherQueue3.size())
+		if (pusherQueue3.size()) {
+
+			if (pusherQueue3.front())
+				pushPend--;
+
 			pusherQueue3.pop();
+
+			if (pushBlock && !pushPend)
+				pushBlock--;
+		}
+
+	if (RE(OPCUA_readBool(client, "loadReady"), 15)) // RE 15
+		pushBlock++;
 }
 
 void LoadingCell::updateAction(UA_Client* client) {
 	
 	if (pusherQueue1.size())
 		OPCUA_writeBool(client, "C5T4_ps", pusherQueue1.front());
+	else 
+		OPCUA_writeBool(client, "C5T4_ps", 0);
 
 	if (pusherQueue2.size())
 		OPCUA_writeBool(client, "C5T5_ps", pusherQueue2.front());
+	else
+		OPCUA_writeBool(client, "C5T5_ps", 0);
 
 	if (pusherQueue3.size())
 		OPCUA_writeBool(client, "C5T6_ps", pusherQueue3.front());
+	else
+		OPCUA_writeBool(client, "C5T6_ps", 0);
+
+	OPCUA_writeBool(client, "notLoad", (bool)pushPend);
 }
 
 TransportationCell::TransportationCell(uint8_t init) : Cell(init) {}
