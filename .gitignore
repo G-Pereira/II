@@ -110,5 +110,4 @@ database/build
 .vscode/
 
 # Sensitive Data (database credentials)
-database/configs.h
-mes/include/configs.h
+mes/src/configs.h
