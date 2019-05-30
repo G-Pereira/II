@@ -1,6 +1,5 @@
 language: cpp
-dist: xenial
+os: windows
 
-script:
-  - cmake mes
-  - cmake --build .
+install: choco install mingw
+script: mingw32-make travis
