@@ -73,21 +73,22 @@ void Factory::updateCycle() {
 	if (RE((bool)in, 19)) {// RE 19
 		warehouse[in - 1]++;
 
-		for(Order *ord : pOrders) {
+		for(auto *ord : pOrders) {
 			if(ord->id == ordID) {
 				ord->numDoing--;
 				ord->numDone++;
 
+				cout << "id: " << unsigned(ord->id) << "\tquant: " << unsigned(ord->quantity) << "\tdoing: " << unsigned(ord->numDoing) << "\tdone: " << unsigned(ord->numDone) << "\n";
 				if(ord->numDone == ord->quantity) {
 					ord->endTime = time(NULL);
 
 					// TODO: send order to database
 
-					auto i = &ord - &orders[0];
+					auto i = &ord - &pOrders[0];
 					pOrders.erase(pOrders.begin()+i);
 					delete ord;
 				}
-
+				
 				break;
 			}
 		}
@@ -266,7 +267,7 @@ bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {
 	// If it can send a unit then send it and update availabilities
 	if(minAvailability < 9) {
 		// TODO: change quantities and times on order class
-		if(ord->numDoing + ord->numDone == 0)
+		if((ord->numDoing + ord->numDone) == 0)
 			ord->startTime = time(NULL);
 
 		ord->numDoing++;
@@ -279,7 +280,7 @@ bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {
 			break;
 
 		case 1: case 3:
-			if(minAvailability == 0 && topMach == 'A') prodCell[minCell].generalAvailability = 2;
+			if((minAvailability == 0) && (topMach == 'A')) prodCell[minCell].generalAvailability = 2;
 			else prodCell[minCell].generalAvailability++;
 			break;
 		}
@@ -305,13 +306,13 @@ void Factory::pollOrders() {			// TODO: check if valid transformation
 		i = 0; j = 0;
 		for(bool orderType : ordersSequence) {
 			if(orderType) {	// Processing Order
-				if(warehouse[pOrders[i]->unitType] > 0)
+				if((warehouse[pOrders[i]->unitType-1] > 0) && (pOrders[i]->quantity > (pOrders[i]->numDoing + pOrders[i]->numDone)))
 					if(processPOrder(pOrders[i], 0)) return;
 
 				i++;
 			}
 			else {			// Unloading Order
-				if(warehouse[uOrders[j]->unitType] > 0)
+				if((warehouse[uOrders[j]->unitType-1] > 0) && (uOrders[j]->quantity > (uOrders[j]->numDoing + uOrders[j]->numDone)))
 					if(processUOrder(uOrders[j])) return;
 				
 				j++;
@@ -322,10 +323,16 @@ void Factory::pollOrders() {			// TODO: check if valid transformation
 		i = 0; j = 0;
 		for(bool orderType : ordersSequence) {
 			if(orderType) {	// Processing Order
-				if(processPOrder(pOrders[i++], 1)) return;
+				if((warehouse[pOrders[i]->unitType - 1] > 0) && (pOrders[i]->quantity > (pOrders[i]->numDoing + pOrders[i]->numDone)))
+					if(processPOrder(pOrders[i], 1)) return;
+
+				i++;
 			}
 			else {			// Unloading Order
-				if(processUOrder(uOrders[j++])) return;
+				if((warehouse[uOrders[j]->unitType - 1] > 0) && (uOrders[j]->quantity > (uOrders[j]->numDoing + uOrders[j]->numDone)))
+					if(processUOrder(uOrders[j])) return;
+
+				j++;
 			}
 		}
 	}
