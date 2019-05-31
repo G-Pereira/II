@@ -73,7 +73,7 @@ void Factory::updateCycle() {
 	if (RE((bool)in, 19)) {// RE 19
 		warehouse[in - 1]++;
 
-		for(Order *ord : orders) {
+		for(Order *ord : pOrders) {
 			if(ord->id == ordID) {
 				ord->numDoing--;
 				ord->numDone++;
@@ -84,7 +84,7 @@ void Factory::updateCycle() {
 					// TODO: send order to database
 
 					auto i = &ord - &orders[0];
-					orders.erase(orders.begin()+i);
+					pOrders.erase(pOrders.begin()+i);
 					delete ord;
 				}
 
