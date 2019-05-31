@@ -363,6 +363,7 @@ void ProductionCell::tripleOperation(uint8_t bUnit, uint8_t fUnit) {
 			doubleOpSAC.push(false);
 
 			waitMachine.push(true);
+			wait++;
 
 			doubleOpD.push(true);
 
@@ -415,6 +416,7 @@ void ProductionCell::tripleOperation(uint8_t bUnit, uint8_t fUnit) {
 			doubleOpSAC.push(false);
 
 			waitMachine.push(true);
+			wait++;
 
 			doubleOpD.push(false);
 
@@ -440,10 +442,11 @@ void ProductionCell::tripleOperation(uint8_t bUnit, uint8_t fUnit) {
 		else if ((bUnit == 8) && (fUnit == 6)) {
 
 			doubleOpSAC.push(true);
-			doubleOpSAC.push(false);
+			//doubleOpSAC.push(false);
 
 			waitMachine.push(true);
 			waitMachine.push(false);
+			wait++;
 
 			doubleOpD.push(false);
 
@@ -460,17 +463,16 @@ void ProductionCell::tripleOperation(uint8_t bUnit, uint8_t fUnit) {
 			toolTimeQueueA.push(8);
 
 			// A2: 5 -> 6
-			//machineOpQueueA.push(true);
 			toolMachineQueueA.push(2);
 			toolTimeQueueA.push(3);
 		}
 		else if ((bUnit == 7) && (fUnit == 6)) {
 
 		doubleOpSAC.push(true);
-		doubleOpSAC.push(false);
 
 		waitMachine.push(true);
 		waitMachine.push(false);
+		wait++;
 
 		doubleOpD.push(false);
 
@@ -493,7 +495,6 @@ void ProductionCell::tripleOperation(uint8_t bUnit, uint8_t fUnit) {
 		toolTimeQueueA.push(8);
 
 		// A2: 5 -> 6
-		machineOpQueueA.push(true);
 		toolMachineQueueA.push(2);
 		toolTimeQueueA.push(3);
 		}
@@ -548,8 +549,8 @@ void ProductionCell::machineSelector(UA_Client* client) {
 	if ((type == 1) || (type == 3)) {
 
 		char sf[20], av[20];
-		sprintf(sf, "C%dT4_sf", type);
-		sprintf(av, "C%d_av", type);
+		sprintf_s(sf, 10, "C%dT4_sf", type);
+		sprintf_s(av, 10, "C%d_av", type);
 
 		if (RE(OPCUA_readBool(client, sf), type)) { // RE 1 and 3
 			if (machineOpQueueBC.front()) {
@@ -596,8 +597,8 @@ void ProductionCell::machineSelector(UA_Client* client) {
 	else if ((type == 2) || (type == 4)) {
 
 		char sf[20], av[20];
-		sprintf(sf, "C%dT3_sf", type);
-		sprintf(av, "C%d_av", type);
+		sprintf_s(sf, 10, "C%dT3_sf", type);
+		sprintf_s(av, 10, "C%d_av", type);
 
 		if (RE(OPCUA_readBool(client, sf), type)) { // RE 2 and 4
 			if (machineOpQueueA.front()) { 
@@ -611,19 +612,23 @@ void ProductionCell::machineSelector(UA_Client* client) {
 					machineOpQueueA.pop();
 					toolMachineQueueA.pop();
 					toolTimeQueueA.pop();
+					cout << "OPA2\t";
 
 					if (doubleOpSAC.front())
 					{
 						machineOpQueueAB2.push(true);
 						toolMachineQueueAB2.push(toolMachineQueueA.front());
 						toolTimeQueueAB2.push(toolTimeQueueA.front());
-						machineOpQueueA.pop();
 						toolMachineQueueA.pop();
 						toolTimeQueueA.pop();
 						doubleOpAW.push(true);
+						doubleOpAW.push(false);
+						cout << "2x OPA2\t";
 					}
 					else
 						doubleOpAW.push(false);
+						
+					cout << "\n";
 
 					doubleOpSAC.pop();
 					doubleOpD.pop();
@@ -636,6 +641,8 @@ void ProductionCell::machineSelector(UA_Client* client) {
 					machineOpQueueA.pop();
 					toolMachineQueueA.pop();
 					toolTimeQueueA.pop();
+
+					cout << "OPA1\n";
 
 					doubleOpSAC.pop();
 					doubleOpD.pop();
@@ -653,6 +660,8 @@ void ProductionCell::machineSelector(UA_Client* client) {
 					toolMachineQueueA.pop();
 					toolTimeQueueA.pop();
 
+					cout << "OPA1\tOPA2\n";
+
 					machineOpQueueA.pop();
 
 					doubleOpSAC.pop();
@@ -667,6 +676,7 @@ void ProductionCell::machineSelector(UA_Client* client) {
 				doubleOpD.pop();
 				doubleOpSAC.pop();
 				doubleOpAW.push(false);
+				cout << "noOP\n";
 			}
 		}
 	}
@@ -677,9 +687,9 @@ void ProductionCell::updateQueue(UA_Client* client) {
 	if ((type == 1) || (type == 3)) {
 
 	char t4[20], t5[20], t6[20];
-	sprintf(t4, "C%dT4_done", type);
-	sprintf(t5, "C%dT5_done", type);
-	sprintf(t6, "C%dT6_done", type);
+	sprintf_s(t4, 10, "C%dT4_done", type);
+	sprintf_s(t5, 10, "C%dT5_done", type);
+	sprintf_s(t6, 10, "C%dT6_done", type);
 
 		if (RE(OPCUA_readBool(client, t4), 10 + type * 2)) { // RE 12 and 16
 			if (machineOpQueueA.front()) {
@@ -711,9 +721,9 @@ void ProductionCell::updateQueue(UA_Client* client) {
 	else if ((type == 2) || (type == 4)) {
 
 	char t4[20], t5[20], t6[20];
-	sprintf(t4, "C%dT4_done", type);
-	sprintf(t5, "C%dT5_done", type);
-	sprintf(t6, "C%dT6_done", type);
+	sprintf_s(t4, 10, "C%dT4_done", type);
+	sprintf_s(t5, 10, "C%dT5_done", type);
+	sprintf_s(t6, 10, "C%dT6_done", type);
 
 		if (RE(OPCUA_readBool(client, t4), 20 + type * 2)) { // RE 24 and 28
 			if (machineOpQueueAB1.front()) {
@@ -728,6 +738,7 @@ void ProductionCell::updateQueue(UA_Client* client) {
 				toolMachineQueueAB2.pop();
 				toolTimeQueueAB2.pop();
 			}
+
 			machineOpQueueAB2.pop();
 
 			if (waitMachine.front())
