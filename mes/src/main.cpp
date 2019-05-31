@@ -7,12 +7,12 @@ int main() {
 	Factory ourFactory(ID);
 	
 	ourFactory.recvOrders();
+
 	for(auto ord : ourFactory.pOrders)
 		ord->print();
-	
+
 	for(auto ord : ourFactory.uOrders)
 		ord->print();
-
 
 	while (true)
 	{

@@ -707,9 +707,9 @@ void ProductionCell::updateQueue(UA_Client* client) {
 			machineOpQueueAB2.pop();
 		}
 
-		if(generalAvailability >= 3 && toolMachineQueueA.size() == 0)
+		if(generalAvailability >= 3 && toolMachineQueueA.size() == 0 && toolMachineQueueBC.size() + toolMachineQueueAB1.size() + toolMachineQueueAB2.size() < 3)
 			generalAvailability = 2;
-		if(generalAvailability == 2 && toolMachineQueueBC.size() <= 1 && toolMachineQueueAB1.size() == 0)
+		if(generalAvailability == 2 && toolMachineQueueBC.size() <= 1 && toolMachineQueueAB1.size() == 0 && toolMachineQueueBC.size() + toolMachineQueueAB2.size() < 2)
 			generalAvailability = 1;
 		if(generalAvailability == 1 && toolMachineQueueBC.size() + toolMachineQueueAB2.size() == 0)
 			generalAvailability = 0;
@@ -753,9 +753,9 @@ void ProductionCell::updateQueue(UA_Client* client) {
 			doubleOpSC.pop();
 		}
 
-		if(generalAvailability >= 3 && toolMachineQueueA.size() <= 1 && toolMachineQueueAB1.size() == 0)
+		if(generalAvailability >= 3 && toolMachineQueueA.size() <= 1 && toolMachineQueueAB1.size() == 0 && toolMachineQueueA.size() + toolMachineQueueAB2.size() + toolMachineQueueBC.size() < 3)
 			generalAvailability = 2;
-		if(generalAvailability == 2 && toolMachineQueueA.size() + toolMachineQueueAB2.size() == 0)
+		if(generalAvailability == 2 && toolMachineQueueA.size() + toolMachineQueueAB2.size() == 0 && toolMachineQueueBC.size() < 2)
 			generalAvailability = 1;
 		if(generalAvailability == 1 && toolMachineQueueBC.size() == 0)
 			generalAvailability = 0;
