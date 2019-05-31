@@ -22,23 +22,23 @@
 #include <signal.h>
 #include <stdlib.h>
 
-// Faz a ligaï¿½ï¿½o com o servidor - Retorna o cliente
+// Faz a ligação com o servidor - Retorna o cliente
 UA_Client* OPCUA_connect(void);
 
-// Lï¿½ uma variï¿½vel do tipo inteiro (retorna o seu valor)
-// Recebe como parï¿½metros de entrada o cliente e uma string com o nome da variï¿½vel a ler
+// Lê uma variável do tipo inteiro (retorna o seu valor)
+// Recebe como parâmetros de entrada o cliente e uma string com o nome da variável a ler
 int OPCUA_readInt(UA_Client* client, const char* var);
 
-// Escreve uma variï¿½vel do tipo inteiro
-// Recebe como parï¿½metros de entrada o cliente, uma string com o nome da variï¿½vel e o valor a escrever
+// Escreve uma variável do tipo inteiro
+// Recebe como parâmetros de entrada o cliente, uma string com o nome da variável e o valor a escrever
 void OPCUA_writeInt(UA_Client* client, const char* var, int val);
 
-// Lï¿½ uma variï¿½vel do tipo boolean (retorna o seu valor)
-// Recebe como parï¿½metros de entrada o cliente e uma string com o nome da variï¿½vel a ler
+// Lê uma variável do tipo boolean (retorna o seu valor)
+// Recebe como parâmetros de entrada o cliente e uma string com o nome da variável a ler
 bool OPCUA_readBool(UA_Client* client, const char* var);
 
-// Escreve uma variï¿½vel do tipo boolean
-// Recebe como parï¿½metros de entrada o cliente, uma string com o nome da variï¿½vel e o valor a escrever
+// Escreve uma variável do tipo boolean
+// Recebe como parâmetros de entrada o cliente, uma string com o nome da variável e o valor a escrever
 void OPCUA_writeBool(UA_Client* client, const char* var, bool val);
 
 #endif //OPCUA_H
