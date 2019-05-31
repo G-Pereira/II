@@ -1,6 +1,9 @@
 #include "Factory.h"
+#include "Database.h"
 
 int main() {
+	Database db;
+	db.machineOperation("1A1", 30);
 
 	uint8_t ID[6] = { 1, 2, 3, 4, 5, 6 };
 

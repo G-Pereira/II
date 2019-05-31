@@ -52,7 +52,7 @@ void Database::insert(string table, string fields, string values) {
   PGresult* res;
 
   /* Make a connection to the database */
-  conn = PQconnectdb(("host = db.fe.up.pt port = 5432 user = " + user + " password = " + password + " dbname = " + name).c_str());
+  conn = PQconnectdb(("host = 10.227.240.130 port = 5432 user = " + user + " password = " + password + " dbname = " + name).c_str());
 
   /* Check to see that the backend connection was successfully made */
   if (PQstatus(conn) != CONNECTION_OK)
@@ -64,7 +64,7 @@ void Database::insert(string table, string fields, string values) {
   /* Start a transaction block */
   res = PQexec(conn, "BEGIN");
   PQclear(res);
-  res = PQexec(conn, ("DECLARE cur CURSOR FOR INSERT INTO ii." + table + " (" + fields + ") VALUES(" + values + ")").c_str());
+  res = PQexec(conn, ("INSERT INTO ii." + table + " (" + fields + ") VALUES(" + values + ")").c_str());
   PQclear(res);
 
   /* close the portal ... we don't bother to check for errors ... */
@@ -84,7 +84,7 @@ void Database::update(string table, string values, string condition) {
   PGresult* res;
 
   /* Make a connection to the database */
-  conn = PQconnectdb(("host = db.fe.up.pt port = 5432 user = " + user + " password = " + password + " dbname = " + name).c_str());
+  conn = PQconnectdb(("host = 10.227.240.130 port = 5432 user = " + user + " password = " + password + " dbname = " + name).c_str());
 
   /* Check to see that the backend connection was successfully made */
   if (PQstatus(conn) != CONNECTION_OK)
@@ -96,7 +96,7 @@ void Database::update(string table, string values, string condition) {
   /* Start a transaction block */
   res = PQexec(conn, "BEGIN");
   PQclear(res);
-  res = PQexec(conn, ("DECLARE cur CURSOR FOR UPDATE ii." + table + " SET " + values + " WHERE " + condition).c_str());
+  res = PQexec(conn, ("UPDATE ii." + table + " SET " + values + " WHERE " + condition).c_str());
   PQclear(res);
 
   /* close the portal ... we don't bother to check for errors ... */
@@ -142,6 +142,9 @@ void Database::orderUnitEnd(int orderID) {
          "id=" + to_string(orderID));
 }
 
-void Database::machineOperation(int orderID) {
-
+void Database::machineOperation(string machineID, int top) {
+  if (select("machine", "id=" + machineID).size() == 0)
+    insert("machine", "id, top, nunits", machineID + ", " + to_string(top) + ", 1");
+  else
+  update("machine", "top = top + " + to_string(top) + ", nunits = nunits + 1", "id=" + machineID);
 }
