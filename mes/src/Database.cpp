@@ -97,3 +97,7 @@ void Database::machineOperation(string machineID, int top) {
   else
   update("machine", "top = top + " + to_string(top) + ", nunits = nunits + 1", "id=" + machineID);
 }
+
+void Database::unloadUnit(int unitType) {
+
+}

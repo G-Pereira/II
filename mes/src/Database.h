@@ -2,13 +2,12 @@
 #define II_DATABASE_H
 
 #include <iostream>
-#include <pqxx/pqxx>
+#include <mysql.h>
 #include <string>
 #include <vector>
 
 #include "configs.h"
 
-using namespace pqxx;
 using namespace std;
 
 class Database {
@@ -19,6 +18,7 @@ public:
   void orderUnitProcess(int orderID);
   void orderUnitEnd(int orderID);
   void machineOperation(string machineID, int top);
+  void unloadUnit(int unitType);
 
 private:
   string name = DB_NAME;
