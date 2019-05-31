@@ -3,8 +3,6 @@
 Factory::Factory(uint8_t cellID[6]) : endCell(cellID[4]), topCell(cellID[5]), client(connectPLC()) {
 	for (int i = 0; i < 4; i++)
 		prodCell.push_back(ProductionCell(cellID[i]));
-		
-	
 }
 
 UA_Client* Factory::connectPLC() {
