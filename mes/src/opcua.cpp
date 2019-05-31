@@ -1,6 +1,6 @@
 #include "opcua.h"
 
-// Faz a ligação com o servidor - Retorna o cliente
+// Faz a ligaï¿½ï¿½o com o servidor - Retorna o cliente
 UA_Client* OPCUA_connect(void) {
 
 	UA_Client* client = UA_Client_new(UA_ClientConfig_default);
@@ -11,26 +11,26 @@ UA_Client* OPCUA_connect(void) {
 	return client;
 }
 
-// Lê uma variável do tipo inteiro (retorna o seu valor)
-// Recebe como parâmetros de entrada o cliente e uma string com o nome da variável a ler
+// Lï¿½ uma variï¿½vel do tipo inteiro (retorna o seu valor)
+// Recebe como parï¿½metros de entrada o cliente e uma string com o nome da variï¿½vel a ler
 int OPCUA_readInt(UA_Client * client, const char* var) {
 
-	char str[100] = "|var|CODESYS Control Win V3 x64.Application.MAIN."; // Mapeamento da variável "var"
-	strcat_s(str, var);
+	char str[100] = "|var|CODESYS Control Win V3 x64.Application.MAIN."; // Mapeamento da variï¿½vel "var"
+	strcat(str, var);
 
-	UA_Variant value;			//declaração da 
-	UA_Variant_init(&value);	//variável value
-	while (UA_STATUSCODE_GOOD != UA_Client_readValueAttribute(client, UA_NODEID_STRING(4, str), &value)); // Guarda em "value" o valor da variável "var" 
+	UA_Variant value;			//declaraï¿½ï¿½o da 
+	UA_Variant_init(&value);	//variï¿½vel value
+	while (UA_STATUSCODE_GOOD != UA_Client_readValueAttribute(client, UA_NODEID_STRING(4, str), &value)); // Guarda em "value" o valor da variï¿½vel "var" 
 
 	return *(UA_Int16*)value.data;
 }
 
-// Escreve uma variável do tipo inteiro
-// Recebe como parâmetros de entrada o cliente, uma string com o nome da variável e o valor a escrever
+// Escreve uma variï¿½vel do tipo inteiro
+// Recebe como parï¿½metros de entrada o cliente, uma string com o nome da variï¿½vel e o valor a escrever
 void OPCUA_writeInt(UA_Client * client, const char* var, int val) {
 
-	char str[100] = "|var|CODESYS Control Win V3 x64.Application.MAIN."; // Mapeamento da variável "var"
-	strcat_s(str, var);
+	char str[100] = "|var|CODESYS Control Win V3 x64.Application.MAIN."; // Mapeamento da variï¿½vel "var"
+	strcat(str, var);
 
 	UA_Variant newval;
 	UA_Int16 nv = val;
@@ -38,26 +38,26 @@ void OPCUA_writeInt(UA_Client * client, const char* var, int val) {
 	while (UA_STATUSCODE_GOOD != UA_Client_writeValueAttribute(client, UA_NODEID_STRING(4, str), &newval));
 }
 
-// Lê uma variável do tipo boolean (retorna o seu valor)
-// Recebe como parâmetros de entrada o cliente e uma string com o nome da variável a ler
+// Lï¿½ uma variï¿½vel do tipo boolean (retorna o seu valor)
+// Recebe como parï¿½metros de entrada o cliente e uma string com o nome da variï¿½vel a ler
 bool OPCUA_readBool(UA_Client * client, const char* var) {
 
-	char str[100] = "|var|CODESYS Control Win V3 x64.Application.MAIN."; // Mapeamento da variável "var"
-	strcat_s(str, var);
+	char str[100] = "|var|CODESYS Control Win V3 x64.Application.MAIN."; // Mapeamento da variï¿½vel "var"
+	strcat(str, var);
 
-	UA_Variant value;			//declaração da 
-	UA_Variant_init(&value);	//variável value
-	UA_Client_readValueAttribute(client, UA_NODEID_STRING(4, str), &value); // Guarda em "value" o valor da variável "var" 
+	UA_Variant value;			//declaraï¿½ï¿½o da 
+	UA_Variant_init(&value);	//variï¿½vel value
+	UA_Client_readValueAttribute(client, UA_NODEID_STRING(4, str), &value); // Guarda em "value" o valor da variï¿½vel "var" 
 
 	return *(UA_Boolean*)value.data;
 }
 
-// Escreve uma variável do tipo boolean
-// Recebe como parâmetros de entrada o cliente, uma string com o nome da variável e o valor a escrever
+// Escreve uma variï¿½vel do tipo boolean
+// Recebe como parï¿½metros de entrada o cliente, uma string com o nome da variï¿½vel e o valor a escrever
 void OPCUA_writeBool(UA_Client * client, const char* var, bool val) {
 
-	char str[100] = "|var|CODESYS Control Win V3 x64.Application.MAIN."; // Mapeamento da variável "var"
-	strcat_s(str, var);
+	char str[100] = "|var|CODESYS Control Win V3 x64.Application.MAIN."; // Mapeamento da variï¿½vel "var"
+	strcat(str, var);
 
 	UA_Variant newval;
 	UA_Boolean nv = val;

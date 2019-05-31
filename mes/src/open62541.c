@@ -769,7 +769,7 @@ int __secs_to_tm(long long t, struct mytm* tm);
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2014, 2017 (c) Florian Palm
  *    Copyright 2015 (c) LEvertz
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2015 (c) Chris Iatrou
  *    Copyright 2015-2016 (c) Oleksiy Vasylyev
  *    Copyright 2017 (c) Stefan Profanter, fortiss GmbH
@@ -931,7 +931,7 @@ extern "C" {
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  *
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
- *    Copyright 2015 (c) Sten Grüner
+ *    Copyright 2015 (c) Sten Grï¿½ner
  *    Copyright 2014, 2017 (c) Florian Palm
  *    Copyright 2017 (c) Stefan Profanter, fortiss GmbH
  *    Copyright 2017 (c) Mark Giraud, Fraunhofer IOSB
@@ -4243,7 +4243,7 @@ extern "C" {
  *
  *    Copyright 2015-2017 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2015 (c) Chris Iatrou
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2015 (c) Oleksiy Vasylyev
  *    Copyright 2017 (c) Florian Palm
  *    Copyright 2017 (c) Stefan Profanter, fortiss GmbH
@@ -4420,7 +4420,7 @@ UA_Boolean UA_Subscription_reachedPublishReqLimit(UA_Server* server, UA_Session*
  *
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2014, 2017 (c) Florian Palm
- *    Copyright 2015 (c) Sten Grüner
+ *    Copyright 2015 (c) Sten Grï¿½ner
  *    Copyright 2015 (c) Oleksiy Vasylyev
  *    Copyright 2017 (c) Stefan Profanter, fortiss GmbH
  */
@@ -4550,7 +4550,7 @@ extern "C" {
  *
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2014, 2017 (c) Florian Palm
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2015 (c) Chris Iatrou
  *    Copyright 2015-2016 (c) Oleksiy Vasylyev
  *    Copyright 2016-2017 (c) Stefan Profanter, fortiss GmbH
@@ -4922,7 +4922,7 @@ extern "C" {
  *
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2014-2017 (c) Florian Palm
- *    Copyright 2015 (c) Sten Grüner
+ *    Copyright 2015 (c) Sten Grï¿½ner
  *    Copyright 2014 (c) LEvertz
  *    Copyright 2015 (c) Chris Iatrou
  *    Copyright 2015 (c) Christian Fimmers
@@ -5462,7 +5462,7 @@ extern "C" {
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2015-2017 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2015 (c) Oleksiy Vasylyev
  *    Copyright 2016-2017 (c) Florian Palm
@@ -5624,7 +5624,7 @@ receiveServiceResponse(UA_Client* client, void* response, const UA_DataType* res
  *
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2014, 2016-2017 (c) Florian Palm
- *    Copyright 2014-2016 (c) Sten Grüner
+ *    Copyright 2014-2016 (c) Sten Grï¿½ner
  *    Copyright 2014 (c) Leon Urbas
  *    Copyright 2015 (c) Chris Iatrou
  *    Copyright 2015 (c) Markus Graube
@@ -6748,7 +6748,7 @@ isDataTypeNumeric(const UA_DataType * type) {
  *
  *    Copyright 2014-2018 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2014-2017 (c) Florian Palm
- *    Copyright 2014-2016 (c) Sten Grüner
+ *    Copyright 2014-2016 (c) Sten Grï¿½ner
  *    Copyright 2014 (c) Leon Urbas
  *    Copyright 2015 (c) LEvertz
  *    Copyright 2015 (c) Chris Iatrou
@@ -17872,7 +17872,7 @@ dequeueChange(UA_Timer * t) {
 
 /* Adding repeated callbacks: Add an entry with the "nextTime" timestamp in the
  * future. This will be picked up in the next iteration and inserted at the
- * correct place. So that the next execution takes place ät "nextTime". */
+ * correct place. So that the next execution takes place ï¿½t "nextTime". */
 UA_StatusCode
 UA_Timer_addRepeatedCallback(UA_Timer * t, UA_TimerCallback callback,
 	void* data, UA_UInt32 interval,
@@ -18166,7 +18166,7 @@ UA_Timer_deleteMembers(UA_Timer * t) {
  *
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2014, 2016-2017 (c) Florian Palm
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2015 (c) Oleksiy Vasylyev
  *    Copyright 2016-2017 (c) Stefan Profanter, fortiss GmbH
  *    Copyright 2017 (c) Mark Giraud, Fraunhofer IOSB
@@ -18416,7 +18416,7 @@ UA_Connection_attachSecureChannel(UA_Connection * connection, UA_SecureChannel *
  *
  *    Copyright 2014-2018 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2014, 2016-2017 (c) Florian Palm
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2015 (c) Oleksiy Vasylyev
  *    Copyright 2016 (c) TorbenD
  *    Copyright 2017 (c) Stefan Profanter, fortiss GmbH
@@ -19754,7 +19754,7 @@ UA_Session_queuePublishReq(UA_Session * session, UA_PublishResponseEntry * entry
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  *
  *    Copyright 2015-2017 (c) Julius Pfrommer, Fraunhofer IOSB
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2015 (c) Chris Iatrou
  *    Copyright 2015, 2017 (c) Florian Palm
  *    Copyright 2015 (c) Oleksiy Vasylyev
@@ -20370,7 +20370,7 @@ void UA_Node_deleteReferences(UA_Node * node) {
  *
  *    Copyright 2014-2018 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2014-2017 (c) Florian Palm
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2015-2016 (c) Chris Iatrou
  *    Copyright 2015 (c) LEvertz
  *    Copyright 2015-2016 (c) Oleksiy Vasylyev
@@ -26337,7 +26337,7 @@ UA_StatusCode ua_namespace0(UA_Server * server) {
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  *
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
- *    Copyright 2014-2016 (c) Sten Grüner
+ *    Copyright 2014-2016 (c) Sten Grï¿½ner
  *    Copyright 2014-2015, 2017 (c) Florian Palm
  *    Copyright 2015-2016 (c) Chris Iatrou
  *    Copyright 2015-2016 (c) Oleksiy Vasylyev
@@ -27651,10 +27651,10 @@ const UA_ViewAttributes UA_ViewAttributes_default = {
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  *
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
- *    Copyright 2014-2016 (c) Sten Grüner
+ *    Copyright 2014-2016 (c) Sten Grï¿½ner
  *    Copyright 2015 (c) Chris Iatrou
  *    Copyright 2015 (c) Nick Goossens
- *    Copyright 2015 (c) Jörg Schüler-Maroldt
+ *    Copyright 2015 (c) Jï¿½rg Schï¿½ler-Maroldt
  *    Copyright 2015-2016 (c) Oleksiy Vasylyev
  *    Copyright 2016-2017 (c) Florian Palm
  *    Copyright 2017 (c) Stefan Profanter, fortiss GmbH
@@ -28272,7 +28272,7 @@ UA_Server_unregister_discovery(UA_Server * server, const char* discoveryServerUr
  *
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2014-2017 (c) Florian Palm
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2015 (c) Oleksiy Vasylyev
  *    Copyright 2017 (c) Stefan Profanter, fortiss GmbH
  *    Copyright 2017 (c) Mark Giraud, Fraunhofer IOSB
@@ -28524,7 +28524,7 @@ UA_SecureChannelManager_close(UA_SecureChannelManager * cm, UA_UInt32 channelId)
  *
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2014, 2017 (c) Florian Palm
- *    Copyright 2015 (c) Sten Grüner
+ *    Copyright 2015 (c) Sten Grï¿½ner
  *    Copyright 2015 (c) Oleksiy Vasylyev
  *    Copyright 2017 (c) Stefan Profanter, fortiss GmbH
  */
@@ -28710,7 +28710,7 @@ UA_SessionManager_removeSession(UA_SessionManager * sm, const UA_NodeId * token)
  *
  *    Copyright 2015-2017 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2015 (c) Chris Iatrou
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2017-2018 (c) Thomas Stalder, Blue Time Concept SA
  *    Copyright 2015 (c) Joakim L. Gilje
  *    Copyright 2016-2017 (c) Florian Palm
@@ -28718,7 +28718,7 @@ UA_SessionManager_removeSession(UA_SessionManager * sm, const UA_NodeId * token)
  *    Copyright 2017 (c) frax2222
  *    Copyright 2017 (c) Stefan Profanter, fortiss GmbH
  *    Copyright 2017 (c) Mattias Bornhager
- *    Copyright 2018 (c) Hilscher Gesellschaft für Systemautomation mbH (Author: Martin Lang)
+ *    Copyright 2018 (c) Hilscher Gesellschaft fï¿½r Systemautomation mbH (Author: Martin Lang)
  */
 
 
@@ -29679,7 +29679,7 @@ MonitoredItem_unregisterSampleCallback(UA_Server * server, UA_MonitoredItem * mo
  *
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2014-2017 (c) Florian Palm
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2015 (c) LEvertz
  *    Copyright 2015 (c) Chris Iatrou
  *    Copyright 2015 (c) Ecosmos
@@ -30447,7 +30447,7 @@ void Service_UnregisterNodes(UA_Server * server, UA_Session * session,
  *    Copyright 2015 (c) Chris Iatrou
  *    Copyright 2015-2017 (c) Florian Palm
  *    Copyright 2015-2017 (c) Julius Pfrommer, Fraunhofer IOSB
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2015 (c) Oleksiy Vasylyev
  *    Copyright 2016 (c) LEvertz
  *    Copyright 2017 (c) Stefan Profanter, fortiss GmbH
@@ -30726,7 +30726,7 @@ UA_Server_call(UA_Server * server, const UA_CallMethodRequest * request) {
  *
  *    Copyright 2014-2018 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2014-2017 (c) Florian Palm
- *    Copyright 2014-2016 (c) Sten Grüner
+ *    Copyright 2014-2016 (c) Sten Grï¿½ner
  *    Copyright 2015 (c) Chris Iatrou
  *    Copyright 2015 (c) Oleksiy Vasylyev
  *    Copyright 2017 (c) Stefan Profanter, fortiss GmbH
@@ -30955,7 +30955,7 @@ checkSignature(const UA_Server * server, const UA_SecureChannel * channel,
 
 /* TODO: Check all of the following:
  *
- * Part 4, §5.6.3: When the ActivateSession Service is called for the first time
+ * Part 4, ï¿½5.6.3: When the ActivateSession Service is called for the first time
  * then the Server shall reject the request if the SecureChannel is not same as
  * the one associated with the CreateSession request. Subsequent calls to
  * ActivateSession may be associated with different SecureChannels. If this is
@@ -31052,7 +31052,7 @@ Service_CloseSession(UA_Server * server, UA_Session * session,
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  *
  *    Copyright 2014-2018 (c) Julius Pfrommer, Fraunhofer IOSB
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2014-2017 (c) Florian Palm
  *    Copyright 2015 (c) Christian Fimmers
  *    Copyright 2015-2016 (c) Chris Iatrou
@@ -32441,7 +32441,7 @@ __UA_Server_write(UA_Server * server, const UA_NodeId * nodeId,
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  *
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
- *    Copyright 2014-2016 (c) Sten Grüner
+ *    Copyright 2014-2016 (c) Sten Grï¿½ner
  *    Copyright 2014, 2017 (c) Florian Palm
  *    Copyright 2016 (c) Oleksiy Vasylyev
  *    Copyright 2016-2017 (c) Stefan Profanter, fortiss GmbH
@@ -33209,7 +33209,7 @@ UA_Server_setRegisterServerCallback(UA_Server * server,
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2016-2017 (c) Florian Palm
  *    Copyright 2015 (c) Chris Iatrou
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2015-2016 (c) Oleksiy Vasylyev
  *    Copyright 2017 (c) Stefan Profanter, fortiss GmbH
  *    Copyright 2017 (c) Mattias Bornhager
@@ -34042,7 +34042,7 @@ Service_CloseSecureChannel(UA_Server * server, UA_SecureChannel * channel) {
  *
  *    Copyright 2014-2017 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2014-2017 (c) Florian Palm
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2015-2016 (c) Chris Iatrou
  *    Copyright 2015-2016 (c) Oleksiy Vasylyev
  *    Copyright 2017 (c) Julian Grothoff
@@ -36517,7 +36517,7 @@ iterateMulticastDiscoveryServer(UA_Server * server, UA_DateTime * nextRepeat,
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  *
  *    Copyright 2015-2017 (c) Julius Pfrommer, Fraunhofer IOSB
- *    Copyright 2015-2016 (c) Sten Grüner
+ *    Copyright 2015-2016 (c) Sten Grï¿½ner
  *    Copyright 2015-2016 (c) Chris Iatrou
  *    Copyright 2015 (c) hfaham
  *    Copyright 2015-2017 (c) Florian Palm
@@ -38281,10 +38281,10 @@ UA_Client_readArrayDimensionsAttribute(UA_Client * client, const UA_NodeId nodeI
  *
  *    Copyright 2015-2018 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2015 (c) Oleksiy Vasylyev
- *    Copyright 2016 (c) Sten Grüner
+ *    Copyright 2016 (c) Sten Grï¿½ner
  *    Copyright 2017-2018 (c) Thomas Stalder, Blue Time Concept SA
  *    Copyright 2016-2017 (c) Florian Palm
- *    Copyright 2017 (c) Frank Meerkötter
+ *    Copyright 2017 (c) Frank Meerkï¿½tter
  *    Copyright 2017 (c) Stefan Profanter, fortiss GmbH
  */
 
@@ -39066,10 +39066,10 @@ UA_Client_Subscriptions_backgroundPublish(UA_Client * client) {
  *
  *    Copyright 2015-2018 (c) Julius Pfrommer, Fraunhofer IOSB
  *    Copyright 2015 (c) Oleksiy Vasylyev
- *    Copyright 2016 (c) Sten Grüner
+ *    Copyright 2016 (c) Sten Grï¿½ner
  *    Copyright 2017-2018 (c) Thomas Stalder, Blue Time Concept SA
  *    Copyright 2016-2017 (c) Florian Palm
- *    Copyright 2017 (c) Frank Meerkötter
+ *    Copyright 2017 (c) Frank Meerkï¿½tter
  *    Copyright 2017 (c) Stefan Profanter, fortiss GmbH
  */
 

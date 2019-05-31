@@ -2,13 +2,12 @@
 #define II_DATABASE_H
 
 #include <iostream>
-#include <pqxx/pqxx>
+#include "libpq-fe.h"
 #include <string>
 #include <vector>
 
 #include "configs.h"
 
-using namespace pqxx;
 using namespace std;
 
 class Database {

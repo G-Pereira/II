@@ -548,8 +548,8 @@ void ProductionCell::machineSelector(UA_Client* client) {
 	if ((type == 1) || (type == 3)) {
 
 		char sf[20], av[20];
-		sprintf_s(sf, 10, "C%dT4_sf", type);
-		sprintf_s(av, 10, "C%d_av", type);
+		sprintf(sf, "C%dT4_sf", type);
+		sprintf(av, "C%d_av", type);
 
 		if (RE(OPCUA_readBool(client, sf), type)) { // RE 1 and 3
 			if (machineOpQueueBC.front()) {
@@ -596,8 +596,8 @@ void ProductionCell::machineSelector(UA_Client* client) {
 	else if ((type == 2) || (type == 4)) {
 
 		char sf[20], av[20];
-		sprintf_s(sf, 10, "C%dT3_sf", type);
-		sprintf_s(av, 10, "C%d_av", type);
+		sprintf(sf, "C%dT3_sf", type);
+		sprintf(av, "C%d_av", type);
 
 		if (RE(OPCUA_readBool(client, sf), type)) { // RE 2 and 4
 			if (machineOpQueueA.front()) { 
@@ -677,9 +677,9 @@ void ProductionCell::updateQueue(UA_Client* client) {
 	if ((type == 1) || (type == 3)) {
 
 	char t4[20], t5[20], t6[20];
-	sprintf_s(t4, 10, "C%dT4_done", type);
-	sprintf_s(t5, 10, "C%dT5_done", type);
-	sprintf_s(t6, 10, "C%dT6_done", type);
+	sprintf(t4, "C%dT4_done", type);
+	sprintf(t5, "C%dT5_done", type);
+	sprintf(t6, "C%dT6_done", type);
 
 		if (RE(OPCUA_readBool(client, t4), 10 + type * 2)) { // RE 12 and 16
 			if (machineOpQueueA.front()) {
@@ -711,9 +711,9 @@ void ProductionCell::updateQueue(UA_Client* client) {
 	else if ((type == 2) || (type == 4)) {
 
 	char t4[20], t5[20], t6[20];
-	sprintf_s(t4, 10, "C%dT4_done", type);
-	sprintf_s(t5, 10, "C%dT5_done", type);
-	sprintf_s(t6, 10, "C%dT6_done", type);
+	sprintf(t4, "C%dT4_done", type);
+	sprintf(t5, "C%dT5_done", type);
+	sprintf(t6, "C%dT6_done", type);
 
 		if (RE(OPCUA_readBool(client, t4), 20 + type * 2)) { // RE 24 and 28
 			if (machineOpQueueAB1.front()) {
@@ -759,20 +759,20 @@ void ProductionCell::updateAction(UA_Client* client) {
 		char t6_op[20], t6_dt[20], t6_tt[20];
 		char doubleA[20];
 
-		sprintf_s(t4_op, 10, "C%dT4_op", type);
-		sprintf_s(t4_dt, 10, "C%dT4_dt", type);
-		sprintf_s(t4_tt, 10, "C%dT4_tt", type);
-		sprintf_s(t4_w, 10, "C%dT4_w", type);
+		sprintf(t4_op, "C%dT4_op", type);
+		sprintf(t4_dt, "C%dT4_dt", type);
+		sprintf(t4_tt, "C%dT4_tt", type);
+		sprintf(t4_w, "C%dT4_w", type);
 
-		sprintf_s(t5_op, 10, "C%dT5_op", type);
-		sprintf_s(t5_dt, 10, "C%dT5_dt", type);
-		sprintf_s(t5_tt, 10, "C%dT5_tt", type);
+		sprintf(t5_op, "C%dT5_op", type);
+		sprintf(t5_dt, "C%dT5_dt", type);
+		sprintf(t5_tt, "C%dT5_tt", type);
 
-		sprintf_s(t6_op, 10, "C%dT6_op", type);
-		sprintf_s(t6_dt, 10, "C%dT6_dt", type);
-		sprintf_s(t6_tt, 10, "C%dT6_tt", type);
+		sprintf(t6_op, "C%dT6_op", type);
+		sprintf(t6_dt, "C%dT6_dt", type);
+		sprintf(t6_tt, "C%dT6_tt", type);
 
-		sprintf_s(doubleA, 10, "doubleA%d", type);
+		sprintf(doubleA, "doubleA%d", type);
 
 		if (machineOpQueueA.size())
 			OPCUA_writeBool(client, t4_op, machineOpQueueA.front());
@@ -827,21 +827,21 @@ void ProductionCell::updateAction(UA_Client* client) {
 		char t6_op[20], t6_dt[20], t6_tt[20];
 		char doubleC[20], doubleA[20];
 
-		sprintf_s(t4_op, 10, "C%dT4_op", type);
-		sprintf_s(t4_dt, 10, "C%dT4_dt", type);
-		sprintf_s(t4_tt, 10, "C%dT4_tt", type);
+		sprintf(t4_op, "C%dT4_op", type);
+		sprintf(t4_dt, "C%dT4_dt", type);
+		sprintf(t4_tt, "C%dT4_tt", type);
 
-		sprintf_s(t5_op, 10, "C%dT5_op", type);
-		sprintf_s(t5_dt, 10, "C%dT5_dt", type);
-		sprintf_s(t5_tt, 10, "C%dT5_tt", type);
-		sprintf_s(t5_w, 10, "C%dT5_w", type);
+		sprintf(t5_op, "C%dT5_op", type);
+		sprintf(t5_dt, "C%dT5_dt", type);
+		sprintf(t5_tt, "C%dT5_tt", type);
+		sprintf(t5_w, "C%dT5_w", type);
 
-		sprintf_s(t6_op, 10, "C%dT6_op", type);
-		sprintf_s(t6_dt, 10, "C%dT6_dt", type);
-		sprintf_s(t6_tt, 10, "C%dT6_tt", type);
+		sprintf(t6_op, "C%dT6_op", type);
+		sprintf(t6_dt, "C%dT6_dt", type);
+		sprintf(t6_tt, "C%dT6_tt", type);
 
-		sprintf_s(doubleC, 10, "doubleC%d", type);
-		sprintf_s(doubleA, 10, "doubleA%d", type);
+		sprintf(doubleC, "doubleC%d", type);
+		sprintf(doubleA, "doubleA%d", type);
 
 	if (machineOpQueueAB1.size())
 		OPCUA_writeBool(client, t4_op, machineOpQueueAB1.front());

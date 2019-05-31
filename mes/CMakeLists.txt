@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.10)
 project(II)
 
 # Set C++ version
@@ -17,4 +17,4 @@ file(GLOB_RECURSE HEADER_FILES ${SOURCE_DIR}/*.h)
 file(GLOB_RECURSE SOURCE_FILES ${SOURCE_DIR}/*.cpp)
 
 add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
-target_link_libraries(${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME} pq pqxx)
