@@ -68,10 +68,30 @@ void Factory::updateCycle() {
 	}
 
 	int in = OPCUA_readInt(client, "inputUnit");
-	int ord = OPCUA_readInt(client, "inputOrder");
+	int ordID = OPCUA_readInt(client, "inputOrder");
 
-	if (RE((bool)in, 19)) // RE 19
+	if (RE((bool)in, 19)) {// RE 19
 		warehouse[in - 1]++;
+
+		for(Order *ord : orders) {
+			if(ord->id == ordID) {
+				ord->numDoing--;
+				ord->numDone++;
+
+				if(ord->numDone == ord->quantity) {
+					ord->endTime = time(NULL);
+
+					// TODO: send order to database
+
+					auto i = &ord - &orders[0];
+					orders.erase(orders.begin()+i);
+					delete ord;
+				}
+
+				break;
+			}
+		}
+	}
 	
 	int unitR1 = OPCUA_readInt(client, "unitR1");
 	int unitR2 = OPCUA_readInt(client, "unitR2");
@@ -246,6 +266,10 @@ bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {
 	// If it can send a unit then send it and update availabilities
 	if(minAvailability < 9) {
 		// TODO: change quantities and times on order class
+		if(ord->numDoing + ord->numDone == 0)
+			ord->startTime = time(NULL);
+
+		ord->numDoing++;
 
 		switch(minCell) {
 		case 0: case 2:
