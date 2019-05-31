@@ -15,8 +15,8 @@ public:
 
 	vector <uint8_t> warehouse = { 27, 27, 27, 27, 27, 27, 27, 27, 27 };
 
-	list<ProcessingOrder*> pOrders;
-	list<UnloadingOrder*> uOrders;
+	vector<ProcessingOrder> pOrders;
+	vector<UnloadingOrder> uOrders;
 	vector<bool> ordersSequence;
 
 	vector<ProductionCell> prodCell;

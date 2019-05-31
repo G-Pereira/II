@@ -73,23 +73,27 @@ void Factory::updateCycle() {
 	if (RE((bool)in, 19)) {// RE 19
 		warehouse[in - 1]++;
 
+		auto ordSeq = ordersSequence.begin();
 		for(auto ord = pOrders.begin(); ord != pOrders.end(); ord++) {
-			if((*ord)->id == ordID) {
-				(*ord)->numDoing--;
-				(*ord)->numDone++;
+			while(ordSeq != ordersSequence.end() && !*ordSeq) ordSeq++;
 
-				cout << "id: " << unsigned((*ord)->id) << "\tquant: " << unsigned((*ord)->quantity) << "\tdoing: " << unsigned((*ord)->numDoing) << "\tdone: " << unsigned((*ord)->numDone) << "\n";
-				if((*ord)->numDone == (*ord)->quantity) {
-					(*ord)->endTime = time(NULL);
+			if(ord->id == ordID) {
+				ord->numDoing--;
+				ord->numDone++;
+
+				if(ord->numDone == ord->quantity) {
+					ord->endTime = time(NULL);
 
 					// TODO: send order to database
 
+					if(ordSeq != ordersSequence.end()) ordersSequence.erase(ordSeq);
 					pOrders.erase(ord);
-					delete *ord;
 				}
 				
 				break;
 			}
+
+			ordSeq++;
 		}
 	}
 	
@@ -190,7 +194,7 @@ int8_t Factory::createXMLOrders() {
 
 			xmlTransform->QueryIntAttribute("Quantity", &quantity);
 
-			pOrders.push_back(new ProcessingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)finalType, (uint8_t)quantity));
+			pOrders.push_back(ProcessingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)finalType, (uint8_t)quantity));
 			ordersSequence.push_back(true);
 		}
 
@@ -208,7 +212,7 @@ int8_t Factory::createXMLOrders() {
 
 			xmlUnload->QueryIntAttribute("Quantity", &quantity);
 
-			uOrders.push_back(new UnloadingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)destPusher, (uint8_t)quantity));
+			uOrders.push_back(UnloadingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)destPusher, (uint8_t)quantity));
 			ordersSequence.push_back(false);
 		}
 
@@ -298,42 +302,40 @@ bool Factory::processUOrder(UnloadingOrder* ord) {
 
 // Decides which Unit should be sent next according to the pending orders and cells availabilities
 void Factory::pollOrders() {			// TODO: check if valid transformation
-	list<ProcessingOrders*>::iterator = pOrd;
-	list<UnloadingOrders*>::iterator = uOrd;
+	int i, j;
 
 	if(!workUnit.size()) {
 		// First check if there is a unit that can be immediatly serviced
-		pOrd = pOrders.begin();
-		uOrd = uOrders.begin();
-		for(bool orderType : ordersSequence) {
-			if(orderType) {	// Processing Order
-				if((warehouse[(*pOrd)->unitType-1] > 0) && ((*pOrd)->quantity > ((*pOrd)->numDoing + (*pOrd)->numDone)))
-					if(processPOrder(*pOrd, 0)) return;
+		i = 0; j = 0;
+		for(auto orderType = ordersSequence.begin(); orderType != ordersSequence.end(); orderType++) {
+			if(*orderType) {	// Processing Order
+				if((warehouse[pOrders[i].unitType-1] > 0) && (pOrders[i].quantity > (pOrders[i].numDoing + pOrders[i].numDone)))
+					if(processPOrder(&pOrders[i], 0)) return;
 
-				pOrd++;
+				i++;
 			}
 			else {			// Unloading Order
-				if((warehouse[(*uOrd)->unitType-1] > 0) && ((*uOrd)->quantity > ((*uOrd)->numDoing + (*uOrd)->numDone)))
-					if(processUOrder((*uOrd))) return;
+				if((warehouse[uOrders[j].unitType-1] > 0) && (uOrders[j].quantity > (uOrders[j].numDoing + uOrders[j].numDone)))
+					if(processUOrder(&uOrders[j])) return;
 				
-				uOrd++;
+				j++;
 			}
 		}
 
-		// If there is no unit that can be serviced then check if there is enough space in the cells to keep the next unit 
+		// If there is no unit that can be serviced then check if there is enough space in the cells to keep the next unit
 		i = 0; j = 0;
-		for(bool orderType : ordersSequence) {
-			if(orderType) {	// Processing Order
-				if((warehouse[(*pOrd)->unitType - 1] > 0) && ((*pOrd)->quantity > ((*pOrd)->numDoing + (*pOrd)->numDone)))
-					if(processPOrder((*pOrd), 1)) return;
+		for (auto orderType = ordersSequence.begin(); orderType != ordersSequence.end(); orderType++) {
+			if(*orderType){	// Processing Order
+				if((warehouse[pOrders[i].unitType - 1] > 0) && (pOrders[i].quantity > (pOrders[i].numDoing + pOrders[i].numDone)))
+					if(processPOrder(&pOrders[i], 1)) return;
 
-				pOrd++;
+				i++;
 			}
 			else {			// Unloading Order
-				if((warehouse[(*uOrd)->unitType - 1] > 0) && ((*uOrd)->quantity > ((*uOrd)->numDoing + (*uOrd)->numDone)))
-					if(processUOrder(uOrders[j])) return;
+				if((warehouse[uOrders[j].unitType - 1] > 0) && (uOrders[j].quantity > (uOrders[j].numDoing + uOrders[j].numDone)))
+					if(processUOrder(&uOrders[j])) return;
 
-				uOrd++;
+				j++;
 			}
 		}
 	}

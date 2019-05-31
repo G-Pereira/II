@@ -9,10 +9,10 @@ int main() {
 	ourFactory.recvOrders();
 
 	for(auto ord : ourFactory.pOrders)
-		ord->print();
+		ord.print();
 
 	for(auto ord : ourFactory.uOrders)
-		ord->print();
+		ord.print();
 
 	while (true)
 	{
