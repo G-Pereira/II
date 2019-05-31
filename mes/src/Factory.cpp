@@ -73,20 +73,19 @@ void Factory::updateCycle() {
 	if (RE((bool)in, 19)) {// RE 19
 		warehouse[in - 1]++;
 
-		for(auto *ord : pOrders) {
-			if(ord->id == ordID) {
-				ord->numDoing--;
-				ord->numDone++;
+		for(auto ord = pOrders.begin(); ord != pOrders.end(); ord++) {
+			if((*ord)->id == ordID) {
+				(*ord)->numDoing--;
+				(*ord)->numDone++;
 
-				cout << "id: " << unsigned(ord->id) << "\tquant: " << unsigned(ord->quantity) << "\tdoing: " << unsigned(ord->numDoing) << "\tdone: " << unsigned(ord->numDone) << "\n";
-				if(ord->numDone == ord->quantity) {
-					ord->endTime = time(NULL);
+				cout << "id: " << unsigned((*ord)->id) << "\tquant: " << unsigned((*ord)->quantity) << "\tdoing: " << unsigned((*ord)->numDoing) << "\tdone: " << unsigned((*ord)->numDone) << "\n";
+				if((*ord)->numDone == (*ord)->quantity) {
+					(*ord)->endTime = time(NULL);
 
 					// TODO: send order to database
 
-					auto i = &ord - &pOrders[0];
-					pOrders.erase(pOrders.begin()+i);
-					delete ord;
+					pOrders.erase(ord);
+					delete *ord;
 				}
 				
 				break;
@@ -299,23 +298,25 @@ bool Factory::processUOrder(UnloadingOrder* ord) {
 
 // Decides which Unit should be sent next according to the pending orders and cells availabilities
 void Factory::pollOrders() {			// TODO: check if valid transformation
-	int i, j;
+	list<ProcessingOrders*>::iterator = pOrd;
+	list<UnloadingOrders*>::iterator = uOrd;
 
 	if(!workUnit.size()) {
 		// First check if there is a unit that can be immediatly serviced
-		i = 0; j = 0;
+		pOrd = pOrders.begin();
+		uOrd = uOrders.begin();
 		for(bool orderType : ordersSequence) {
 			if(orderType) {	// Processing Order
-				if((warehouse[pOrders[i]->unitType-1] > 0) && (pOrders[i]->quantity > (pOrders[i]->numDoing + pOrders[i]->numDone)))
-					if(processPOrder(pOrders[i], 0)) return;
+				if((warehouse[(*pOrd)->unitType-1] > 0) && ((*pOrd)->quantity > ((*pOrd)->numDoing + (*pOrd)->numDone)))
+					if(processPOrder(*pOrd, 0)) return;
 
-				i++;
+				pOrd++;
 			}
 			else {			// Unloading Order
-				if((warehouse[uOrders[j]->unitType-1] > 0) && (uOrders[j]->quantity > (uOrders[j]->numDoing + uOrders[j]->numDone)))
-					if(processUOrder(uOrders[j])) return;
+				if((warehouse[(*uOrd)->unitType-1] > 0) && ((*uOrd)->quantity > ((*uOrd)->numDoing + (*uOrd)->numDone)))
+					if(processUOrder((*uOrd))) return;
 				
-				j++;
+				uOrd++;
 			}
 		}
 
@@ -323,16 +324,16 @@ void Factory::pollOrders() {			// TODO: check if valid transformation
 		i = 0; j = 0;
 		for(bool orderType : ordersSequence) {
 			if(orderType) {	// Processing Order
-				if((warehouse[pOrders[i]->unitType - 1] > 0) && (pOrders[i]->quantity > (pOrders[i]->numDoing + pOrders[i]->numDone)))
-					if(processPOrder(pOrders[i], 1)) return;
+				if((warehouse[(*pOrd)->unitType - 1] > 0) && ((*pOrd)->quantity > ((*pOrd)->numDoing + (*pOrd)->numDone)))
+					if(processPOrder((*pOrd), 1)) return;
 
-				i++;
+				pOrd++;
 			}
 			else {			// Unloading Order
-				if((warehouse[uOrders[j]->unitType - 1] > 0) && (uOrders[j]->quantity > (uOrders[j]->numDoing + uOrders[j]->numDone)))
+				if((warehouse[(*uOrd)->unitType - 1] > 0) && ((*uOrd)->quantity > ((*uOrd)->numDoing + (*uOrd)->numDone)))
 					if(processUOrder(uOrders[j])) return;
 
-				j++;
+				uOrd++;
 			}
 		}
 	}
