@@ -17,7 +17,8 @@ void Cell::updateAction()
 	return;
 }
 
-ProductionCell::ProductionCell(uint8_t init) : Cell(init), generalAvailability(0) {}
+ProductionCell::ProductionCell(uint8_t init) : Cell(init) {}
+
 
 void ProductionCell::singleOperation(uint8_t bUnit, uint8_t fUnit) {
 	
@@ -363,6 +364,7 @@ void ProductionCell::tripleOperation(uint8_t bUnit, uint8_t fUnit) {
 			doubleOpSAC.push(false);
 
 			waitMachine.push(true);
+			wait++;
 
 			doubleOpD.push(true);
 
@@ -415,6 +417,7 @@ void ProductionCell::tripleOperation(uint8_t bUnit, uint8_t fUnit) {
 			doubleOpSAC.push(false);
 
 			waitMachine.push(true);
+			wait++;
 
 			doubleOpD.push(false);
 
@@ -440,10 +443,10 @@ void ProductionCell::tripleOperation(uint8_t bUnit, uint8_t fUnit) {
 		else if ((bUnit == 8) && (fUnit == 6)) {
 
 			doubleOpSAC.push(true);
-			doubleOpSAC.push(false);
 
 			waitMachine.push(true);
 			waitMachine.push(false);
+			wait++;
 
 			doubleOpD.push(false);
 
@@ -454,23 +457,23 @@ void ProductionCell::tripleOperation(uint8_t bUnit, uint8_t fUnit) {
 			toolMachineQueueBC.push(3);
 			toolTimeQueueBC.push(8);
 
-			// A2: 9 -> 5
 			machineOpQueueA.push(true);
+
+			// A2: 9 -> 5
 			toolMachineQueueA.push(3);
 			toolTimeQueueA.push(8);
 
 			// A2: 5 -> 6
-			//machineOpQueueA.push(true);
 			toolMachineQueueA.push(2);
 			toolTimeQueueA.push(3);
 		}
 		else if ((bUnit == 7) && (fUnit == 6)) {
 
 		doubleOpSAC.push(true);
-		doubleOpSAC.push(false);
 
 		waitMachine.push(true);
 		waitMachine.push(false);
+		wait++;
 
 		doubleOpD.push(false);
 
@@ -487,13 +490,13 @@ void ProductionCell::tripleOperation(uint8_t bUnit, uint8_t fUnit) {
 		toolMachineQueueBC.push(3);
 		toolTimeQueueBC.push(8);
 
-		// A2: 9 -> 5
 		machineOpQueueA.push(true);
+
+		// A2: 9 -> 5
 		toolMachineQueueA.push(3);
 		toolTimeQueueA.push(8);
 
 		// A2: 5 -> 6
-		machineOpQueueA.push(true);
 		toolMachineQueueA.push(2);
 		toolTimeQueueA.push(3);
 		}
@@ -617,10 +620,10 @@ void ProductionCell::machineSelector(UA_Client* client) {
 						machineOpQueueAB2.push(true);
 						toolMachineQueueAB2.push(toolMachineQueueA.front());
 						toolTimeQueueAB2.push(toolTimeQueueA.front());
-						machineOpQueueA.pop();
 						toolMachineQueueA.pop();
 						toolTimeQueueA.pop();
 						doubleOpAW.push(true);
+						doubleOpAW.push(false);
 					}
 					else
 						doubleOpAW.push(false);
@@ -915,23 +918,24 @@ void LoadingCell::process(uint8_t objRoller) {
 	switch (objRoller) {
 	case 1:
 		pusherQueue1.push(true);
-		pushPend++;
+		rotatorQueueP.push(true);
 		break;
 	case 2:
 		pusherQueue1.push(false);
 		pusherQueue2.push(true);
-		pushPend++;
+		rotatorQueueP.push(true);
 		break;
 	case 3:
 		pusherQueue1.push(false);
 		pusherQueue2.push(false);
 		pusherQueue3.push(true);
-		pushPend++;
+		rotatorQueueP.push(true);
 		break;
 	default:
 		pusherQueue1.push(false);
 		pusherQueue2.push(false);
 		pusherQueue3.push(false);
+		rotatorQueueP.push(false);
 		break;
 	}
 
@@ -940,39 +944,21 @@ void LoadingCell::process(uint8_t objRoller) {
 void LoadingCell::updateQueue(UA_Client* client) {
 
 	if (RE(OPCUA_readBool(client, "C5T4_done"), 9)) // RE 9
-		if (pusherQueue1.size()) {
-
-			if (pusherQueue1.front())
-				pushPend--;
-
-			pusherQueue1.pop();
-		}
-
+		pusherQueue1.pop();
+		
 	if (RE(OPCUA_readBool(client, "C5T5_done"), 10)) // RE 10
-		if (pusherQueue2.size()) {
-
-			if (pusherQueue2.front())
-				pushPend--;
-
-			pusherQueue2.pop();
-		}
+		pusherQueue2.pop();
 
 	if (RE(OPCUA_readBool(client, "C5T6_done"), 11)) // RE 11
-		if (pusherQueue3.size()) {
+		pusherQueue3.pop();
 
-			if (pusherQueue3.front())
-				pushPend--;
-
-			pusherQueue3.pop();
-
-			if (pushBlock && !pushPend)
-				pushBlock--;
-		}
+	if (RE(OPCUA_readBool(client, "C5T1_done"), 20)) // RE 20
+		rotatorQueueP.pop();
 
 	if (RE(OPCUA_readBool(client, "loadReady"), 15)) // RE 15
-		pushBlock++;
+		process(0);
 
-	pushAv = OPCUA_readBool(client, "P_av");
+	pushAv = OPCUA_readInt(client, "P_av");
 }
 
 void LoadingCell::updateAction(UA_Client* client) {
@@ -992,7 +978,10 @@ void LoadingCell::updateAction(UA_Client* client) {
 	else
 		OPCUA_writeBool(client, "C5T6_ps", 0);
 
-	OPCUA_writeBool(client, "notLoad", (bool)pushPend);
+	if(rotatorQueueP.size())
+		OPCUA_writeBool(client, "takeLeft", rotatorQueueP.front());
+	else
+		OPCUA_writeBool(client, "takeLeft", true);
 }
 
 TransportationCell::TransportationCell(uint8_t init) : Cell(init) {}
