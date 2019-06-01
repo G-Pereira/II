@@ -13,6 +13,8 @@
 Factory::Factory(uint8_t cellID[6]) : endCell(cellID[4]), topCell(cellID[5]), client(connectPLC()) {
 	for (int i = 0; i < 4; i++)
 		prodCell.push_back(ProductionCell(cellID[i]));
+	
+	db = Database();
 }
 
 UA_Client* Factory::connectPLC() {
@@ -108,6 +110,8 @@ void Factory::updateCycle() {
 	if(orderR1 > prevOrderR1) {
 		for (int i = 0; i < uOrders.size(); i++) {
 			if(uOrders[i].id == orderR1) {
+				db.unloadUnit(1, uOrders[i].unitType);
+
 				uOrders[i].numDoing--;
 				uOrders[i].numDone++;
 				break;
@@ -117,6 +121,8 @@ void Factory::updateCycle() {
 	if(orderR2 > prevOrderR2) {
 		for (int i = 0; i < uOrders.size(); i++) {
 			if (uOrders[i].id == orderR2) {
+				db.unloadUnit(2, uOrders[i].unitType);
+
 				uOrders[i].numDoing--;
 				uOrders[i].numDone++;
 				break;
@@ -126,6 +132,8 @@ void Factory::updateCycle() {
 	if(orderR3 > prevOrderR3) {
 		for (int i = 0; i < uOrders.size(); i++) {
 			if (uOrders[i].id == orderR3) {
+				db.unloadUnit(3, uOrders[i].unitType);
+
 				uOrders[i].numDoing--;
 				uOrders[i].numDone++;
 				break;
@@ -137,10 +145,10 @@ void Factory::updateCycle() {
 	prevOrderR2 = orderR2;
 	prevOrderR3 = orderR3;
 
-	prodCell[0].updateQueue(client);
-	prodCell[1].updateQueue(client);
-	prodCell[2].updateQueue(client);
-	prodCell[3].updateQueue(client);
+	prodCell[0].updateQueue(client, db);
+	prodCell[1].updateQueue(client, db);
+	prodCell[2].updateQueue(client, db);
+	prodCell[3].updateQueue(client, db);
 	endCell.updateQueue(client);
 	topCell.updateQueue(client);
 
@@ -227,6 +235,7 @@ int8_t Factory::createXMLOrders() {
 			xmlTransform->QueryIntAttribute("Quantity", &quantity);
 
 			pOrders.push_back(ProcessingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)finalType, (uint8_t)quantity));
+			db.orderinit(ordNum, quantity);
 			ordersSequence.push_back(true);
 		}
 
@@ -245,6 +254,7 @@ int8_t Factory::createXMLOrders() {
 			xmlUnload->QueryIntAttribute("Quantity", &quantity);
 
 			uOrders.push_back(UnloadingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)destPusher, (uint8_t)quantity));
+			db.orderinit(ordNum, quantity);
 			ordersSequence.push_back(false);
 		}
 

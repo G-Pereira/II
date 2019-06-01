@@ -6,6 +6,9 @@
 #include <vector>
 #include "opcua.h"
 #include "random.h"
+
+#include "Database.h"
+
 using namespace std;
 
 class Cell {
@@ -62,7 +65,7 @@ public:
 
 	void process(uint8_t bUnit, uint8_t fUnit);
 
-	void updateQueue(UA_Client* client);
+	void updateQueue(UA_Client* client, Database db);
 
 	void updateAction(UA_Client* client);
 };

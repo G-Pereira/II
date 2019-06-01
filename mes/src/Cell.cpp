@@ -675,7 +675,7 @@ void ProductionCell::machineSelector(UA_Client* client) {
 	}
 }
 
-void ProductionCell::updateQueue(UA_Client* client) {
+void ProductionCell::updateQueue(UA_Client* client, Database db) {
 	
 	if ((type == 1) || (type == 3)) {
 
@@ -686,6 +686,7 @@ void ProductionCell::updateQueue(UA_Client* client) {
 
 		if (RE(OPCUA_readBool(client, t4), 10 + type * 2)) { // RE 12 and 16
 			if (machineOpQueueA.front()) {
+				db.machineOperation(to_string(type) + "A1", toolTimeQueueA.front());
 				toolMachineQueueA.pop();
 				toolTimeQueueA.pop();
 			}
@@ -696,6 +697,7 @@ void ProductionCell::updateQueue(UA_Client* client) {
 
 		if (RE(OPCUA_readBool(client, t5), 11 + type * 2)) { // RE 13 and 17
 			if (machineOpQueueAB1.front()) {
+				db.machineOperation(to_string(type) + "B1", toolTimeQueueAB1.front());
 				toolMachineQueueAB1.pop();
 				toolTimeQueueAB1.pop();
 			}
@@ -704,6 +706,7 @@ void ProductionCell::updateQueue(UA_Client* client) {
 
 		if (RE(OPCUA_readBool(client, t6), 12 + type * 2)) { // RE 14 and 18
 			if (machineOpQueueAB2.front()) {
+				db.machineOperation(to_string(type) + "B2", toolTimeQueueAB2.front());
 				toolMachineQueueAB2.pop();
 				toolTimeQueueAB2.pop();
 			}
@@ -727,6 +730,7 @@ void ProductionCell::updateQueue(UA_Client* client) {
 
 		if (RE(OPCUA_readBool(client, t4), 20 + type * 2)) { // RE 24 and 28
 			if (machineOpQueueAB1.front()) {
+				db.machineOperation(to_string(type) + "A1", toolTimeQueueAB1.front());
 				toolMachineQueueAB1.pop();
 				toolTimeQueueAB1.pop();
 			}
@@ -735,6 +739,7 @@ void ProductionCell::updateQueue(UA_Client* client) {
 
 		if (RE(OPCUA_readBool(client, t5), 21 + type * 2)) { // RE 25 and 29
 			if (machineOpQueueAB2.front()) {
+				db.machineOperation(to_string(type) + "A2", toolTimeQueueAB2.front());
 				toolMachineQueueAB2.pop();
 				toolTimeQueueAB2.pop();
 			}
@@ -749,6 +754,7 @@ void ProductionCell::updateQueue(UA_Client* client) {
 
 		if (RE(OPCUA_readBool(client, t6), 22 + type * 2)) { // RE 26 and 30
 			if (machineOpQueueBC.front()) {
+				db.machineOperation(to_string(type) + "C1", toolTimeQueueBC.front());
 				toolMachineQueueBC.pop();
 				toolTimeQueueBC.pop();
 			}

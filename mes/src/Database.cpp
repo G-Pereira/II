@@ -1,56 +1,69 @@
 #include "Database.h"
 
-MYSQL *Database::execQuery(string query) {
-  MYSQL *conn = mysql_init(NULL);
+MYSQL* Database::execQuery(string query) {
+	MYSQL* conn = mysql_init(NULL);
+	if (!conn)
+		throw runtime_error("Database Initialization Failed");
 
-  if (!conn)
-    throw runtime_error("Database Initialization Failed");
+	conn = mysql_real_connect(conn, "db.fe.up.pt", user.c_str(),
+		password.c_str(), name.c_str(), 3306, NULL, 0);
 
-  conn = mysql_real_connect(conn, "db.fe.up.pt", user.c_str(),
-	  password.c_str(), name.c_str(), 3306, NULL, 0);
-
-  if (!conn)
-    throw runtime_error("Error Connecting to Database");
+	if (!conn)
+		throw runtime_error("Error Connecting to Database");
 
   if (mysql_query(conn, query.c_str()))
-    throw runtime_error("Query failed: " + string(mysql_error(conn)));
+    throw runtime_error("Query failed: " + query + "\n" + string(mysql_error(conn)));
 
   return conn;
 }
 
 vector<vector<string>> Database::select(string table, string filter) {
-  string query = "SELECT * FROM " + table + " WHERE " + filter;
+	vector<vector<string>> result;
+	try {
+		string query = "SELECT * FROM " + table + " WHERE " + filter;
 
-  MYSQL_RES *res;
-  MYSQL *conn = execQuery(query);
-  MYSQL_ROW row;
+		MYSQL_RES* res;
+		MYSQL* conn = execQuery(query);
+		MYSQL_ROW row;
 
-  vector<vector<string>> result;
-
-  res = mysql_store_result(conn);
-  uint8_t nfields = mysql_num_fields(res);
-  while (row = mysql_fetch_row(res)) {
-    vector<string> results_row;
-    for (uint8_t i = 0; i < nfields; i++) {
-      results_row.push_back(row[i]);
-    }
-    result.push_back(results_row);
-  }
+		res = mysql_store_result(conn);
+		uint8_t nfields = mysql_num_fields(res);
+		while (row = mysql_fetch_row(res)) {
+			vector<string> results_row;
+			for (uint8_t i = 0; i < nfields; i++) {
+				results_row.push_back(row[i]);
+			}
+			result.push_back(results_row);
+		}
+		mysql_free_result(res);
+	}
+	catch (exception& e) {
+		cout << e.what() << endl;
+	}
   return result;
 }
 
 void Database::insert(string table, string fields, string values) {
-  string query =
+  try{
+	string query =
       "INSERT INTO " + table + " (" + fields + ") VALUES (" + values + ")";
-
-  MYSQL *conn = execQuery(query);
+	execQuery(query);
+}
+catch (exception& e) {
+	cout << e.what() << endl;
+}
 }
 
 void Database::update(string table, string values, string condition) {
-  string query =
+  try{
+	string query =
       "UPDATE " + table + " SET " + values + " WHERE " + condition;
 
-  MYSQL *conn = execQuery(query);
+  execQuery(query);
+}
+catch (exception& e) {
+	cout << e.what() << endl;
+}
 }
 
 void Database::orderinit(int orderID, int nUnits) {
@@ -89,12 +102,12 @@ void Database::orderUnitEnd(int orderID) {
 }
 
 void Database::machineOperation(string machineID, int top) {
-  if (select("machine", "id=" + machineID).size() == 0)
+  if (select("machine", "id = \"" + machineID + "\"").size() == 0)
     insert("machine", "id, top, nunits",
-           machineID + ", " + to_string(top) + ", 1");
+           "\"" + machineID + "\", " + to_string(top) + ", 1");
   else
     update("machine", "top = top + " + to_string(top) + ", nunits = nunits + 1",
-           "id = " + machineID);
+           "id = \"" + machineID + "\"");
 }
 
 void Database::unloadUnit(int pusherID, int unitType) {
@@ -104,5 +117,5 @@ void Database::unloadUnit(int pusherID, int unitType) {
   else
     update("pusher",
            "n" + to_string(unitType) + " = n" + to_string(unitType) + " + 1",
-           "id = " + pusherID);
+           "id = " + to_string(pusherID));
 }

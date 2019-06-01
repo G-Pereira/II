@@ -25,7 +25,7 @@ private:
   string user = DB_USER;
   string password = DB_PASS;
 
-  MYSQL *execQuery(string query);
+  MYSQL* execQuery(string query);
   vector<vector<string>> select(string table, string filter = "true");
   void insert(string table, string fields, string values);
   void update(string table, string values, string condition);
