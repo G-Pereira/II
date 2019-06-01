@@ -70,10 +70,7 @@ public:
 	queue <bool> pusherQueue1;
 	queue <bool> pusherQueue2;
 	queue <bool> pusherQueue3;
-
-	uint8_t pushPend = 0;
-
-	uint8_t pushBlock = 0;
+	queue <bool> rotatorQueueP;
 
 	int pushAv = 0;
 
