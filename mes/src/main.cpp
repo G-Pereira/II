@@ -1,6 +1,15 @@
 #include "Factory.h"
+#include "Database.h"
 
 int main() {
+
+	try{
+		Database db;
+		db.orderinit(1, 30);
+	}
+	catch (exception& e) {
+		cout << e.what();
+	}
 
 	uint8_t ID[6] = { 1, 2, 3, 4, 5, 6 };
 
