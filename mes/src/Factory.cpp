@@ -70,8 +70,8 @@ void Factory::updateCycle() {
 	inputUnit = OPCUA_readInt(client, "inputUnit");
 	ordID = OPCUA_readInt(client, "inputOrder");
 
-	if (RE((bool)in, 19)) {// RE 19
-		warehouse[in - 1]++;
+	if (RE((bool)inputUnit, 19)) {// RE 19
+		warehouse[inputUnit - 1]++;
 
 		auto ordSeq = ordersSequence.begin();
 		for(auto ord = pOrders.begin(); ord != pOrders.end(); ord++) {
