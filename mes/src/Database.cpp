@@ -4,8 +4,8 @@ MYSQL *Database::execQuery(string query) {
   MYSQL *conn;
   conn = mysql_init(0);
 
-  conn = mysql_real_connect(conn, "10.227.240.130", user.c_str(), password.c_str(), name.c_str(), 3306,
-                            NULL, 0);
+  conn = mysql_real_connect(conn, "10.227.240.130", user.c_str(),
+                            password.c_str(), name.c_str(), 3306, NULL, 0);
 
   if (!conn)
     throw runtime_error("Error Connecting to Database.");
@@ -28,9 +28,9 @@ vector<vector<string>> Database::select(string table, string filter) {
   res = mysql_store_result(conn);
   uint8_t nfields = mysql_num_fields(res);
   while (row = mysql_fetch_row(res)) {
-	  vector<string> results_row;
-	  for (uint8_t i = 0; i < nfields; i++) {
-		  results_row.push_back(row[i]);
+    vector<string> results_row;
+    for (uint8_t i = 0; i < nfields; i++) {
+      results_row.push_back(row[i]);
     }
     result.push_back(results_row);
   }
@@ -96,6 +96,7 @@ void Database::unloadUnit(int pusherID, int unitType) {
     insert("pusher", "id, n" + to_string(unitType),
            to_string(pusherID) + ", 1");
   else
-    update("pusher", "n" + to_string(unitType)+" = n" + to_string(unitType)+" + 1",
+    update("pusher",
+           "n" + to_string(unitType) + " = n" + to_string(unitType) + " + 1",
            "id = " + pusherID);
 }

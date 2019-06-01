@@ -1,24 +1,31 @@
 #include "Order.h"
 
-Order::Order(uint8_t ordNum, uint8_t unitType) : id(ordNum), unitType(unitType) {}
+Order::Order(uint8_t ordNum, uint8_t unitType)
+    : id(ordNum), unitType(unitType) {}
 
-void Order::print() {
-	std::cout << "ID: " << (int)id << std::endl;
-}
+void Order::print() { std::cout << "ID: " << (int)id << std::endl; }
 
-ProcessingOrder::ProcessingOrder(uint8_t ordNum, uint8_t unitType, uint8_t finalType, uint8_t quantity) : Order(ordNum, unitType), finalType(finalType), quantity(quantity) {
-	this->inTime = time(NULL);
+ProcessingOrder::ProcessingOrder(uint8_t ordNum, uint8_t unitType,
+                                 uint8_t finalType, uint8_t quantity)
+    : Order(ordNum, unitType), finalType(finalType), quantity(quantity) {
+  this->inTime = time(NULL);
 }
 
 void ProcessingOrder::print() {
-	std::cout << "ID: " << (int)id << "\tUnit Type: " << (int)unitType << "\tFinal Type: " << (int)finalType << "\tQuantity: " << (int)quantity << std::endl;
+  std::cout << "ID: " << (int)id << "\tUnit Type: " << (int)unitType
+            << "\tFinal Type: " << (int)finalType
+            << "\tQuantity: " << (int)quantity << std::endl;
 }
 
-UnloadingOrder::UnloadingOrder(uint8_t ordNum, uint8_t unitType, uint8_t destPusher, uint8_t quantity) : Order(ordNum, unitType), destinationPusher(destPusher), quantity(quantity) {
-	this->inTime = time(NULL);
+UnloadingOrder::UnloadingOrder(uint8_t ordNum, uint8_t unitType,
+                               uint8_t destPusher, uint8_t quantity)
+    : Order(ordNum, unitType), destinationPusher(destPusher),
+      quantity(quantity) {
+  this->inTime = time(NULL);
 }
 
 void UnloadingOrder::print() {
-	std::cout << "ID: " << (int)id << "\tUnit Type: " << (int)unitType << "\tDestination Pusher: " << (int)destinationPusher << "\tQuantity: " << (int)quantity << std::endl;	
+  std::cout << "ID: " << (int)id << "\tUnit Type: " << (int)unitType
+            << "\tDestination Pusher: " << (int)destinationPusher
+            << "\tQuantity: " << (int)quantity << std::endl;
 }
-
