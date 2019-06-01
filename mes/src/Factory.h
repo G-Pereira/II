@@ -6,27 +6,30 @@ using namespace std;
 
 class Factory {
 public:
-  UA_Client *client;
-  queue<uint8_t> workUnit;
-  queue<uint8_t> followUnit;
-  queue<uint8_t> orderID;
+	UA_Client* client;
+	queue <uint8_t> workUnit;
+	queue <uint8_t> followUnit;
+	queue <uint8_t> orderID;
 
-  vector<uint8_t> warehouse = {27, 27, 27, 27, 27, 27, 27, 27, 27};
+	int inputUnit, inputOrder;
+	int unitR1, unitR2, unitR3;
+	int orderR1, orderR2, orderR3;
 
-  vector<ProductionCell> prodCell;
-  LoadingCell endCell;
-  TransportationCell topCell;
+	vector <uint8_t> warehouse = { 27, 27, 27, 27, 27, 27, 27, 27, 27 };
 
-  Factory(uint8_t cellID[6]);
+	vector <ProductionCell> prodCell;
+	LoadingCell endCell;
+	TransportationCell topCell;
 
-  UA_Client *connectPLC();
+	Factory(uint8_t cellID[6]);
 
-  void processUnit(uint8_t cell, uint8_t bUnit, uint8_t fUnit,
-                   uint8_t orderNum);
+	UA_Client* connectPLC();
 
-  void dispatchUnit(uint8_t sUnit, uint8_t objRoller, uint8_t orderNum);
+	void processUnit(uint8_t cell, uint8_t bUnit, uint8_t fUnit, uint8_t orderNum);
 
-  void updateCycle();
+	void dispatchUnit(uint8_t sUnit, uint8_t objRoller, uint8_t orderNum);
+
+	void updateCycle();
 };
 
 #endif
