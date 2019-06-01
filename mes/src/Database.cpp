@@ -1,14 +1,16 @@
 #include "Database.h"
 
 MYSQL *Database::execQuery(string query) {
-  MYSQL *conn;
-  conn = mysql_init(NULL);
+  MYSQL *conn = mysql_init(NULL);
+
+  if (!conn)
+    throw runtime_error("Database Initialization Failed");
 
   conn = mysql_real_connect(conn, "10.227.240.130", user.c_str(),
                             password.c_str(), name.c_str(), 3306, NULL, 0);
 
   if (!conn)
-    throw runtime_error("Error Connecting to Database.");
+    throw runtime_error("Error Connecting to Database");
 
   if (mysql_query(conn, query.c_str()))
     throw runtime_error("Query failed: " + string(mysql_error(conn)));
