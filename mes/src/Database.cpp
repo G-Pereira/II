@@ -2,7 +2,7 @@
 
 MYSQL *Database::execQuery(string query) {
   MYSQL *conn;
-  conn = mysql_init(0);
+  conn = mysql_init(NULL);
 
   conn = mysql_real_connect(conn, "10.227.240.130", user.c_str(),
                             password.c_str(), name.c_str(), 3306, NULL, 0);
