@@ -82,6 +82,10 @@ void Database::orderUnitEnd(int orderID) {
         "processed but there is no units in processing of that order"));
   update("orders", "nprocess = nprocess - 1, ndone = ndone + 1",
          "id = " + to_string(orderID));
+  vector<string> newState = select("orders", "id=" + to_string(orderID)).at(0);
+  if (stoi(newState.at(2)) == 0 && stoi(newState.at(3)) == 0) {
+	  update("orders", "timeend=now(), state=2", "id=" + to_string(orderID));
+  }
 }
 
 void Database::machineOperation(string machineID, int top) {
