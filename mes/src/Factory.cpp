@@ -106,26 +106,29 @@ void Factory::updateCycle() {
 	orderR3 = OPCUA_readInt(client, "orderR3");
 
 	if(orderR1 > prevOrderR1) {
-		for(auto ord : uOrders) {
-			if(ord.id == orderR1) {
-				ord.numDoing--;
-				ord.numDone++;
+		for (int i = 0; i < uOrders.size(); i++) {
+			if(uOrders[i].id == orderR1) {
+				uOrders[i].numDoing--;
+				uOrders[i].numDone++;
+				break;
 			}
 		}
 	}
 	if(orderR2 > prevOrderR2) {
-		for(auto ord : uOrders) {
-			if(ord.id == orderR2) {
-				ord.numDoing--;
-				ord.numDone++;
+		for (int i = 0; i < uOrders.size(); i++) {
+			if (uOrders[i].id == orderR2) {
+				uOrders[i].numDoing--;
+				uOrders[i].numDone++;
+				break;
 			}
 		}
 	}
 	if(orderR3 > prevOrderR3) {
-		for(auto ord : uOrders) {
-			if(ord.id == orderR3) {
-				ord.numDoing--;
-				ord.numDone++;
+		for (int i = 0; i < uOrders.size(); i++) {
+			if (uOrders[i].id == orderR3) {
+				uOrders[i].numDoing--;
+				uOrders[i].numDone++;
+				break;
 			}
 		}
 	}
@@ -324,14 +327,13 @@ bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {
 	return false;
 }
 
-bool Factory::processUOrder(UnloadingOrder* ord) {
+bool Factory::processUOrder(UnloadingOrder* ord) {// TODO: called when warehouse exit full!!! (and it shouldn't)
 
 	// Find if there is enough room to send units to the destination pusher
-	uint8_t availability = (endCell.pushAv >> 2*(ord->destinationPusher-1)) & 3;
-	for(auto tempOrd : uOrders) {
+	uint8_t availability = (endCell.pushAv >> (2*(ord->destinationPusher-1))) & 3;
+	for(auto tempOrd : uOrders)
 		if(tempOrd.destinationPusher == ord->destinationPusher)
 			availability += tempOrd.numDoing;
-	}
 
 	// If there is then send it and update the order's data accordingly
 	if(availability < 3) {

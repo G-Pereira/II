@@ -76,9 +76,6 @@ public:
 
 	int pushAv = 0;
 
-	int pushAv = 0;
-
-
 	LoadingCell(uint8_t init);
 
 	void process(uint8_t objRoller);

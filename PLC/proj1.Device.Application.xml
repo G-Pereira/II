@@ -82,6 +82,7 @@
         <Node name="C4T6_dt" type="T_INT" access="ReadWrite" />
         <Node name="C4T6_op" type="T_BOOL" access="ReadWrite" />
         <Node name="C4T6_tt" type="T_INT" access="ReadWrite" />
+        <Node name="C5T1_done" type="T_BOOL" access="ReadWrite" />
         <Node name="C5T4_done" type="T_BOOL" access="ReadWrite" />
         <Node name="C5T4_ps" type="T_BOOL" access="ReadWrite" />
         <Node name="C5T5_done" type="T_BOOL" access="ReadWrite" />
@@ -98,13 +99,13 @@
         <Node name="inputOrder" type="T_INT" access="ReadWrite" />
         <Node name="inputUnit" type="T_INT" access="ReadWrite" />
         <Node name="loadReady" type="T_BOOL" access="ReadWrite" />
-        <Node name="notLoad" type="T_BOOL" access="ReadWrite" />
         <Node name="orderID" type="T_INT" access="ReadWrite" />
         <Node name="orderR1" type="T_INT" access="ReadWrite" />
         <Node name="orderR2" type="T_INT" access="ReadWrite" />
         <Node name="orderR3" type="T_INT" access="ReadWrite" />
         <Node name="outputUnit" type="T_INT" access="ReadWrite" />
         <Node name="P_av" type="T_INT" access="ReadWrite" />
+        <Node name="takeLeft" type="T_BOOL" access="ReadWrite" />
         <Node name="unitR1" type="T_INT" access="ReadWrite" />
         <Node name="unitR2" type="T_INT" access="ReadWrite" />
         <Node name="unitR3" type="T_INT" access="ReadWrite" />
