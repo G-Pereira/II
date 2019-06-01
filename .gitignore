@@ -100,7 +100,7 @@ fabric.properties
 mes/\.idea/
 
 # Visual Studio files
-mes/vs
+# mes/vs
 
 # Build Folders
 mes/build
