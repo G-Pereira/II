@@ -67,8 +67,8 @@ void Factory::updateCycle() {
 		OPCUA_writeInt(client, "orderID", 0);
 	}
 
-	int in = OPCUA_readInt(client, "inputUnit");
-	int ordID = OPCUA_readInt(client, "inputOrder");
+	inputUnit = OPCUA_readInt(client, "inputUnit");
+	ordID = OPCUA_readInt(client, "inputOrder");
 
 	if (RE((bool)in, 19)) {// RE 19
 		warehouse[in - 1]++;
@@ -97,13 +97,42 @@ void Factory::updateCycle() {
 		}
 	}
 	
-	int unitR1 = OPCUA_readInt(client, "unitR1");
-	int unitR2 = OPCUA_readInt(client, "unitR2");
-	int unitR3 = OPCUA_readInt(client, "unitR3");
+	unitR1 = OPCUA_readInt(client, "unitR1");
+	unitR2 = OPCUA_readInt(client, "unitR2");
+	unitR3 = OPCUA_readInt(client, "unitR3");
 
-	int orderR1 = OPCUA_readInt(client, "orderR1");
-	int orderR2 = OPCUA_readInt(client, "orderR2");
-	int orderR3 = OPCUA_readInt(client, "orderR3");
+	orderR1 = OPCUA_readInt(client, "orderR1");
+	orderR2 = OPCUA_readInt(client, "orderR2");
+	orderR3 = OPCUA_readInt(client, "orderR3");
+
+	if(orderR1 > prevOrderR1) {
+		for(auto ord : uOrders) {
+			if(ord.id == orderR1) {
+				ord.numDoing--;
+				ord.numDone++;
+			}
+		}
+	}
+	if(orderR2 > prevOrderR2) {
+		for(auto ord : uOrders) {
+			if(ord.id == orderR2) {
+				ord.numDoing--;
+				ord.numDone++;
+			}
+		}
+	}
+	if(orderR3 > prevOrderR3) {
+		for(auto ord : uOrders) {
+			if(ord.id == orderR3) {
+				ord.numDoing--;
+				ord.numDone++;
+			}
+		}
+	}
+	
+	prevOrderR1 = orderR1;
+	prevOrderR2 = orderR2;
+	prevOrderR3 = orderR3;
 
 	prodCell[0].updateQueue(client);
 	prodCell[1].updateQueue(client);
@@ -269,7 +298,6 @@ bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {
 	
 	// If it can send a unit then send it and update availabilities
 	if(minAvailability < 9) {
-		// TODO: change quantities and times on order class
 		if((ord->numDoing + ord->numDone) == 0)
 			ord->startTime = time(NULL);
 
@@ -297,7 +325,27 @@ bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {
 }
 
 bool Factory::processUOrder(UnloadingOrder* ord) {
-	return false;	// TODO
+
+	// Find if there is enough room to send units to the destination pusher
+	uint8_t availability = (endCell.pushAv >> 2*(ord->destinationPusher-1)) & 3;
+	for(auto tempOrd : uOrders) {
+		if(tempOrd.destinationPusher == ord->destinationPusher)
+			availability += tempOrd.numDoing;
+	}
+
+	// If there is then send it and update the order's data accordingly
+	if(availability < 3) {
+		if(ord->numDoing + ord->numDone == 0)
+			ord->startTime = time(NULL);
+
+		ord->numDoing++;
+
+		dispatchUnit(ord->unitType, ord->destinationPusher, ord->id);
+
+		return true;
+	}
+
+	return false;
 }
 
 // Decides which Unit should be sent next according to the pending orders and cells availabilities

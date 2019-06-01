@@ -971,6 +971,8 @@ void LoadingCell::updateQueue(UA_Client* client) {
 
 	if (RE(OPCUA_readBool(client, "loadReady"), 15)) // RE 15
 		pushBlock++;
+
+	pushAv = OPCUA_readBool(client, "P_av");
 }
 
 void LoadingCell::updateAction(UA_Client* client) {

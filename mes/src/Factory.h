@@ -15,6 +15,10 @@ public:
 
 	vector <uint8_t> warehouse = { 27, 27, 27, 27, 27, 27, 27, 27, 27 };
 
+	int inputUnit, ordID;
+	int unitR1, unitR2, unitR3;
+	int orderR1, orderR2, orderR3, prevOrderR1 = 0, prevOrderR2 = 0, prevOrderR3 = 0;
+
 	vector<ProcessingOrder> pOrders;
 	vector<UnloadingOrder> uOrders;
 	vector<bool> ordersSequence;
