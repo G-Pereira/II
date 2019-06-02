@@ -686,8 +686,6 @@ void ProductionCell::updateQueue(UA_Client* client, Database db) {
 
 		if (RE(OPCUA_readBool(client, t4), 10 + type * 2)) { // RE 12 and 16
 			if (machineOpQueueA.front()) {
-				db.machineOperation(to_string(type) + "A1", toolTimeQueueA.front());
-				// get Unit Type
 				toolMachineQueueA.pop();
 				toolTimeQueueA.pop();
 			}
@@ -698,7 +696,6 @@ void ProductionCell::updateQueue(UA_Client* client, Database db) {
 
 		if (RE(OPCUA_readBool(client, t5), 11 + type * 2)) { // RE 13 and 17
 			if (machineOpQueueAB1.front()) {
-				db.machineOperation(to_string(type) + "B1", toolTimeQueueAB1.front());
 				toolMachineQueueAB1.pop();
 				toolTimeQueueAB1.pop();
 			}
@@ -707,7 +704,6 @@ void ProductionCell::updateQueue(UA_Client* client, Database db) {
 
 		if (RE(OPCUA_readBool(client, t6), 12 + type * 2)) { // RE 14 and 18
 			if (machineOpQueueAB2.front()) {
-				db.machineOperation(to_string(type) + "B2", toolTimeQueueAB2.front());
 				toolMachineQueueAB2.pop();
 				toolTimeQueueAB2.pop();
 			}
@@ -721,7 +717,7 @@ void ProductionCell::updateQueue(UA_Client* client, Database db) {
 		if(generalAvailability == 1 && toolMachineQueueBC.size() + toolMachineQueueAB2.size() == 0)
 			generalAvailability = 0;
 
-		/*char p1[10], p2[10], p3[10];
+		char p1[10], p2[10], p3[10];
 		sprintf_s(p1, 10, "proc%dA1", type);
 		sprintf_s(p2, 10, "proc%dB1", type);
 		sprintf_s(p3, 10, "proc%dB2", type);
@@ -731,13 +727,13 @@ void ProductionCell::updateQueue(UA_Client* client, Database db) {
 		int proc3 = OPCUA_readInt(client, p3);
 
 		if (RE((bool)proc1, 30 + type * 2))
-			cout << unsigned(type) << " " << proc1 << "\n";
+			db.machineOperation(to_string(type) + "A1", toolTimeQueueA.front(), proc1);
 
 		if (RE((bool)proc2, 31 + type * 2))
-			cout << unsigned(type) << " " << proc2 << "\n";
+			db.machineOperation(to_string(type) + "B1", toolTimeQueueAB1.front(), proc2);
 
 		if (RE((bool)proc3, 32 + type * 2))
-			cout << unsigned(type) << " " << proc3 << "\n";*/
+			db.machineOperation(to_string(type) + "B2", toolTimeQueueAB2.front(), proc3);
 	}
 
 	else if ((type == 2) || (type == 4)) {
@@ -749,7 +745,6 @@ void ProductionCell::updateQueue(UA_Client* client, Database db) {
 
 		if (RE(OPCUA_readBool(client, t4), 20 + type * 2)) { // RE 24 and 28
 			if (machineOpQueueAB1.front()) {
-				db.machineOperation(to_string(type) + "A1", toolTimeQueueAB1.front());
 				toolMachineQueueAB1.pop();
 				toolTimeQueueAB1.pop();
 			}
@@ -758,7 +753,6 @@ void ProductionCell::updateQueue(UA_Client* client, Database db) {
 
 		if (RE(OPCUA_readBool(client, t5), 21 + type * 2)) { // RE 25 and 29
 			if (machineOpQueueAB2.front()) {
-				db.machineOperation(to_string(type) + "A2", toolTimeQueueAB2.front());
 				toolMachineQueueAB2.pop();
 				toolTimeQueueAB2.pop();
 			}
@@ -773,7 +767,6 @@ void ProductionCell::updateQueue(UA_Client* client, Database db) {
 
 		if (RE(OPCUA_readBool(client, t6), 22 + type * 2)) { // RE 26 and 30
 			if (machineOpQueueBC.front()) {
-				db.machineOperation(to_string(type) + "C1", toolTimeQueueBC.front());
 				toolMachineQueueBC.pop();
 				toolTimeQueueBC.pop();
 			}
@@ -788,7 +781,7 @@ void ProductionCell::updateQueue(UA_Client* client, Database db) {
 		if(generalAvailability == 1 && toolMachineQueueBC.size() == 0)
 			generalAvailability = 0;
 
-		/*char p1[10], p2[10], p3[10];
+		char p1[10], p2[10], p3[10];
 		sprintf_s(p1, 10, "proc%dA1", type);
 		sprintf_s(p2, 10, "proc%dA2", type);
 		sprintf_s(p3, 10, "proc%dC1", type);
@@ -798,13 +791,13 @@ void ProductionCell::updateQueue(UA_Client* client, Database db) {
 		int proc3 = OPCUA_readInt(client, p3);
 
 		if (RE((bool)proc1, 39 + type * 2))
-			cout << unsigned(type) << " " << proc1 << "\n";
+			db.machineOperation(to_string(type) + "A1", toolTimeQueueAB1.front(), proc1);
 
 		if (RE((bool)proc2, 40 + type * 2))
-			cout << unsigned(type) << " " << proc2 << "\n";
+			db.machineOperation(to_string(type) + "A2", toolTimeQueueAB2.front(), proc2);
 
 		if (RE((bool)proc3, 41 + type * 2))
-			cout << unsigned(type) << " " << proc3 << "\n";*/
+			db.machineOperation(to_string(type) + "C1", toolTimeQueueBC.front(), proc3);
 	}
 }
 
