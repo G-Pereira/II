@@ -2,20 +2,9 @@
 #include "Database.h"
 
 int main() {
-
-	try{
-		Database db;
-		db.orderinit(1, 30);
-	}
-	catch (exception& e) {
-		cout << e.what();
-	}
-
 	uint8_t ID[6] = { 1, 2, 3, 4, 5, 6 };
 
 	Factory ourFactory(ID);
-	
-	ourFactory.recvOrders();
 
 	for(auto ord : ourFactory.pOrders)
 		ord.print();
@@ -23,10 +12,11 @@ int main() {
 	for(auto ord : ourFactory.uOrders)
 		ord.print();
 
-	while (true)
+	while(1)
 	{
-		ourFactory.pollOrders();
+		ourFactory.recvOrders();
 		ourFactory.updateCycle();
+		ourFactory.pollOrders();
 	}
 	
 }
