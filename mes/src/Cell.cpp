@@ -717,7 +717,7 @@ void ProductionCell::updateQueue(UA_Client* client) {
 		if(generalAvailability == 1 && toolMachineQueueBC.size() + toolMachineQueueAB2.size() == 0)
 			generalAvailability = 0;
 
-		char p1[10], p2[10], p3[10];
+		/*char p1[10], p2[10], p3[10];
 		sprintf_s(p1, 10, "proc%dA1", type);
 		sprintf_s(p2, 10, "proc%dB1", type);
 		sprintf_s(p3, 10, "proc%dB2", type);
@@ -733,7 +733,7 @@ void ProductionCell::updateQueue(UA_Client* client) {
 			cout << unsigned(type) << " " << proc2 << "\n";
 
 		if (RE((bool)proc3, 32 + type * 2))
-			cout << unsigned(type) << " " << proc3 << "\n";
+			cout << unsigned(type) << " " << proc3 << "\n";*/
 	}
 
 	else if ((type == 2) || (type == 4)) {
@@ -781,7 +781,7 @@ void ProductionCell::updateQueue(UA_Client* client) {
 		if(generalAvailability == 1 && toolMachineQueueBC.size() == 0)
 			generalAvailability = 0;
 
-		char p1[10], p2[10], p3[10];
+		/*char p1[10], p2[10], p3[10];
 		sprintf_s(p1, 10, "proc%dA1", type);
 		sprintf_s(p2, 10, "proc%dA2", type);
 		sprintf_s(p3, 10, "proc%dC1", type);
@@ -797,7 +797,7 @@ void ProductionCell::updateQueue(UA_Client* client) {
 			cout << unsigned(type) << " " << proc2 << "\n";
 
 		if (RE((bool)proc3, 41 + type * 2))
-			cout << unsigned(type) << " " << proc3 << "\n";
+			cout << unsigned(type) << " " << proc3 << "\n";*/
 	}
 }
 
