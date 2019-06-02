@@ -423,9 +423,11 @@ mes/\.idea/
 # Build Folders
 mes/build
 database/build
+erp/build
 
 # VS Code
 .vscode/
 
 # Sensitive Data (database credentials)
 mes/src/configs.h
+erp/include/configs.h
