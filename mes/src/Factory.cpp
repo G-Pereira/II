@@ -1,14 +1,11 @@
 #include "Factory.h"
 #include "tinyxml2.h"
 #include <iostream>
-#include <stdio.h> 
-#include <stdlib.h> 
-//#include <unistd.h> 
-#include <string.h> 
-#include <sys/types.h> 
-//#include <sys/socket.h> 
-//#include <arpa/inet.h> 
-//#include <netinet/in.h> 
+#include <thread>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
 
 Factory::Factory(uint8_t cellID[6]) : endCell(cellID[4]), topCell(cellID[5]), client(connectPLC()) {
 	for (int i = 0; i < 4; i++)
@@ -163,52 +160,6 @@ void Factory::updateCycle() {
 	topCell.updateAction(client);
 }
 
-// Receives the XML file containing the orders from UDP
-#define PORT    54321 
-#define MAXLINE 1024 
-int8_t Factory::recvOrdersFile() {
-	/*
-	int sockfd; 
-    char buffer[MAXLINE]; 
-    char *hello = "Hello from server"; 
-    struct sockaddr_in servaddr, cliaddr; 
-      
-    // Creating socket file descriptor 
-    if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) { 
-        perror("socket creation failed"); 
-        exit(EXIT_FAILURE); 
-    } 
-      
-    memset(&servaddr, 127.0.0.1, sizeof(servaddr)); 
-    memset(&cliaddr, 127.0.0.1, sizeof(cliaddr)); 
-      
-    // Filling server information 
-    servaddr.sin_family    = AF_INET; // IPv4 
-    servaddr.sin_addr.s_addr = INADDR_ANY; 
-    servaddr.sin_port = htons(PORT); 
-      
-    // Bind the socket with the server address 
-    if ( bind(sockfd, (const struct sockaddr *)&servaddr,  
-            sizeof(servaddr)) < 0 ) 
-    { 
-        perror("bind failed"); 
-        exit(EXIT_FAILURE); 
-    } 
-      
-    int len, n; 
-    n = recvfrom(sockfd, (char *)buffer, MAXLINE,  
-                MSG_WAITALL, ( struct sockaddr *) &cliaddr, 
-                (unsigned int*) &len); 
-    buffer[n] = '\0'; 
-    printf("Client : %s\n", buffer); 
-    sendto(sockfd, (const char *)hello, strlen(hello),  
-        MSG_CONFIRM, (const struct sockaddr *) &cliaddr, 
-            len); 
-    printf("Hello message sent.\n");  
-	*/
-	return 0;	// TODO
-}
-
 // Creates the Order objects from the XML file
 int8_t Factory::createXMLOrders() {
 	tinyxml2::XMLDocument ordersFile;
@@ -216,7 +167,7 @@ int8_t Factory::createXMLOrders() {
 	int ordNum, quantity, unitType, finalType, destPusher;
 	const char *temp = nullptr;
 
-	ordersFile.LoadFile("./orders.xml");			// TODO: check file name and return value
+	if(ordersFile.LoadFile("./orders.xml")) return 0;
 
 	xmlRoot = ordersFile.FirstChildElement("ORDERS"); 
 	if(xmlRoot == nullptr) return -1;
@@ -273,9 +224,8 @@ int8_t Factory::createXMLOrders() {
 
 // Receives orders in the form of XML files (from UDP packets) and puts them in the appropriate objects
 uint8_t Factory::recvOrders() {
-	recvOrdersFile();							// TODO: check return codes
-	createXMLOrders();
-	//remove("orders.xml");
+	createXMLOrders();		// TODO: check return codes
+	remove("orders.xml");
 
 	return 0;
 }
@@ -346,9 +296,11 @@ bool Factory::processUOrder(UnloadingOrder* ord) {// TODO: called when warehouse
 
 	// Find if there is enough room to send units to the destination pusher
 	uint8_t availability = (endCell.pushAv >> (2*(ord->destinationPusher-1))) & 3;
+	cout << "id: " << unsigned(ord->id) << "\tprevAv: " << unsigned(availability);
 	for(auto tempOrd : uOrders)
 		if(tempOrd.destinationPusher == ord->destinationPusher)
 			availability += tempOrd.numDoing;
+	cout << "\tpostAv: " << unsigned(availability) << endl;
 
 	// If there is then send it and update the order's data accordingly
 	if(availability < 3) {

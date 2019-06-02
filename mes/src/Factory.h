@@ -62,6 +62,8 @@ public:
 
 	Factory(uint8_t cellID[6]);
 
+	void startUPDListening(int port);
+
     uint8_t recvOrders();
 
 	bool processPOrder(ProcessingOrder* ord, uint8_t enableStacking);
@@ -78,7 +80,6 @@ public:
 	void updateCycle();
 
 private:
-	int8_t recvOrdersFile();
 	int8_t createXMLOrders();
 
 	Database db;
