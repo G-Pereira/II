@@ -72,7 +72,8 @@ void Factory::updateCycle() {
 	if (RE((bool)inputUnit, 19)) {// RE 19
 		warehouse[inputUnit - 1]++;
 
-		db.orderUnitEnd(ordID);
+		if(ordID)
+			db.orderUnitEnd(ordID);
 
 		auto ordSeq = ordersSequence.begin();
 		for(auto ord = pOrders.begin(); ord != pOrders.end(); ord++) {
