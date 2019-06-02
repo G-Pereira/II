@@ -12,6 +12,7 @@ using namespace std;
 
 class Database {
 public:
+  Database(bool cleanDB = true);
   void orderInit(int orderID, int nUnits);
   void orderStart(int orderID);
   void orderUnitProcess(int orderID);
@@ -28,6 +29,7 @@ private:
   vector<vector<string>> select(string table, string filter = "true");
   void insert(string table, string fields, string values);
   void update(string table, string values, string condition);
+  void _delete(string table, string condition);
 };
 
 #endif // II_DATABASE_H

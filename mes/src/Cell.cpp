@@ -675,7 +675,7 @@ void ProductionCell::machineSelector(UA_Client* client) {
 	}
 }
 
-void ProductionCell::updateQueue(UA_Client* client, Database db) {
+void ProductionCell::updateQueue(UA_Client* client, Database* db) {
 	
 	if ((type == 1) || (type == 3)) {
 
@@ -727,13 +727,13 @@ void ProductionCell::updateQueue(UA_Client* client, Database db) {
 		int proc3 = OPCUA_readInt(client, p3);
 
 		if (RE((bool)proc1, 30 + type * 2))
-			db.machineOperation(to_string(type) + "A1", toolTimeQueueA.front(), proc1);
+			db->machineOperation(to_string(type) + "A1", toolTimeQueueA.front(), proc1);
 
 		if (RE((bool)proc2, 31 + type * 2))
-			db.machineOperation(to_string(type) + "B1", toolTimeQueueAB1.front(), proc2);
+			db->machineOperation(to_string(type) + "B1", toolTimeQueueAB1.front(), proc2);
 
 		if (RE((bool)proc3, 32 + type * 2))
-			db.machineOperation(to_string(type) + "B2", toolTimeQueueAB2.front(), proc3);
+			db->machineOperation(to_string(type) + "B2", toolTimeQueueAB2.front(), proc3);
 	}
 
 	else if ((type == 2) || (type == 4)) {
@@ -791,13 +791,13 @@ void ProductionCell::updateQueue(UA_Client* client, Database db) {
 		int proc3 = OPCUA_readInt(client, p3);
 
 		if (RE((bool)proc1, 39 + type * 2))
-			db.machineOperation(to_string(type) + "A1", toolTimeQueueAB1.front(), proc1);
+			db->machineOperation(to_string(type) + "A1", toolTimeQueueAB1.front(), proc1);
 
 		if (RE((bool)proc2, 40 + type * 2))
-			db.machineOperation(to_string(type) + "A2", toolTimeQueueAB2.front(), proc2);
+			db->machineOperation(to_string(type) + "A2", toolTimeQueueAB2.front(), proc2);
 
 		if (RE((bool)proc3, 41 + type * 2))
-			db.machineOperation(to_string(type) + "C1", toolTimeQueueBC.front(), proc3);
+			db->machineOperation(to_string(type) + "C1", toolTimeQueueBC.front(), proc3);
 	}
 }
 

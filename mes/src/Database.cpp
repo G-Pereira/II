@@ -1,5 +1,13 @@
 #include "Database.h"
 
+Database::Database(bool cleanDB){
+  if (cleanDB) {
+    _delete("machine", "true");
+    _delete("orders", "true");
+    _delete("pusher", "true");
+  }
+}
+
 MYSQL *Database::execQuery(string query) {
   MYSQL *conn = mysql_init(NULL);
   if (!conn)
@@ -48,6 +56,12 @@ void Database::insert(string table, string fields, string values) {
 
 void Database::update(string table, string values, string condition) {
   string query = "UPDATE " + table + " SET " + values + " WHERE " + condition;
+
+  mysql_close(execQuery(query));
+}
+
+void Database::_delete(string table, string condition) {
+  string query = "DELETE FROM " + table + " WHERE " + condition;
 
   mysql_close(execQuery(query));
 }

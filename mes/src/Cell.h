@@ -65,7 +65,7 @@ public:
 
 	void process(uint8_t bUnit, uint8_t fUnit);
 
-	void updateQueue(UA_Client* client, Database db);
+	void updateQueue(UA_Client* client, Database* db);
 
 	void updateAction(UA_Client* client);
 };

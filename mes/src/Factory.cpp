@@ -145,10 +145,10 @@ void Factory::updateCycle() {
 	prevOrderR2 = orderR2;
 	prevOrderR3 = orderR3;
 
-	prodCell[0].updateQueue(client, db);
-	prodCell[1].updateQueue(client, db);
-	prodCell[2].updateQueue(client, db);
-	prodCell[3].updateQueue(client, db);
+	prodCell[0].updateQueue(client, &db);
+	prodCell[1].updateQueue(client, &db);
+	prodCell[2].updateQueue(client, &db);
+	prodCell[3].updateQueue(client, &db);
 	endCell.updateQueue(client);
 	topCell.updateQueue(client);
 
