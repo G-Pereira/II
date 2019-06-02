@@ -12,12 +12,11 @@ using namespace std;
 
 class Database {
 public:
-  void orderinit(int orderID, int nUnits);
-  void orderstart(int orderID);
-  void orderEnd(int orderID);
+  void orderInit(int orderID, int nUnits);
+  void orderStart(int orderID);
   void orderUnitProcess(int orderID);
   void orderUnitEnd(int orderID);
-  void machineOperation(string machineID, int top);
+  void machineOperation(string machineID, int top, int unitType = 1);
   void unloadUnit(int pusherID, int unitType);
 
 private:

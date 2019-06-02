@@ -19,7 +19,6 @@ MYSQL* Database::execQuery(string query) {
 
 vector<vector<string>> Database::select(string table, string filter) {
 	vector<vector<string>> result;
-	try {
 		string query = "SELECT * FROM " + table + " WHERE " + filter;
 
 		MYSQL_RES* res;
@@ -27,56 +26,39 @@ vector<vector<string>> Database::select(string table, string filter) {
 		MYSQL_ROW row;
 
 		res = mysql_store_result(conn);
-		uint8_t nfields = mysql_num_fields(res);
+		int nfields = mysql_num_fields(res);
 		while (row = mysql_fetch_row(res)) {
 			vector<string> results_row;
-			for (uint8_t i = 0; i < nfields; i++) {
-				results_row.push_back(row[i]);
+			for (int i = 0; i < nfields; i++) {
+				results_row.push_back(row[i] == NULL ? "":row[i]);
 			}
 			result.push_back(results_row);
 		}
 		mysql_free_result(res);
-	}
-	catch (exception& e) {
-		cout << e.what() << endl;
-	}
+		mysql_close(conn);
   return result;
 }
 
 void Database::insert(string table, string fields, string values) {
-  try{
 	string query =
       "INSERT INTO " + table + " (" + fields + ") VALUES (" + values + ")";
-	execQuery(query);
-}
-catch (exception& e) {
-	cout << e.what() << endl;
-}
+	mysql_close(execQuery(query));
 }
 
 void Database::update(string table, string values, string condition) {
-  try{
 	string query =
       "UPDATE " + table + " SET " + values + " WHERE " + condition;
 
-  execQuery(query);
-}
-catch (exception& e) {
-	cout << e.what() << endl;
-}
+	mysql_close(execQuery(query));
 }
 
-void Database::orderinit(int orderID, int nUnits) {
+void Database::orderInit(int orderID, int nUnits) {
   insert("orders", "id, npending",
          to_string(orderID) + ", " + to_string(nUnits));
 }
 
-void Database::orderstart(int orderID) {
+void Database::orderStart(int orderID) {
   update("orders", "timestart=now(), state=1", "id=" + to_string(orderID)); // TODO: Update state
-}
-
-void Database::orderEnd(int orderID) {
-  update("orders", "timeend=now(), state=2", "id=" + to_string(orderID));
 }
 
 void Database::orderUnitProcess(int orderID) {
@@ -84,7 +66,7 @@ void Database::orderUnitProcess(int orderID) {
     throw(std::runtime_error(
         "Database was requested to increase number of units "
         "in process but there is no units pending of that order"));
-  update("orders", "npending = npending - 1, nprocess = nprocess + 1",
+  update("orders", "npending = npending - 1, nprocess = nprocess + 1, state = 1",
          "id = " + to_string(orderID));
 }
 
@@ -101,12 +83,12 @@ void Database::orderUnitEnd(int orderID) {
   }
 }
 
-void Database::machineOperation(string machineID, int top) {
+void Database::machineOperation(string machineID, int top, int unitType) {
   if (select("machine", "id = \"" + machineID + "\"").size() == 0)
-    insert("machine", "id, top, nunits",
+    insert("machine", "id, top, n1",
            "\"" + machineID + "\", " + to_string(top) + ", 1");
   else
-    update("machine", "top = top + " + to_string(top) + ", nunits = nunits + 1",
+    update("machine", "top = top + " + to_string(top) + ", n1 = n1 + 1",
            "id = \"" + machineID + "\"");
 }
 

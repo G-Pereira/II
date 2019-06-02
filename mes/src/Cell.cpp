@@ -687,6 +687,7 @@ void ProductionCell::updateQueue(UA_Client* client, Database db) {
 		if (RE(OPCUA_readBool(client, t4), 10 + type * 2)) { // RE 12 and 16
 			if (machineOpQueueA.front()) {
 				db.machineOperation(to_string(type) + "A1", toolTimeQueueA.front());
+				// get Unit Type
 				toolMachineQueueA.pop();
 				toolTimeQueueA.pop();
 			}
