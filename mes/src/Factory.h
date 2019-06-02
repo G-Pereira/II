@@ -4,6 +4,8 @@
 #include <iostream>
 #include "Order.h"
 #include "Cell.h"
+#include "Database.h"
+
 using namespace std;
 
 class Factory {
@@ -79,6 +81,8 @@ public:
 
 private:
 	int8_t createXMLOrders();
+
+	Database db;
 };
 
 #endif

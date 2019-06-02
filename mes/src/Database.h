@@ -12,12 +12,11 @@ using namespace std;
 
 class Database {
 public:
-  void orderinit(int orderID, int nUnits);
-  void orderstart(int orderID);
-  void orderEnd(int orderID);
+  void orderInit(int orderID, int nUnits);
+  void orderStart(int orderID);
   void orderUnitProcess(int orderID);
   void orderUnitEnd(int orderID);
-  void machineOperation(string machineID, int top);
+  void machineOperation(string machineID, int top, int unitType = 1);
   void unloadUnit(int pusherID, int unitType);
 
 private:
@@ -25,7 +24,7 @@ private:
   string user = DB_USER;
   string password = DB_PASS;
 
-  MYSQL *execQuery(string query);
+  MYSQL* execQuery(string query);
   vector<vector<string>> select(string table, string filter = "true");
   void insert(string table, string fields, string values);
   void update(string table, string values, string condition);

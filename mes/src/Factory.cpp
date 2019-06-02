@@ -10,6 +10,8 @@
 Factory::Factory(uint8_t cellID[6]) : endCell(cellID[4]), topCell(cellID[5]), client(connectPLC()) {
 	for (int i = 0; i < 4; i++)
 		prodCell.push_back(ProductionCell(cellID[i]));
+	
+	db = Database();
 }
 
 UA_Client* Factory::connectPLC() {
@@ -70,6 +72,8 @@ void Factory::updateCycle() {
 	if (RE((bool)inputUnit, 19)) {// RE 19
 		warehouse[inputUnit - 1]++;
 
+		db.orderUnitEnd(ordID);
+
 		auto ordSeq = ordersSequence.begin();
 		for(auto ord = pOrders.begin(); ord != pOrders.end(); ord++) {
 			while(ordSeq != ordersSequence.end() && !*ordSeq) ordSeq++;
@@ -80,8 +84,6 @@ void Factory::updateCycle() {
 
 				if(ord->numDone == ord->quantity) {
 					ord->endTime = time(NULL);
-
-					// TODO: send order to database
 
 					if(ordSeq != ordersSequence.end()) ordersSequence.erase(ordSeq);
 					pOrders.erase(ord);
@@ -105,6 +107,9 @@ void Factory::updateCycle() {
 	if(orderR1 > prevOrderR1) {
 		for (int i = 0; i < uOrders.size(); i++) {
 			if(uOrders[i].id == orderR1) {
+				db.unloadUnit(1, uOrders[i].unitType);
+				db.orderUnitEnd(orderR1);
+
 				uOrders[i].numDoing--;
 				uOrders[i].numDone++;
 				break;
@@ -114,6 +119,9 @@ void Factory::updateCycle() {
 	if(orderR2 > prevOrderR2) {
 		for (int i = 0; i < uOrders.size(); i++) {
 			if (uOrders[i].id == orderR2) {
+				db.unloadUnit(2, uOrders[i].unitType);
+				db.orderUnitEnd(orderR2);
+
 				uOrders[i].numDoing--;
 				uOrders[i].numDone++;
 				break;
@@ -123,6 +131,9 @@ void Factory::updateCycle() {
 	if(orderR3 > prevOrderR3) {
 		for (int i = 0; i < uOrders.size(); i++) {
 			if (uOrders[i].id == orderR3) {
+				db.unloadUnit(3, uOrders[i].unitType);
+				db.orderUnitEnd(orderR3);
+
 				uOrders[i].numDoing--;
 				uOrders[i].numDone++;
 				break;
@@ -134,10 +145,10 @@ void Factory::updateCycle() {
 	prevOrderR2 = orderR2;
 	prevOrderR3 = orderR3;
 
-	prodCell[0].updateQueue(client);
-	prodCell[1].updateQueue(client);
-	prodCell[2].updateQueue(client);
-	prodCell[3].updateQueue(client);
+	prodCell[0].updateQueue(client, db);
+	prodCell[1].updateQueue(client, db);
+	prodCell[2].updateQueue(client, db);
+	prodCell[3].updateQueue(client, db);
 	endCell.updateQueue(client);
 	topCell.updateQueue(client);
 
@@ -178,6 +189,7 @@ int8_t Factory::createXMLOrders() {
 			xmlTransform->QueryIntAttribute("Quantity", &quantity);
 
 			pOrders.push_back(ProcessingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)finalType, (uint8_t)quantity));
+			db.orderInit(ordNum, quantity);
 			ordersSequence.push_back(true);
 		}
 
@@ -196,6 +208,7 @@ int8_t Factory::createXMLOrders() {
 			xmlUnload->QueryIntAttribute("Quantity", &quantity);
 
 			uOrders.push_back(UnloadingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)destPusher, (uint8_t)quantity));
+			db.orderInit(ordNum, quantity);
 			ordersSequence.push_back(false);
 		}
 
@@ -252,7 +265,7 @@ bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {
 	// If it can send a unit then send it and update availabilities
 	if(minAvailability < 9) {
 		if((ord->numDoing + ord->numDone) == 0)
-			ord->startTime = time(NULL);
+			db.orderStart(unsigned(ord->id));
 
 		ord->numDoing++;
 
@@ -268,6 +281,8 @@ bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {
 			else prodCell[minCell].generalAvailability++;
 			break;
 		}
+
+		db.orderUnitProcess(unsigned(ord->id));
 
 		processUnit(minCell+1, ord->unitType, ord->finalType, ord->id);
 
@@ -289,10 +304,12 @@ bool Factory::processUOrder(UnloadingOrder* ord) {// TODO: called when warehouse
 
 	// If there is then send it and update the order's data accordingly
 	if(availability < 3) {
-		if(ord->numDoing + ord->numDone == 0)
-			ord->startTime = time(NULL);
+		if (ord->numDoing + ord->numDone == 0)
+			db.orderStart(unsigned(ord->id));
 
 		ord->numDoing++;
+
+		db.orderUnitProcess(unsigned(ord->id));
 
 		dispatchUnit(ord->unitType, ord->destinationPusher, ord->id);
 
