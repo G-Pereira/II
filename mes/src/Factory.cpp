@@ -1,7 +1,7 @@
 #include "Factory.h"
 #include "tinyxml2.h"
 #include <iostream>
-#include <thread>
+#include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -160,6 +160,45 @@ void Factory::updateCycle() {
 	topCell.updateAction(client);
 }
 
+void Factory::sendStorageReport() {
+	tinyxml2::XMLDocument report;
+	tinyxml2::XMLElement *xmlRoot, *xmlUnitStorage;
+
+	xmlRoot = report.NewElement("Current_Stores");
+	report.InsertFirstChild(xmlRoot);
+
+	for(int i = 0; i < 9; i++) {
+		xmlUnitStorage = report.NewElement("WorkPiece");
+		xmlUnitStorage->SetAttribute("type", ("P" + to_string(i+1)).c_str());
+		xmlUnitStorage->SetAttribute("quantity", unsigned(warehouse[i]));
+		xmlRoot->InsertEndChild(xmlUnitStorage);
+	}
+
+	report.SaveFile("report.xml");
+
+	string address, line, ip, port;
+	ifstream erpAddressFile("erpIpPort.txt");
+	char *token;
+	
+	if(!erpAddressFile.is_open()) return;
+	
+	do {
+		getline(erpAddressFile, line);
+	} while(strncmp("connect", line.c_str(), 7));
+
+	address = string(strtok_s((char*)line.c_str(), "[", &token));
+	address = string(strtok_s(NULL, "[", &token));
+	address = string(strtok_s(NULL, "[", &token));
+	ip = string(strtok_s((char*)address.c_str(), "]", &token));
+	port = string(strtok_s(NULL, "]", &token));
+
+	address = ip + port;
+	
+	erpAddressFile.close();
+
+	system(("nc -u -w 1 " + address + " < report.xml").c_str());
+}
+
 // Creates the Order objects from the XML file
 int8_t Factory::createXMLOrders() {
 	tinyxml2::XMLDocument ordersFile;
@@ -217,7 +256,9 @@ int8_t Factory::createXMLOrders() {
 
 	xmlRequestStores = xmlRoot->FirstChildElement("Request_Stores");
 	if(xmlRequestStores != nullptr)
-		return 0; // TODO: sendStorageReport();
+		sendStorageReport();
+
+	cout << "Orders arrived\n";
 
 	return 0;
 }
@@ -296,11 +337,9 @@ bool Factory::processUOrder(UnloadingOrder* ord) {// TODO: called when warehouse
 
 	// Find if there is enough room to send units to the destination pusher
 	uint8_t availability = (endCell.pushAv >> (2*(ord->destinationPusher-1))) & 3;
-	cout << "id: " << unsigned(ord->id) << "\tprevAv: " << unsigned(availability);
 	for(auto tempOrd : uOrders)
 		if(tempOrd.destinationPusher == ord->destinationPusher)
 			availability += tempOrd.numDoing;
-	cout << "\tpostAv: " << unsigned(availability) << endl;
 
 	// If there is then send it and update the order's data accordingly
 	if(availability < 3) {
