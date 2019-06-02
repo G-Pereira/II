@@ -1,8 +1,10 @@
 #include "random.h"
 
-bool Z[31] = { true, true, true, true, true, true, true, true, true, true,
+bool Z[50] = { true, true, true, true, true, true, true, true, true, true,
 			   true, true, true, true, true, true, true, true, true, true,
-			   true, true, true, true, true, true, true, true, true, true, true };
+			   true, true, true, true, true, true, true, true, true, true,
+		  	   true, true, true, true, true, true, true, true, true, true,
+			   true, true, true, true, true, true, true, true, true, true };
 
 bool RE(bool BT, uint8_t n)
 {

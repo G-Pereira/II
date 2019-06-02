@@ -105,6 +105,18 @@
         <Node name="orderR3" type="T_INT" access="ReadWrite" />
         <Node name="outputUnit" type="T_INT" access="ReadWrite" />
         <Node name="P_av" type="T_INT" access="ReadWrite" />
+        <Node name="proc1A1" type="T_INT" access="ReadWrite" />
+        <Node name="proc1B1" type="T_INT" access="ReadWrite" />
+        <Node name="proc1B2" type="T_INT" access="ReadWrite" />
+        <Node name="proc2A1" type="T_INT" access="ReadWrite" />
+        <Node name="proc2A2" type="T_INT" access="ReadWrite" />
+        <Node name="proc2C1" type="T_INT" access="ReadWrite" />
+        <Node name="proc3A1" type="T_INT" access="ReadWrite" />
+        <Node name="proc3B1" type="T_INT" access="ReadWrite" />
+        <Node name="proc3B2" type="T_INT" access="ReadWrite" />
+        <Node name="proc4A1" type="T_INT" access="ReadWrite" />
+        <Node name="proc4A2" type="T_INT" access="ReadWrite" />
+        <Node name="proc4C1" type="T_INT" access="ReadWrite" />
         <Node name="takeLeft" type="T_BOOL" access="ReadWrite" />
         <Node name="unitR1" type="T_INT" access="ReadWrite" />
         <Node name="unitR2" type="T_INT" access="ReadWrite" />

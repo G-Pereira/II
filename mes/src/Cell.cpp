@@ -716,6 +716,24 @@ void ProductionCell::updateQueue(UA_Client* client) {
 			generalAvailability = 1;
 		if(generalAvailability == 1 && toolMachineQueueBC.size() + toolMachineQueueAB2.size() == 0)
 			generalAvailability = 0;
+
+		char p1[10], p2[10], p3[10];
+		sprintf_s(p1, 10, "proc%dA1", type);
+		sprintf_s(p2, 10, "proc%dB1", type);
+		sprintf_s(p3, 10, "proc%dB2", type);
+
+		int proc1 = OPCUA_readInt(client, p1);
+		int proc2 = OPCUA_readInt(client, p2);
+		int proc3 = OPCUA_readInt(client, p3);
+
+		if (RE((bool)proc1, 30 + type * 2))
+			cout << unsigned(type) << " " << proc1 << "\n";
+
+		if (RE((bool)proc2, 31 + type * 2))
+			cout << unsigned(type) << " " << proc2 << "\n";
+
+		if (RE((bool)proc3, 32 + type * 2))
+			cout << unsigned(type) << " " << proc3 << "\n";
 	}
 
 	else if ((type == 2) || (type == 4)) {
@@ -762,6 +780,24 @@ void ProductionCell::updateQueue(UA_Client* client) {
 			generalAvailability = 1;
 		if(generalAvailability == 1 && toolMachineQueueBC.size() == 0)
 			generalAvailability = 0;
+
+		char p1[10], p2[10], p3[10];
+		sprintf_s(p1, 10, "proc%dA1", type);
+		sprintf_s(p2, 10, "proc%dA2", type);
+		sprintf_s(p3, 10, "proc%dC1", type);
+
+		int proc1 = OPCUA_readInt(client, p1);
+		int proc2 = OPCUA_readInt(client, p2);
+		int proc3 = OPCUA_readInt(client, p3);
+
+		if (RE((bool)proc1, 39 + type * 2))
+			cout << unsigned(type) << " " << proc1 << "\n";
+
+		if (RE((bool)proc2, 40 + type * 2))
+			cout << unsigned(type) << " " << proc2 << "\n";
+
+		if (RE((bool)proc3, 41 + type * 2))
+			cout << unsigned(type) << " " << proc3 << "\n";
 	}
 }
 
