@@ -9,10 +9,6 @@ public:
 	uint8_t id;
 	uint8_t unitType;
 
-	time_t inTime;
-	time_t startTime;
-	time_t endTime;
-
     uint8_t quantity;
 	uint8_t numDoing;
 	uint8_t numDone;

@@ -8,12 +8,6 @@ int main() {
 
 		Factory ourFactory(ID);
 
-		for(auto ord : ourFactory.pOrders)
-			ord.print();
-
-		for(auto ord : ourFactory.uOrders)
-			ord.print();
-
 		while(1)
 		{
 			ourFactory.recvOrders();

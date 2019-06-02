@@ -72,7 +72,8 @@ void Factory::updateCycle() {
 	if (RE((bool)inputUnit, 19)) {// RE 19
 		warehouse[inputUnit - 1]++;
 
-		db.orderUnitEnd(ordID);
+		if(ordID)
+			db.orderUnitEnd(ordID);
 
 		auto ordSeq = ordersSequence.begin();
 		for(auto ord = pOrders.begin(); ord != pOrders.end(); ord++) {
@@ -83,7 +84,7 @@ void Factory::updateCycle() {
 				ord->numDone++;
 
 				if(ord->numDone == ord->quantity) {
-					ord->endTime = time(NULL);
+					cout << "Order Complete (ID = " << unsigned(ord->id) << ")\n";
 
 					if(ordSeq != ordersSequence.end()) ordersSequence.erase(ordSeq);
 					pOrders.erase(ord);
@@ -112,6 +113,12 @@ void Factory::updateCycle() {
 
 				uOrders[i].numDoing--;
 				uOrders[i].numDone++;
+
+				if(uOrders[i].quantity == uOrders[i].numDone) {
+					cout << "Order Complete (ID = " << unsigned(uOrders[i].id) << ")\n";
+
+					uOrders.erase(uOrders.begin() + i);
+				}
 				break;
 			}
 		}
@@ -124,6 +131,12 @@ void Factory::updateCycle() {
 
 				uOrders[i].numDoing--;
 				uOrders[i].numDone++;
+
+				if (uOrders[i].quantity == uOrders[i].numDone) {
+					cout << "Order Complete (ID = " << unsigned(uOrders[i].id) << ")\n";
+
+					uOrders.erase(uOrders.begin() + i);
+				}
 				break;
 			}
 		}
@@ -136,6 +149,12 @@ void Factory::updateCycle() {
 
 				uOrders[i].numDoing--;
 				uOrders[i].numDone++;
+
+				if (uOrders[i].quantity == uOrders[i].numDone) {
+					cout << "Order Complete (ID = " << unsigned(uOrders[i].id) << ")\n";
+
+					uOrders.erase(uOrders.begin() + i);
+				}
 				break;
 			}
 		}
@@ -200,16 +219,16 @@ void Factory::sendStorageReport() {
 }
 
 // Creates the Order objects from the XML file
-int8_t Factory::createXMLOrders() {
+void Factory::createXMLOrders() {
 	tinyxml2::XMLDocument ordersFile;
 	tinyxml2::XMLElement *xmlRoot, *xmlOrder, *xmlRequestStores, *xmlTransform, *xmlUnload;
 	int ordNum, quantity, unitType, finalType, destPusher;
 	const char *temp = nullptr;
 
-	if(ordersFile.LoadFile("./orders.xml")) return 0;
+	if(ordersFile.LoadFile("./orders.xml")) return;
 
 	xmlRoot = ordersFile.FirstChildElement("ORDERS"); 
-	if(xmlRoot == nullptr) return -1;
+	if(xmlRoot == nullptr) return;
 
 	xmlOrder = xmlRoot->FirstChildElement("Order");
 	while(xmlOrder != nullptr) {
@@ -227,9 +246,13 @@ int8_t Factory::createXMLOrders() {
 
 			xmlTransform->QueryIntAttribute("Quantity", &quantity);
 
-			pOrders.push_back(ProcessingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)finalType, (uint8_t)quantity));
-			db.orderInit(ordNum, quantity);
-			ordersSequence.push_back(true);
+			if(unitType < 10 && unitType > 0 && finalType < 10 && finalType > 0) {
+				if(topMachine[unitType-1][finalType-1] != '0') {
+					pOrders.push_back(ProcessingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)finalType, (uint8_t)quantity));
+					db.orderInit(ordNum, quantity);
+					ordersSequence.push_back(true);
+				}
+			}
 		}
 
 		xmlUnload = xmlOrder->FirstChildElement("Unload");
@@ -246,9 +269,12 @@ int8_t Factory::createXMLOrders() {
 
 			xmlUnload->QueryIntAttribute("Quantity", &quantity);
 
-			uOrders.push_back(UnloadingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)destPusher, (uint8_t)quantity));
-			db.orderInit(ordNum, quantity);
-			ordersSequence.push_back(false);
+
+			if(unitType < 10 && unitType > 0 && destPusher < 4 && destPusher > 0) {
+				uOrders.push_back(UnloadingOrder((uint8_t)ordNum, (uint8_t)unitType, (uint8_t)destPusher, (uint8_t)quantity));
+				db.orderInit(ordNum, quantity);
+				ordersSequence.push_back(false);
+			}
 		}
 
 		xmlOrder = xmlOrder->NextSiblingElement("Order");
@@ -259,16 +285,12 @@ int8_t Factory::createXMLOrders() {
 		sendStorageReport();
 
 	cout << "Orders arrived\n";
-
-	return 0;
 }
 
 // Receives orders in the form of XML files (from UDP packets) and puts them in the appropriate objects
-uint8_t Factory::recvOrders() {
-	createXMLOrders();		// TODO: check return codes
+void Factory::recvOrders() {
+	createXMLOrders();
 	remove("orders.xml");
-
-	return 0;
 }
 
 bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {
@@ -333,7 +355,7 @@ bool Factory::processPOrder(ProcessingOrder* ord, uint8_t enableStacking) {
 	return false;
 }
 
-bool Factory::processUOrder(UnloadingOrder* ord) {// TODO: called when warehouse exit full!!! (and it shouldn't)
+bool Factory::processUOrder(UnloadingOrder* ord) {
 
 	// Find if there is enough room to send units to the destination pusher
 	uint8_t availability = (endCell.pushAv >> (2*(ord->destinationPusher-1))) & 3;
@@ -359,7 +381,7 @@ bool Factory::processUOrder(UnloadingOrder* ord) {// TODO: called when warehouse
 }
 
 // Decides which Unit should be sent next according to the pending orders and cells availabilities
-void Factory::pollOrders() {			// TODO: check if valid transformation
+void Factory::pollOrders() {
 	int i, j;
 
 	if(!workUnit.size()) {

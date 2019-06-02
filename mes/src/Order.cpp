@@ -1,8 +1,6 @@
 #include "Order.h"
 
-Order::Order(uint8_t ordNum, uint8_t unitType, uint8_t quantity) : id(ordNum), unitType(unitType), quantity(quantity), numDoing(0), numDone(0) {
-	this->inTime = time(NULL);
-}
+Order::Order(uint8_t ordNum, uint8_t unitType, uint8_t quantity) : id(ordNum), unitType(unitType), quantity(quantity), numDoing(0), numDone(0) {}
 
 void Order::print() {
 	std::cout << "ID: " << (int)id << std::endl;
