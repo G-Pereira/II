@@ -1,55 +1,55 @@
 #include "Database.h"
 
-MYSQL* Database::execQuery(string query) {
-	MYSQL* conn = mysql_init(NULL);
-	if (!conn)
-		throw runtime_error("Database Initialization Failed");
+MYSQL *Database::execQuery(string query) {
+  MYSQL *conn = mysql_init(NULL);
+  if (!conn)
+    throw runtime_error("Database Initialization Failed");
 
-	conn = mysql_real_connect(conn, "db.fe.up.pt", user.c_str(),
-		password.c_str(), name.c_str(), 3306, NULL, 0);
+  conn = mysql_real_connect(conn, "db.fe.up.pt", user.c_str(), password.c_str(),
+                            name.c_str(), 3306, NULL, 0);
 
-	if (!conn)
-		throw runtime_error("Error Connecting to Database");
+  if (!conn)
+    throw runtime_error("Error Connecting to Database");
 
   if (mysql_query(conn, query.c_str()))
-    throw runtime_error("Query failed: " + query + "\n" + string(mysql_error(conn)));
+    throw runtime_error("Query failed: " + query + "\n" +
+                        string(mysql_error(conn)));
 
   return conn;
 }
 
 vector<vector<string>> Database::select(string table, string filter) {
-	vector<vector<string>> result;
-		string query = "SELECT * FROM " + table + " WHERE " + filter;
+  vector<vector<string>> result;
+  string query = "SELECT * FROM " + table + " WHERE " + filter;
 
-		MYSQL_RES* res;
-		MYSQL* conn = execQuery(query);
-		MYSQL_ROW row;
+  MYSQL_RES *res;
+  MYSQL *conn = execQuery(query);
+  MYSQL_ROW row;
 
-		res = mysql_store_result(conn);
-		int nfields = mysql_num_fields(res);
-		while (row = mysql_fetch_row(res)) {
-			vector<string> results_row;
-			for (int i = 0; i < nfields; i++) {
-				results_row.push_back(row[i] == NULL ? "":row[i]);
-			}
-			result.push_back(results_row);
-		}
-		mysql_free_result(res);
-		mysql_close(conn);
+  res = mysql_store_result(conn);
+  int nfields = mysql_num_fields(res);
+  while ((row = mysql_fetch_row(res))) {
+    vector<string> results_row;
+    for (int i = 0; i < nfields; i++) {
+      results_row.push_back(row[i] == NULL ? "" : row[i]);
+    }
+    result.push_back(results_row);
+  }
+  mysql_free_result(res);
+  mysql_close(conn);
   return result;
 }
 
 void Database::insert(string table, string fields, string values) {
-	string query =
+  string query =
       "INSERT INTO " + table + " (" + fields + ") VALUES (" + values + ")";
-	mysql_close(execQuery(query));
+  mysql_close(execQuery(query));
 }
 
 void Database::update(string table, string values, string condition) {
-	string query =
-      "UPDATE " + table + " SET " + values + " WHERE " + condition;
+  string query = "UPDATE " + table + " SET " + values + " WHERE " + condition;
 
-	mysql_close(execQuery(query));
+  mysql_close(execQuery(query));
 }
 
 void Database::orderInit(int orderID, int nUnits) {
@@ -58,7 +58,8 @@ void Database::orderInit(int orderID, int nUnits) {
 }
 
 void Database::orderStart(int orderID) {
-  update("orders", "timestart=now(), state=1", "id=" + to_string(orderID)); // TODO: Update state
+  update("orders", "timestart=now(), state=1",
+         "id=" + to_string(orderID)); // TODO: Update state
 }
 
 void Database::orderUnitProcess(int orderID) {
@@ -66,7 +67,8 @@ void Database::orderUnitProcess(int orderID) {
     throw(std::runtime_error(
         "Database was requested to increase number of units "
         "in process but there is no units pending of that order"));
-  update("orders", "npending = npending - 1, nprocess = nprocess + 1, state = 1",
+  update("orders",
+         "npending = npending - 1, nprocess = nprocess + 1, state = 1",
          "id = " + to_string(orderID));
 }
 
@@ -79,16 +81,16 @@ void Database::orderUnitEnd(int orderID) {
          "id = " + to_string(orderID));
   vector<string> newState = select("orders", "id=" + to_string(orderID)).at(0);
   if (stoi(newState.at(2)) == 0 && stoi(newState.at(3)) == 0) {
-	  update("orders", "timeend=now(), state=2", "id=" + to_string(orderID));
+    update("orders", "timeend=now(), state=2", "id=" + to_string(orderID));
   }
 }
 
 void Database::machineOperation(string machineID, int top, int unitType) {
   if (select("machine", "id = \"" + machineID + "\"").size() == 0)
-    insert("machine", "id, top, n1",
+    insert("machine", "id, top, n" + to_string(unitType),
            "\"" + machineID + "\", " + to_string(top) + ", 1");
   else
-    update("machine", "top = top + " + to_string(top) + ", n1 = n1 + 1",
+    update("machine", "top = top + " + to_string(top) + ", n" + to_string(unitType) + " = n" + to_string(unitType) + " + 1",
            "id = \"" + machineID + "\"");
 }
 
